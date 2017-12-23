@@ -10,4 +10,4 @@ liquibase.change-log: classpath:/db/changelog/db.changelog-master.xml
 
 resources:
   cache: false
-  version: '@project.version@'
+  version: '@git.commit.id.abbrev@'
