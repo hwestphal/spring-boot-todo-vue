@@ -21,9 +21,10 @@
 
         <thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
         <thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
-        <requirejs.version>2.3.2</requirejs.version>
+
+        <requirejs.version>2.3.3</requirejs.version>
         <bootstrap.version>3.3.7-1</bootstrap.version>
-        <vue.version>2.1.10</vue.version>
+        <vue.version>2.5.13</vue.version>
         <awesomplete.version>1.1.1</awesomplete.version>
     </properties>
 
