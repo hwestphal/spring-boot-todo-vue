@@ -1,0 +1,49 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <property name="current_user" value="user" dbms="oracle" />
+    <property name="current_user" value="current_user" dbms="h2" />
+
+    <changeSet id="001_create_todo_sequence" author="harald.westphal">
+        <createSequence sequenceName="TODO_ID_SEQ"
+            startValue="1000" incrementBy="1" />
+    </changeSet>
+
+    <changeSet id="002_create_todo_table" author="harald.westphal">
+        <createTable tableName="TODO">
+            <column name="ID" type="NUMBER(13)"
+                defaultValueComputed="TODO_ID_SEQ.NEXTVAL">
+                <constraints primaryKey="true"
+                    primaryKeyName="TODO_PK" nullable="false" />
+            </column>
+            <column name="VERSION" type="NUMBER"
+                defaultValueNumeric="0">
+                <constraints nullable="false" />
+            </column>
+            <column name="CREATED" type="TIMESTAMP"
+                defaultValueComputed="current_timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="CREATE_USER" type="VARCHAR2(255 CHAR)"
+                defaultValueComputed="${current_user}">
+                <constraints nullable="false" />
+            </column>
+            <column name="MODIFIED" type="TIMESTAMP"
+                defaultValueComputed="current_timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="MODIFY_USER" type="VARCHAR2(255 CHAR)"
+                defaultValueComputed="${current_user}">
+                <constraints nullable="false" />
+            </column>
+            <column name="TITLE" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false" />
+            </column>
+            <column name="COMPLETED" type="CHAR(1 CHAR)"
+                defaultValue="N">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<script th:fragment="script" th:inline="javascript">
+  (function() {
+    function path(s) {
+      return s.substring(0, s.length - 3);
+    }
+    require.config({
+      baseUrl : /*[[@{/js}]]*/'',
+      paths : {
+        vue : path(/*[[@{/webjars/vue/dist/vue.js}]]*/'.js'),
+        awesomplete : path(/*[[@{/webjars/awesomplete/awesomplete.js}]]*/'.js'),
+      },
+      shim : {
+        awesomplete : {
+          exports : 'Awesomplete'
+        }
+      }
+    });
+  })();
+</script>
+</head>
+</html>

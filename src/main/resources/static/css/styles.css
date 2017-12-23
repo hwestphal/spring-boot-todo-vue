@@ -1,0 +1,38 @@
+body {
+    background-color: #EEEEEE;
+}
+
+div.awesomplete {
+    display: block;
+}
+
+.todolist {
+    background-color: #FFF;
+    padding: 20px 20px 10px 20px;
+    margin-top: 30px;
+}
+
+.todolist h1 {
+    margin: 0;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.todo-footer {
+    background-color: #F4FCE8;
+    margin: 0 -20px -10px -20px;
+    padding: 10px 20px;
+}
+
+.items li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.items li:last-child {
+    border-bottom: none;
+}
+
+.done {
+    text-decoration: line-through;
+}

@@ -1,0 +1,13 @@
+spring:
+  thymeleaf:
+    cache: false
+    mode: HTML
+  main.banner-mode: 'off'
+  datasource.url: jdbc:h2:./db;AUTO_SERVER=TRUE
+  jpa.hibernate.ddl-auto: none
+
+liquibase.change-log: classpath:/db/changelog/db.changelog-master.xml
+
+resources:
+  cache: false
+  version: '@project.version@'
