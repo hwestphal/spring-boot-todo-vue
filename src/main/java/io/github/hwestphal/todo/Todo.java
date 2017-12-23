@@ -12,6 +12,9 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -21,6 +24,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@ToString
 public class Todo {
 
     private static final String SEQUENCE = "TODO_ID_SEQ";
@@ -28,9 +32,13 @@ public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUENCE)
     @SequenceGenerator(name = SEQUENCE, sequenceName = SEQUENCE, allocationSize = 1)
+    @Getter
+    @Setter
     private Long id;
 
     @Version
+    @Getter
+    @Setter
     private Long version;
 
     @CreatedDate
@@ -47,42 +55,14 @@ public class Todo {
 
     @NotNull
     @Size(min = 4)
+    @Getter
+    @Setter
     private String title;
 
     @Type(type = "yes_no")
+    @Getter
+    @Setter
     private boolean completed;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
 
     @Override
     public int hashCode() {
@@ -105,11 +85,6 @@ public class Todo {
         }
         Todo other = (Todo) obj;
         return id.equals(other.id);
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Todo(id=%s, version=%s, title=%s, completed=%s)", id, version, title, completed);
     }
 
 }

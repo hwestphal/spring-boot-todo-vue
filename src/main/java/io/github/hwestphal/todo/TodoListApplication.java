@@ -15,7 +15,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -40,7 +39,6 @@ public class TodoListApplication {
     private final TodoRepository todoRepository;
     private final ObjectReader todosReader;
 
-    @Autowired
     public TodoListApplication(TodoRepository todoRepository, ObjectMapper objectMapper) {
         this.todoRepository = todoRepository;
         this.todosReader = objectMapper.readerFor(new TypeReference<List<Todo>>() {
