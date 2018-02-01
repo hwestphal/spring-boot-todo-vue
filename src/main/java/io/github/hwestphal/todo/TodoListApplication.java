@@ -3,7 +3,6 @@ package io.github.hwestphal.todo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -11,10 +10,8 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
+import io.github.hwestphal.mvc.JsonRequestParam;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -26,7 +23,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -37,12 +33,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class TodoListApplication {
 
     private final TodoRepository todoRepository;
-    private final ObjectReader todosReader;
 
-    public TodoListApplication(TodoRepository todoRepository, ObjectMapper objectMapper) {
+    public TodoListApplication(TodoRepository todoRepository) {
         this.todoRepository = todoRepository;
-        this.todosReader = objectMapper.readerFor(new TypeReference<List<Todo>>() {
-        });
     }
 
     @RequestMapping(produces = MediaType.TEXT_HTML_VALUE, method = { RequestMethod.GET, RequestMethod.HEAD })
@@ -52,8 +45,8 @@ public class TodoListApplication {
 
     @RequestMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, method = RequestMethod.POST)
     @Transactional
-    public String saveTodos(@RequestParam("todos") String todosAsJson) throws JsonProcessingException, IOException {
-        putTodos(todosReader.readValue(todosAsJson));
+    public String saveTodos(@JsonRequestParam(name = "todos") List<Todo> todos) {
+        putTodos(todos);
         return "redirect:/";
     }
 
