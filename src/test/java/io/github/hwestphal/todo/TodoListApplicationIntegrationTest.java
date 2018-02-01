@@ -18,7 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "spring.jpa.show-sql=true")
+@SpringBootTest(
+        webEnvironment = WebEnvironment.RANDOM_PORT,
+        properties = "logging.level.io.github.hwestphal.todo.TodoRepository=TRACE")
 @AutoConfigureTestDatabase
 public class TodoListApplicationIntegrationTest {
 

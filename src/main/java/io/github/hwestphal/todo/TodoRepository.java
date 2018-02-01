@@ -1,25 +1,36 @@
 package io.github.hwestphal.todo;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.data.repository.RepositoryDefinition;
+import javax.validation.Valid;
 
-@RepositoryDefinition(domainClass = Todo.class, idClass = Long.class)
+import io.github.hwestphal.auditing.Create;
+import io.github.hwestphal.auditing.Modify;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.validation.annotation.Validated;
+
+@Mapper
+@Validated
 public interface TodoRepository {
 
-    Optional<Todo> findOne(long id);
+    Todo findById(long id);
 
-    Optional<Todo> findByIdAndVersion(long id, Long version);
-
-    List<Todo> findAllByOrderByIdAsc();
+    Todo findByIdAndVersionForUpdate(@Param("id") long id, @Param("version") long version);
 
     List<Todo> findAll();
+
+    List<Todo> findAllForUpdate();
 
     int deleteById(long id);
 
     void deleteAll();
 
-    Todo save(Todo todo);
+    @Create
+    void insert(@Valid Todo todo);
+
+    @Modify
+    void update(@Valid Todo todo);
 
 }

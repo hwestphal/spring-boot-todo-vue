@@ -8,17 +8,16 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import javax.transaction.Transactional;
-
+import io.github.hwestphal.auditing.EnableAuditing;
 import io.github.hwestphal.mvc.JsonRequestParam;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.dao.OptimisticLockingFailureException;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/")
 @SpringBootApplication
-@EnableJpaAuditing
+@EnableAuditing
 public class TodoListApplication {
 
     private final TodoRepository todoRepository;
@@ -53,37 +52,42 @@ public class TodoListApplication {
     @RequestMapping(method = { RequestMethod.GET, RequestMethod.HEAD })
     @ResponseBody
     public List<Todo> todos() {
-        return todoRepository.findAllByOrderByIdAsc();
+        return todoRepository.findAll();
     }
 
     @RequestMapping(path = "{id}", method = { RequestMethod.GET, RequestMethod.HEAD })
     public ResponseEntity<Todo> todo(@PathVariable("id") long id) {
-        return todoRepository.findOne(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        Todo todo = todoRepository.findById(id);
+        if (todo == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(todo);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> todos(@RequestBody Todo todo) {
-        todo.setId(null);
-        todo.setVersion(null);
-        todo = todoRepository.save(todo);
+        todoRepository.insert(todo);
         return ResponseEntity.created(linkTo(methodOn(TodoListApplication.class).todo(todo.getId())).toUri()).build();
     }
 
     @RequestMapping(path = "{id}", method = RequestMethod.PUT)
     @Transactional
     public ResponseEntity<?> putTodo(@PathVariable("id") long id, @RequestBody Todo todo) {
-        return todoRepository.findByIdAndVersion(id, todo.getVersion()).map(foundTodo -> {
-            foundTodo.setTitle(todo.getTitle());
-            foundTodo.setCompleted(todo.isCompleted());
-            return ResponseEntity.ok().build();
-        }).orElse(ResponseEntity.notFound().build());
+        Todo foundTodo = todoRepository.findByIdAndVersionForUpdate(id, todo.getVersion());
+        if (foundTodo == null) {
+            return ResponseEntity.notFound().build();
+        }
+        foundTodo.setTitle(todo.getTitle());
+        foundTodo.setCompleted(todo.isCompleted());
+        todoRepository.update(foundTodo);
+        return ResponseEntity.ok().build();
     }
 
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseBody
     @Transactional
     public void putTodos(@RequestBody List<Todo> todos) {
-        Map<Long, Todo> allTodos = todoRepository.findAll().stream().collect(
+        Map<Long, Todo> allTodos = todoRepository.findAllForUpdate().stream().collect(
                 Collectors.toMap(Todo::getId, Function.identity()));
         for (Todo todo : todos) {
             Todo updatedTodo = allTodos.remove(todo.getId());
@@ -94,10 +98,9 @@ public class TodoListApplication {
                 }
                 updatedTodo.setTitle(todo.getTitle());
                 updatedTodo.setCompleted(todo.isCompleted());
+                todoRepository.update(updatedTodo);
             } else {
-                todo.setId(null);
-                todo.setVersion(null);
-                todoRepository.save(todo);
+                todoRepository.insert(todo);
             }
         }
         allTodos.keySet().forEach(todoRepository::deleteById);

@@ -2,66 +2,46 @@ package io.github.hwestphal.todo;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@Entity
-@EntityListeners(AuditingEntityListener.class)
+@Getter
+@Setter
 @ToString
 public class Todo {
 
-    private static final String SEQUENCE = "TODO_ID_SEQ";
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUENCE)
-    @SequenceGenerator(name = SEQUENCE, sequenceName = SEQUENCE, allocationSize = 1)
-    @Getter
-    @Setter
     private Long id;
-
-    @Version
-    @Getter
-    @Setter
     private Long version;
 
-    @CreatedDate
+    @Getter(onMethod = @__(@JsonIgnore))
+    @Setter
     private LocalDateTime created;
 
+    @Getter(onMethod = @__(@JsonIgnore))
+    @Setter
     @CreatedBy
     private String createUser;
 
-    @LastModifiedDate
+    @Getter(onMethod = @__(@JsonIgnore))
+    @Setter
     private LocalDateTime modified;
 
+    @Getter(onMethod = @__(@JsonIgnore))
+    @Setter
     @LastModifiedBy
     private String modifyUser;
 
     @NotNull
     @Size(min = 4)
-    @Getter
-    @Setter
     private String title;
 
-    @Type(type = "yes_no")
-    @Getter
-    @Setter
     private boolean completed;
 
     @Override
