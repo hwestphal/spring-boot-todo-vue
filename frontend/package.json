@@ -1,0 +1,31 @@
+{
+  "private": true,
+  "scripts": {
+    "compile": "tsc",
+    "test": "jest"
+  },
+  "dependencies": {
+    "awesomplete": "^1.1.2",
+    "vue": "^2.5.13"
+  },
+  "devDependencies": {
+    "@types/awesomplete": "^1.1.6",
+    "@types/jest": "^22.1.1",
+    "jest": "^22.1.4",
+    "jest-junit": "^3.5.0",
+    "ts-jest": "^22.0.2",
+    "typescript": "^2.7.1"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "ts"
+    ],
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testMatch": [
+      "**/*.spec.(js|ts)"
+    ]
+  }
+}

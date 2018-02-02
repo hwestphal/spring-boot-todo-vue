@@ -67,7 +67,7 @@
     <script th:replace="requirejs :: script"></script>
     <script th:inline="javascript">
           require([ 'main' ], function(main) {
-            main(/*[[${todos}]]*/[]);
+            main['default'](/*[[${todos}]]*/[]);
           });
         </script>
 </body>

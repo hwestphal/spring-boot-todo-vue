@@ -12,8 +12,6 @@
     </parent>
 
     <properties>
-        <java.version>1.8</java.version>
-
         <thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
         <thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
         <mybatis-spring-boot.version>1.3.1</mybatis-spring-boot.version>
@@ -41,6 +39,11 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.hwestphal</groupId>
+                <artifactId>spring-boot-todo-vue-frontend</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.webjars</groupId>
@@ -102,6 +105,11 @@
             <scope>runtime</scope>
         </dependency>
 
+        <dependency>
+            <groupId>io.github.hwestphal</groupId>
+            <artifactId>spring-boot-todo-vue-frontend</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>requirejs</artifactId>
@@ -181,94 +189,7 @@
                     </includes>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>com.github.searls</groupId>
-                <artifactId>jasmine-maven-plugin</artifactId>
-                <version>2.2</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <jsSrcDir>${basedir}/src/main/resources/static/js</jsSrcDir>
-                    <jsTestSrcDir>${basedir}/src/test/resources/static/js</jsTestSrcDir>
-                    <specIncludes>
-                        <specInclude>**/*.spec.js</specInclude>
-                    </specIncludes>
-                    <specRunnerTemplate>REQUIRE_JS</specRunnerTemplate>
-                    <preloadSources>
-                        <preloadSource>/webjars/requirejs/require.js</preloadSource>
-                        <preloadSource>requirejs-config.js</preloadSource>
-                    </preloadSources>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>com.cj.jshintmojo</groupId>
-                <artifactId>jshint-maven-plugin</artifactId>
-                <version>1.6.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>lint</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <configFile>../etc/jshint-config.json</configFile>
-                    <directories>
-                        <directory>src/main/resources/static/js</directory>
-                        <directory>src/test/resources/static/js</directory>
-                    </directories>
-                    <reporter>checkstyle</reporter>
-                    <reportFile>${project.build.directory}/checkstyle-result-jslint.xml</reportFile>
-                    <failOnError>true</failOnError>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>minify</id>
-            <activation>
-                <property>
-                    <name>minify</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.gmaven</groupId>
-                        <artifactId>groovy-maven-plugin</artifactId>
-                        <version>2.0</version>
-                        <executions>
-                            <execution>
-                                <phase>process-classes</phase>
-                                <goals>
-                                    <goal>execute</goal>
-                                </goals>
-                                <configuration>
-                                    <source>${project.basedir}/requirejs-build.groovy</source>
-                                    <classpathScope>runtime</classpathScope>
-                                </configuration>
-                            </execution>
-                        </executions>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.webjars.npm</groupId>
-                                <artifactId>requirejs</artifactId>
-                                <version>${requirejs.version}</version>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
 </project>
