@@ -1,9 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "build": "tsc && tslint --project .",
+    "build": "tsc --noEmit && tslint --project . && webpack",
     "test": "jest",
-    "watch": "tsc --watch"
+    "watch": "webpack --watch"
   },
   "dependencies": {
     "awesomplete": "^1.1.2",
@@ -15,8 +15,10 @@
     "jest": "^22.1.4",
     "jest-junit": "^3.5.0",
     "ts-jest": "^22.0.2",
+    "ts-loader": "^3.4.0",
     "tslint": "^5.9.1",
-    "typescript": "^2.7.1"
+    "typescript": "^2.7.1",
+    "webpack": "^3.10.0"
   },
   "jest": {
     "moduleFileExtensions": [

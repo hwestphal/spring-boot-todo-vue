@@ -1,16 +1,10 @@
 {
   "compilerOptions": {
-    "module": "amd",
-    "moduleResolution": "node",
     "esModuleInterop": true,
     "strict": true,
-    "rootDir": "src/ts",
-    "outFile": "target/classes/static/js/main.js",
-    "removeComments": true,
-    "sourceMap": true,
-    "inlineSources": true
+    "sourceMap": true
   },
-  "exclude": [
-    "**/*.spec.ts"
+  "include": [
+    "src/ts/**/*"
   ]
 }

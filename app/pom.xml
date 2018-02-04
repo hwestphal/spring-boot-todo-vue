@@ -17,9 +17,7 @@
         <mybatis-spring-boot.version>1.3.1</mybatis-spring-boot.version>
         <lombok.version>1.16.18</lombok.version>
 
-        <requirejs.version>2.3.3</requirejs.version>
         <bootstrap.version>3.3.7-1</bootstrap.version>
-        <vue.version>2.5.13</vue.version>
         <awesomplete.version>1.1.1</awesomplete.version>
     </properties>
 
@@ -47,18 +45,8 @@
             </dependency>
             <dependency>
                 <groupId>org.webjars</groupId>
-                <artifactId>requirejs</artifactId>
-                <version>${requirejs.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.webjars</groupId>
                 <artifactId>bootstrap</artifactId>
                 <version>${bootstrap.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.webjars.npm</groupId>
-                <artifactId>vue</artifactId>
-                <version>${vue.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.webjars.npm</groupId>
@@ -112,17 +100,7 @@
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
-            <artifactId>requirejs</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars.npm</groupId>
-            <artifactId>vue</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>

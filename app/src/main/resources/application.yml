@@ -6,10 +6,12 @@ spring:
   datasource.url: jdbc:h2:./db;AUTO_SERVER=TRUE
   h2.console.enabled: true
 
+  resources:
+    cache-period: 0
+    chain.strategy.fixed:
+      enabled: true
+      version: '@git.commit.id.abbrev@'
+
 liquibase.change-log: classpath:/db/changelog/db.changelog-master.xml
 
 mybatis.type-handlers-package: io.github.hwestphal.mybatis
-
-resources:
-  cache: false
-  version: '@git.commit.id.abbrev@'
