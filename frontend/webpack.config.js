@@ -6,13 +6,12 @@ module.exports = {
         rules: [
             {
                 test: /\.ts$/,
-                use: 'ts-loader',
-                exclude: /node_modules/
+                use: 'ts-loader'
             }
         ]
     },
     resolve: {
-        extensions: ['.ts'],
+        extensions: ['.js', '.ts'],
         alias: {
             vue: 'vue/dist/vue.esm.js'
         }
@@ -22,5 +21,5 @@ module.exports = {
         path: path.resolve(__dirname, 'target/classes/static/js'),
         library: 'Main'
     },
-    devtool: 'inline-source-map'
+    devtool: 'source-map'
 };

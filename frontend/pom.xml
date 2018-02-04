@@ -1,5 +1,4 @@
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>spring-boot-todo-vue-frontend</artifactId>
@@ -12,6 +11,10 @@
         <version>0.1-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <webpack.args></webpack.args>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -21,7 +24,7 @@
                 <configuration>
                     <nodeVersion>v8.9.4</nodeVersion>
                     <npmVersion>5.6.0</npmVersion>
-                    <npmInheritsProxyConfigFromMaven>true</npmInheritsProxyConfigFromMaven>
+                    <npmInheritsProxyConfigFromMaven>false</npmInheritsProxyConfigFromMaven>
                 </configuration>
                 <executions>
                     <execution>
@@ -37,6 +40,7 @@
                         </goals>
                         <configuration>
                             <arguments>install</arguments>
+                            <npmInheritsProxyConfigFromMaven>true</npmInheritsProxyConfigFromMaven>
                         </configuration>
                     </execution>
                     <execution>
@@ -46,7 +50,7 @@
                         </goals>
                         <phase>compile</phase>
                         <configuration>
-                            <arguments>run build</arguments>
+                            <arguments>run build -- ${webpack.args}</arguments>
                         </configuration>
                     </execution>
                     <execution>
@@ -67,5 +71,19 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>minify</id>
+            <activation>
+                <property>
+                    <name>minify</name>
+                </property>
+            </activation>
+            <properties>
+                <webpack.args>-p</webpack.args>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
