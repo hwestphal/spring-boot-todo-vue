@@ -1,6 +1,6 @@
-import Vue from 'vue';
+import Vue from "vue";
 
-export interface Todo {
+export interface ITodo {
   title: string;
   completed: boolean;
 }
@@ -10,30 +10,30 @@ function clone<T>(obj: T): T {
 }
 
 function normalize(s: string) {
-  return s.trim().toLowerCase().split(/\s+/).join(' ');
+  return s.trim().toLowerCase().split(/\s+/).join(" ");
 }
 
-export default (todos: Todo[], suggestions: string[] = [], template?: string, element?: string) => new Vue({
-  template: template,
-  el: element,
+export default (todos: ITodo[], suggestions: string[] = [], template?: string, el?: string) => new Vue({
+  el,
+  template,
 
   data: {
+    changed: false,
+    newTodo: "",
     todos: clone(todos),
-    newTodo: '',
-    changed: false
   },
 
   filters: {
-    json: JSON.stringify
+    json: JSON.stringify,
   },
 
   computed: {
-    openTodos(): Todo[] {
-      return this.todos.filter(t => !t.completed);
+    openTodos(): ITodo[] {
+      return this.todos.filter((t) => !t.completed);
     },
 
-    doneTodos(): Todo[] {
-      return this.todos.filter(t => t.completed);
+    doneTodos(): ITodo[] {
+      return this.todos.filter((t) => t.completed);
     },
 
     valid(): boolean {
@@ -41,28 +41,28 @@ export default (todos: Todo[], suggestions: string[] = [], template?: string, el
     },
 
     openSuggestions(): string[] {
-      return suggestions.filter(s => !this.todos.some(t => normalize(t.title) === normalize(s)));
-    }
+      return suggestions.filter((s) => !this.todos.some((t) => normalize(t.title) === normalize(s)));
+    },
   },
 
   methods: {
-    close(todo: Todo) {
+    close(todo: ITodo) {
       todo.completed = true;
       this.changed = true;
     },
 
-    open(todo: Todo) {
+    open(todo: ITodo) {
       todo.completed = false;
       this.changed = true;
     },
 
-    remove(todo: Todo) {
+    remove(todo: ITodo) {
       this.todos.splice(this.todos.indexOf(todo), 1);
       this.changed = true;
     },
 
     closeAll() {
-      this.todos.forEach(todo => {
+      this.todos.forEach((todo) => {
         todo.completed = true;
       });
       this.changed = true;
@@ -71,10 +71,10 @@ export default (todos: Todo[], suggestions: string[] = [], template?: string, el
     addNewTodo() {
       if (this.valid) {
         this.todos.push({
+          completed: false,
           title: this.newTodo,
-          completed: false
         });
-        this.newTodo = '';
+        this.newTodo = "";
         this.changed = true;
       }
     },
@@ -85,7 +85,7 @@ export default (todos: Todo[], suggestions: string[] = [], template?: string, el
     },
 
     save() {
-      (<HTMLFormElement>this.$refs.form).submit();
-    }
-  }
+      (this.$refs.form as HTMLFormElement).submit();
+    },
+  },
 });

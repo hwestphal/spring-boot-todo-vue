@@ -46,7 +46,7 @@
                         </goals>
                         <phase>compile</phase>
                         <configuration>
-                            <arguments>run compile</arguments>
+                            <arguments>run build</arguments>
                         </configuration>
                     </execution>
                     <execution>
@@ -56,7 +56,7 @@
                         </goals>
                         <phase>test</phase>
                         <configuration>
-                            <arguments>test -- --testResultsProcessor="jest-junit"</arguments>
+                            <arguments>test -- --testResultsProcessor=jest-junit</arguments>
                             <environmentVariables>
                                 <JEST_JUNIT_OUTPUT>target/jest-reports/TEST-jest.xml</JEST_JUNIT_OUTPUT>
                             </environmentVariables>
