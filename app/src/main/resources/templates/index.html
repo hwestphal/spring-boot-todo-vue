@@ -55,7 +55,7 @@
                 </ul>
             </div>
         </div>
-        <form ref="form" th:action="@{/}" method="post">
+        <form ref="form" :action="action" method="post">
             <input type="hidden" name="todos" :value="todos | json">
         </form>
     </div>
@@ -63,7 +63,7 @@
 
     <script th:src="@{/js/main.js}"></script>
     <script th:inline="javascript">
-          Main.main(/*[[${todos}]]*/[]);
+          Main.main(/*[[${todos}]]*/[], /*[[@{/}]]*/'', '#todolist');
         </script>
 </body>
 </html>
