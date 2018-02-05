@@ -5,3 +5,4 @@ target/
 *.db
 /frontend/node/
 node_modules/
+rebel.xml
