@@ -16,9 +16,6 @@
         <thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
         <mybatis-spring-boot.version>1.3.1</mybatis-spring-boot.version>
         <lombok.version>1.16.18</lombok.version>
-
-        <bootstrap.version>3.3.7-1</bootstrap.version>
-        <awesomplete.version>1.1.1</awesomplete.version>
     </properties>
 
     <dependencyManagement>
@@ -42,16 +39,6 @@
                 <groupId>io.github.hwestphal</groupId>
                 <artifactId>spring-boot-todo-vue-frontend</artifactId>
                 <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.webjars</groupId>
-                <artifactId>bootstrap</artifactId>
-                <version>${bootstrap.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.webjars.npm</groupId>
-                <artifactId>awesomplete</artifactId>
-                <version>${awesomplete.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -87,25 +74,10 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>webjars-locator</artifactId>
-            <scope>runtime</scope>
-        </dependency>
 
         <dependency>
             <groupId>io.github.hwestphal</groupId>
             <artifactId>spring-boot-todo-vue-frontend</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>bootstrap</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars.npm</groupId>
-            <artifactId>awesomplete</artifactId>
             <scope>runtime</scope>
         </dependency>
 

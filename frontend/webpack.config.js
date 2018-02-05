@@ -1,4 +1,5 @@
 const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     entry: './src/ts/main.ts',
@@ -7,9 +8,28 @@ module.exports = {
             {
                 test: /\.ts$/,
                 use: 'ts-loader'
-            }
-        ]
+            },
+            {
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: 'css-loader?sourceMap'
+                })
+            }, {
+                test: /\.(woff|woff2|eot|ttf|svg)$/,
+                use: {
+                    loader: 'file-loader',
+                    options: {
+                        outputPath: 'fonts/',
+                        name: '[name].[ext]',
+                        publicPath: '../'
+                    }
+                }
+            }]
     },
+    plugins: [
+        new ExtractTextPlugin('css/styles.css')
+    ],
     resolve: {
         extensions: ['.js', '.ts'],
         alias: {
@@ -17,8 +37,8 @@ module.exports = {
         }
     },
     output: {
-        filename: 'main.js',
-        path: path.resolve(__dirname, 'target/classes/static/js'),
+        filename: 'js/main.js',
+        path: path.resolve(__dirname, 'target/classes/static'),
         library: 'Main'
     },
     devtool: 'source-map'
