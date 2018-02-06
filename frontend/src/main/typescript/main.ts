@@ -6,7 +6,7 @@ import Autocomplete from "./autocomplete.vue";
 import { ITodo } from "./todolist";
 import Todolist from "./todolist.vue";
 
-export function main(todos: ITodo[], action: string, el: string) {
+export function main(todoList: ITodo[], action: string, el: string) {
   Vue.component("auto-complete", Autocomplete);
   return new Vue({
     el,
@@ -19,7 +19,7 @@ export function main(todos: ITodo[], action: string, el: string) {
             "Get a life",
             "Feed the dog",
             "Feed the cat"],
-          todoList: todos,
+          todoList,
         },
       });
     },

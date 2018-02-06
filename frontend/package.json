@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "build": "tslint --project . && webpack",
+    "build": "tsc --noEmit && tslint --project . && webpack",
     "test": "jest",
     "watch": "webpack --watch"
   },

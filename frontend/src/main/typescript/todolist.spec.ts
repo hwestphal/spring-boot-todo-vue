@@ -1,4 +1,3 @@
-import Vue from "vue";
 import { default as Todolist, ITodo } from "./todolist";
 
 function todolist(todoList: ITodo[], suggestions?: string[]) {
