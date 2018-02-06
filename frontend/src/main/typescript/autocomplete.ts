@@ -1,9 +1,8 @@
 import Awesomplete = require("awesomplete");
 import Vue from "vue";
 
-Vue.component("auto-complete", {
+export default Vue.extend({
   props: ["value", "list"],
-  template: '<input type="text" :value="value" @input="update" @keyup.enter="enter">',
 
   data() {
     return {} as { awesomplete: Awesomplete };

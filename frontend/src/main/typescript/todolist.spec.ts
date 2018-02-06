@@ -1,4 +1,14 @@
-import todolist from "./todolist";
+import Vue from "vue";
+import { default as Todolist, ITodo } from "./todolist";
+
+function todolist(todoList: ITodo[], suggestions?: string[]) {
+  return new Todolist({
+    propsData: {
+      suggestions,
+      todoList,
+    },
+  });
+}
 
 describe("todolist", () => {
   it("is initially invalid", () => {
