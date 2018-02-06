@@ -16,13 +16,23 @@ module.exports = {
             },
             {
                 test: /\.vue$/,
-                use: 'vue-loader',
+                use: {
+                    loader: 'vue-loader',
+                    options: {
+                        loaders: {
+                            css: ExtractTextPlugin.extract({
+                                use: 'css-loader?sourceMap',
+                                fallback: 'vue-style-loader'
+                            })
+                        }
+                    }
+                }
             },
             {
                 test: /\.css$/,
                 use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: 'css-loader?sourceMap'
+                    use: 'css-loader?sourceMap',
+                    fallback: 'style-loader'
                 })
             }, {
                 test: /\.(woff|woff2|eot|ttf|svg)$/,

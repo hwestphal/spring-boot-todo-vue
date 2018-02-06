@@ -3,3 +3,5 @@
 </template>
 
 <script lang="ts" src="./autocomplete.ts"></script>
+
+<style src="awesomplete/awesomplete.css"></style>
