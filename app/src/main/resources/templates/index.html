@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Todo List</title>
+<title th:text="#{title}">Todo List</title>
 <link th:href="@{/css/styles.css}" rel="stylesheet">
 </head>
 <body>
@@ -13,7 +13,14 @@
     </div>
     <script th:src="@{/js/main.js}"></script>
     <script th:inline="javascript">
-          Main.main(/*[[${todos}]]*/[], /*[[@{/}]]*/'', '#todolist');
+          Main.main(/*[[${todos}]]*/[], [ /*[[#{washTheCar}]]*/'',
+          /*[[#{learnTypescript}]]*/'',
+          /*[[#{getALife}]]*/'',
+          /*[[#{feedTheDog}]]*/'',
+          /*[[#{feedTheCat}]]*/'' ],
+          /*[[@{/}]]*/'', '#todolist',
+          /*[[${@messageSource.locale}]]*/'',
+          /*[[${@messageSource.messages}]]*/{});
         </script>
 </body>
 </html>

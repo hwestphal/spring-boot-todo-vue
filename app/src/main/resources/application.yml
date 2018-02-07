@@ -1,8 +1,10 @@
 spring:
+  main.banner-mode: 'off'
+
   thymeleaf:
     cache: false
     mode: HTML
-  main.banner-mode: 'off'
+
   datasource.url: jdbc:h2:./db;AUTO_SERVER=TRUE
   h2.console.enabled: true
 
@@ -11,6 +13,11 @@ spring:
     chain.strategy.fixed:
       enabled: true
       version: '@git.commit.id.abbrev@'
+
+  messages:
+    cache-seconds: 0
+    encoding: ISO-8859-1
+    fallback-to-system-locale: false
 
 liquibase.change-log: classpath:/db/changelog/db.changelog-master.xml
 

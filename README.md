@@ -5,6 +5,7 @@ The purpose of the application is to demonstrate the usage of *Vue.js*, *Typescr
 Furthermore, the following is used:
 - *MyBatis* for SQL mapping
 - *Thymeleaf 3* as HTML5 server-side template engine
+- *vue-i18n* for internationalizing Vue templates
 - *maven-frontend-plugin* for integrating the frontend build process with Maven
 - *Jest* for unit testing the UI logic
 - *TSLint* for static Typescript code checks
