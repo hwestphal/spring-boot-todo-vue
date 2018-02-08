@@ -37,37 +37,30 @@
                 </plugin>
 
                 <plugin>
-                    <groupId>net.revelc.code.formatter</groupId>
-                    <artifactId>formatter-maven-plugin</artifactId>
-                    <version>2.7.1</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>validate</goal>
-                            </goals>
-                            <phase>process-sources</phase>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <configFile>${project.basedir}/../etc/eclipse-code-formatter.xml</configFile>
-                    </configuration>
-                </plugin>
-
-                <plugin>
-                    <groupId>net.revelc.code</groupId>
-                    <artifactId>impsort-maven-plugin</artifactId>
-                    <version>1.0.1</version>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>3.0.0</version>
                     <executions>
                         <execution>
                             <goals>
                                 <goal>check</goal>
                             </goals>
+                            <phase>process-sources</phase>
                         </execution>
                     </executions>
                     <configuration>
-                        <groups>java.,javax.,io.github.hwestphal.</groups>
-                        <staticGroups>*</staticGroups>
+                        <configLocation>../etc/checkstyle-checker.xml</configLocation>
+                        <violationSeverity>info</violationSeverity>
+                        <logViolationsToConsole>true</logViolationsToConsole>
+                        <includeTestSourceDirectory>true</includeTestSourceDirectory>
                     </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.puppycrawl.tools</groupId>
+                            <artifactId>checkstyle</artifactId>
+                            <version>8.8</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
             </plugins>
         </pluginManagement>

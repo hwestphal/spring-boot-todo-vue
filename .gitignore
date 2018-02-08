@@ -6,3 +6,4 @@ target/
 /frontend/node/
 node_modules/
 rebel.xml
+.checkstyle
