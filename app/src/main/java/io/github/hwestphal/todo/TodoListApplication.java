@@ -55,6 +55,12 @@ public class TodoListApplication {
         return todoRepository.findAll();
     }
 
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<?> todos(@RequestBody Todo todo) {
+        todoRepository.insert(todo);
+        return ResponseEntity.created(linkTo(methodOn(TodoListApplication.class).todo(todo.getId())).toUri()).build();
+    }
+
     @RequestMapping(path = "{id}", method = { RequestMethod.GET, RequestMethod.HEAD })
     public ResponseEntity<Todo> todo(@PathVariable("id") long id) {
         Todo todo = todoRepository.findById(id);
@@ -62,12 +68,6 @@ public class TodoListApplication {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(todo);
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> todos(@RequestBody Todo todo) {
-        todoRepository.insert(todo);
-        return ResponseEntity.created(linkTo(methodOn(TodoListApplication.class).todo(todo.getId())).toUri()).build();
     }
 
     @RequestMapping(path = "{id}", method = RequestMethod.PUT)
