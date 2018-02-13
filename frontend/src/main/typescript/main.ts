@@ -3,7 +3,13 @@ import "../css/styles.css";
 
 import Vue from "vue";
 import VueI18n from "vue-i18n";
+
+Vue.use(VueI18n);
+
 import Autocomplete from "./autocomplete.vue";
+
+Vue.component("auto-complete", Autocomplete);
+
 import { ITodo } from "./todolist";
 import Todolist from "./todolist.vue";
 
@@ -13,18 +19,12 @@ export function main(
   action: string,
   el: string,
   locale: string,
-  localeMessages: VueI18n.LocaleMessages) {
-
-  Vue.component("auto-complete", Autocomplete);
-  Vue.use(VueI18n);
-
-  const messages: VueI18n.LocaleMessages = {};
-  messages[locale] = localeMessages;
-  const i18n = new VueI18n({ locale, messages });
+  messages: VueI18n.LocaleMessageObject) {
 
   return new Vue({
     el,
-    i18n,
+    i18n: new VueI18n({ locale, messages: { [locale]: messages } }),
+
     render(createElement) {
       return createElement(Todolist, {
         props: {

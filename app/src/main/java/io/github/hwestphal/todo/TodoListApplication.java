@@ -9,10 +9,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import io.github.hwestphal.auditing.EnableAuditing;
+import io.github.hwestphal.i18n.MessageSourceConfiguration;
 import io.github.hwestphal.mvc.JsonRequestParam;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/")
 @SpringBootApplication
 @EnableAuditing
+@Import(MessageSourceConfiguration.class)
 public class TodoListApplication {
 
     private final TodoRepository todoRepository;

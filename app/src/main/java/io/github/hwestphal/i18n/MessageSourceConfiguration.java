@@ -1,8 +1,6 @@
-package io.github.hwestphal.todo.config;
+package io.github.hwestphal.i18n;
 
 import java.nio.charset.Charset;
-
-import io.github.hwestphal.mvc.FrontendMessageSource;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

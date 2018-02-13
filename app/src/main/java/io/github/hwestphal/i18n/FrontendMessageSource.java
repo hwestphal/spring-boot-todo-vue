@@ -1,4 +1,4 @@
-package io.github.hwestphal.mvc;
+package io.github.hwestphal.i18n;
 
 import java.util.Properties;
 
@@ -9,7 +9,7 @@ import org.springframework.core.io.ResourceLoader;
 /**
  * Expose the current locale and all messages as properties.
  */
-public class FrontendMessageSource extends ReloadableResourceBundleMessageSource {
+class FrontendMessageSource extends ReloadableResourceBundleMessageSource {
 
     private int cacheSeconds;
 

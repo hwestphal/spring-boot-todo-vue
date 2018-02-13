@@ -1,3 +1,3 @@
 @echo off
 set "PATH=%~dp0.\node;%PATH%"
-code
+code "%~dp0."
