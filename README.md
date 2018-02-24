@@ -9,6 +9,7 @@ Furthermore, the following is used:
 - *maven-frontend-plugin* for integrating the frontend build process with Maven
 - *Jest* for unit testing the UI logic
 - *TSLint* for static Typescript code checks
+- *cdp4j* for end-to-end integration testing using a headless Chrome browser
 
 Additionally, it shows how to wrap 3rd party widgets as Vue components, in this case *Awesomplete*.
 
