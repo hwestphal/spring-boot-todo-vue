@@ -18,9 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(
-        webEnvironment = WebEnvironment.RANDOM_PORT,
-        properties = "logging.level.io.github.hwestphal.todo.TodoRepository=TRACE")
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "logging.level.com.querydsl.sql=DEBUG")
 @AutoConfigureTestDatabase
 public class TodoListApplicationIntegrationTest {
 
@@ -29,8 +27,7 @@ public class TodoListApplicationIntegrationTest {
 
     @Test
     public void shouldAddAndChangeAndRemoveTodo() {
-        Todo todo = new Todo();
-        todo.setTitle("todo1");
+        Todo todo = Todo.builder().title("todo1").build();
 
         URI uri = restTemplate.postForLocation("/", todo);
         Todo foundTodo = restTemplate.getForObject(uri, Todo.class);
@@ -52,22 +49,15 @@ public class TodoListApplicationIntegrationTest {
 
     @Test
     public void shouldOverwriteAndRemoveAllTodos() {
-        Todo todo1 = new Todo();
-        todo1.setTitle("todo1");
+        Todo todo1 = Todo.builder().title("todo1").build();
         todo1 = restTemplate.getForObject(restTemplate.postForLocation("/", todo1), Todo.class);
-        Todo todo2 = new Todo();
-        todo2.setTitle("todo2");
+        Todo todo2 = Todo.builder().title("todo2").build();
         restTemplate.postForLocation("/", todo2);
         List<?> todos = restTemplate.getForObject("/", List.class);
         assertThat(todos).hasSize(2);
 
-        Todo todo1a = new Todo();
-        todo1a.setId(todo1.getId());
-        todo1a.setVersion(todo1.getVersion());
-        todo1a.setTitle("todo1a");
-        Todo todo3 = new Todo();
-        todo3.setTitle("todo3");
-        todo3.setCompleted(true);
+        Todo todo1a = Todo.builder().id(todo1.getId()).version(todo1.getVersion()).title("todo1a").build();
+        Todo todo3 = Todo.builder().title("todo3").completed(true).build();
         restTemplate.put("/", Arrays.asList(todo3, todo1a));
         todos = restTemplate.getForObject("/", List.class);
         assertThat(todos).hasSize(2);

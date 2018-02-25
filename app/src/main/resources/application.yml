@@ -20,5 +20,3 @@ spring:
     fallback-to-system-locale: false
 
 liquibase.change-log: classpath:/db/changelog/db.changelog-master.xml
-
-mybatis.type-handlers-package: io.github.hwestphal.mybatis

@@ -50,6 +50,7 @@
                     </executions>
                     <configuration>
                         <configLocation>../etc/checkstyle-checker.xml</configLocation>
+                        <suppressionsLocation>../etc/checkstyle-suppressions.xml</suppressionsLocation>
                         <violationSeverity>info</violationSeverity>
                         <logViolationsToConsole>true</logViolationsToConsole>
                         <includeTestSourceDirectory>true</includeTestSourceDirectory>

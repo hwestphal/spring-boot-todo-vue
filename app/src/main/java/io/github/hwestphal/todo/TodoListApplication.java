@@ -12,6 +12,7 @@ import io.github.hwestphal.auditing.EnableAuditing;
 import io.github.hwestphal.i18n.MessageSourceConfiguration;
 import io.github.hwestphal.mvc.JsonRequestParam;
 
+import com.querydsl.core.types.dsl.Expressions;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
@@ -32,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 @SpringBootApplication
 @EnableAuditing
 @Import(MessageSourceConfiguration.class)
+@Transactional
 public class TodoListApplication {
 
     private final TodoRepository todoRepository;
@@ -46,7 +48,6 @@ public class TodoListApplication {
     }
 
     @RequestMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, method = RequestMethod.POST)
-    @Transactional
     public String saveTodos(@JsonRequestParam(name = "todos") List<Todo> todos) {
         putTodos(todos);
         return "redirect:/";
@@ -55,18 +56,18 @@ public class TodoListApplication {
     @RequestMapping(method = { RequestMethod.GET, RequestMethod.HEAD })
     @ResponseBody
     public List<Todo> todos() {
-        return todoRepository.findAll();
+        return todoRepository.findAll(Expressions.TRUE);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> todos(@RequestBody Todo todo) {
-        todoRepository.insert(todo);
-        return ResponseEntity.created(linkTo(methodOn(TodoListApplication.class).todo(todo.getId())).toUri()).build();
+        long id = todoRepository.insert(todo);
+        return ResponseEntity.created(linkTo(methodOn(TodoListApplication.class).todo(id)).toUri()).build();
     }
 
     @RequestMapping(path = "{id}", method = { RequestMethod.GET, RequestMethod.HEAD })
     public ResponseEntity<Todo> todo(@PathVariable("id") long id) {
-        Todo todo = todoRepository.findById(id);
+        Todo todo = todoRepository.findOne(QTodo.todo.id.eq(id));
         if (todo == null) {
             return ResponseEntity.notFound().build();
         }
@@ -74,9 +75,9 @@ public class TodoListApplication {
     }
 
     @RequestMapping(path = "{id}", method = RequestMethod.PUT)
-    @Transactional
     public ResponseEntity<?> putTodo(@PathVariable("id") long id, @RequestBody Todo todo) {
-        Todo foundTodo = todoRepository.findByIdAndVersionForUpdate(id, todo.getVersion());
+        QTodo q = QTodo.todo;
+        Todo foundTodo = todoRepository.findOneForUpdate(q.id.eq(id).and(q.version.eq(todo.getVersion())));
         if (foundTodo == null) {
             return ResponseEntity.notFound().build();
         }
@@ -88,9 +89,8 @@ public class TodoListApplication {
 
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseBody
-    @Transactional
     public void putTodos(@RequestBody List<Todo> todos) {
-        Map<Long, Todo> allTodos = todoRepository.findAllForUpdate().stream().collect(
+        Map<Long, Todo> allTodos = todoRepository.findAllForUpdate(Expressions.TRUE).stream().collect(
                 Collectors.toMap(Todo::getId, Function.identity()));
         for (Todo todo : todos) {
             Todo updatedTodo = allTodos.remove(todo.getId());
@@ -106,13 +106,12 @@ public class TodoListApplication {
                 todoRepository.insert(todo);
             }
         }
-        allTodos.keySet().forEach(todoRepository::deleteById);
+        todoRepository.deleteAll(QTodo.todo.id.in(allTodos.keySet()));
     }
 
     @RequestMapping(path = "{id}", method = RequestMethod.DELETE)
-    @Transactional
     public ResponseEntity<?> deleteTodo(@PathVariable("id") long id) {
-        if (todoRepository.deleteById(id) > 0) {
+        if (todoRepository.deleteAll(QTodo.todo.id.eq(id)) > 0) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
@@ -121,7 +120,7 @@ public class TodoListApplication {
     @RequestMapping(method = RequestMethod.DELETE)
     @ResponseBody
     public void deleteTodos() {
-        todoRepository.deleteAll();
+        todoRepository.deleteAll(Expressions.TRUE);
     }
 
     public static void main(String[] args) {

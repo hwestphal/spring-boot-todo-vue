@@ -6,15 +6,22 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.querydsl.core.annotations.QueryEntity;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 
-@Getter
-@Setter
-@ToString
+@Data
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
+@QueryEntity
 public class Todo {
 
     private Long id;
@@ -43,28 +50,5 @@ public class Todo {
     private String title;
 
     private boolean completed;
-
-    @Override
-    public int hashCode() {
-        return id == null ? super.hashCode() : 31 + id.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof Todo)) {
-            return false;
-        }
-        if (id == null) {
-            return false;
-        }
-        Todo other = (Todo) obj;
-        return id.equals(other.id);
-    }
 
 }

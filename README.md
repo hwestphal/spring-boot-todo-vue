@@ -3,7 +3,7 @@
 The purpose of the application is to demonstrate the usage of *Vue.js*, *Typescript* and *Webpack* inside a Spring Boot 1.5 application.
 
 Furthermore, the following is used:
-- *MyBatis* for SQL mapping
+- *Querydsl* for SQL mapping
 - *Thymeleaf 3* as HTML5 server-side template engine
 - *vue-i18n* for internationalizing Vue templates
 - *maven-frontend-plugin* for integrating the frontend build process with Maven
