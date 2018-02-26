@@ -145,10 +145,17 @@
                     <jdbcUrl>jdbc:h2:${project.build.directory}/querydsl</jdbcUrl>
                     <packageName>io.github.hwestphal.todo</packageName>
                     <targetFolder>${project.build.directory}/generated-sources/java</targetFolder>
-                    <customTypes>
-                        <customType>com.querydsl.sql.types.JSR310LocalDateTimeType</customType>
-                    </customTypes>
                     <typeMappings>
+                        <typeMapping>
+                            <table>TODO</table>
+                            <column>CREATED</column>
+                            <type>java.time.LocalDateTime</type>
+                        </typeMapping>
+                        <typeMapping>
+                            <table>TODO</table>
+                            <column>MODIFIED</column>
+                            <type>java.time.LocalDateTime</type>
+                        </typeMapping>
                         <typeMapping>
                             <table>TODO</table>
                             <column>COMPLETED</column>
