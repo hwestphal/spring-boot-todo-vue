@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "build": "tsc --noEmit && tslint --project . && webpack",
-    "test": "jest",
+    "test": "jest --no-cache",
     "watch": "webpack --watch"
   },
   "dependencies": {
@@ -15,7 +15,9 @@
     "@types/awesomplete": "^1.1.6",
     "@types/jest": "^22.1.3",
     "@types/puppeteer": "^1.0.0",
+    "@vue/test-utils": "^1.0.0-beta.12",
     "css-loader": "^0.28.10",
+    "empty-module": "0.0.2",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.10",
     "jest": "^22.4.2",
@@ -35,8 +37,12 @@
   "jest": {
     "moduleFileExtensions": [
       "js",
-      "ts"
+      "ts",
+      "vue"
     ],
+    "moduleNameMapper": {
+      "\\.(css|scss)$": "empty-module"
+    },
     "transform": {
       "^.+\\.ts$": "ts-jest",
       "^.+\\.vue$": "vue-jest"
@@ -46,7 +52,8 @@
     ],
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "src/main/**/*.(js|ts)",
+      "src/main/**/*.{js,ts,vue}",
+      "!**/*.vue.ts",
       "!**/*.d.ts"
     ],
     "coverageDirectory": "target"
