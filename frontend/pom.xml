@@ -62,7 +62,21 @@
                         <configuration>
                             <arguments>test -- --testResultsProcessor=jest-junit</arguments>
                             <environmentVariables>
-                                <JEST_JUNIT_OUTPUT>target/jest-reports/TEST-jest.xml</JEST_JUNIT_OUTPUT>
+                                <JEST_JUNIT_OUTPUT>target/jest-reports/TEST-jest-unit.xml</JEST_JUNIT_OUTPUT>
+                            </environmentVariables>
+                            <skip>${skipTests}</skip>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm-run-test:integration</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>integration-test</phase>
+                        <configuration>
+                            <arguments>run test:integration -- --testResultsProcessor=jest-junit</arguments>
+                            <environmentVariables>
+                                <JEST_JUNIT_OUTPUT>target/jest-reports/TEST-jest-integration.xml</JEST_JUNIT_OUTPUT>
                             </environmentVariables>
                             <skip>${skipTests}</skip>
                         </configuration>

@@ -2,8 +2,10 @@
   "private": true,
   "scripts": {
     "build": "tsc --noEmit && tslint --project . && webpack",
+    "build:watch": "webpack --watch",
     "test": "jest --no-cache",
-    "watch": "webpack --watch"
+    "test:watch": "jest --no-cache --watchAll",
+    "test:integration": "jest --config=jest-integration-config.json"
   },
   "dependencies": {
     "awesomplete": "^1.1.2",
@@ -48,13 +50,12 @@
       "^.+\\.vue$": "vue-jest"
     },
     "testMatch": [
-      "**/*.(spec|test).(js|ts)"
+      "<rootDir>/src/main/**/*.(spec|test).(js|ts)"
     ],
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "src/main/**/*.{js,ts,vue}",
-      "!**/*.vue.ts",
-      "!**/*.d.ts"
+      "<rootDir>/src/main/**/*.(js|ts|vue)",
+      "!**/*.(d|vue).ts"
     ],
     "coverageDirectory": "target"
   }
