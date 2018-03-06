@@ -10,7 +10,6 @@
     "sourceMap": true
   },
   "include": [
-    "src/main/typescript/**/*",
-    "src/test/typescript/**/*"
+    "src/*/typescript/**/*"
   ]
 }

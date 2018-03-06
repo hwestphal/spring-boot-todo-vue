@@ -42,7 +42,7 @@ public class TodoListChromeIntegrationTest {
         session.navigate(baseUrl);
         session.waitDocumentReady();
         session.activate();
-        try (OutputStream os = new FileOutputStream(Paths.get("target", "screenshot.png").toFile())) {
+        try (OutputStream os = new FileOutputStream(Paths.get("target", "cdp4j-screenshot.png").toFile())) {
             os.write(session.captureScreenshot());
         }
     }

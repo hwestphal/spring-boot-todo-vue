@@ -10,7 +10,7 @@ import Autocomplete from "./autocomplete.vue";
 
 Vue.component("auto-complete", Autocomplete);
 
-import { default as Todolist, ITodo } from "./todolist.vue";
+import Todolist, { ITodo } from "./todolist.vue";
 
 export function main(
   todoList: ITodo[],
