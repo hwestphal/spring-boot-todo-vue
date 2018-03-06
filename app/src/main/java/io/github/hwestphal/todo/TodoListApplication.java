@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import io.github.hwestphal.auditing.EnableAuditing;
 import io.github.hwestphal.i18n.MessageSourceConfiguration;
 import io.github.hwestphal.mvc.JsonRequestParam;
+import io.github.hwestphal.todo.generated.QTodo;
 
 import com.querydsl.core.types.dsl.Expressions;
 import org.springframework.boot.SpringApplication;

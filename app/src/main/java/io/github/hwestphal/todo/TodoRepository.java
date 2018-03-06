@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import io.github.hwestphal.auditing.Create;
 import io.github.hwestphal.auditing.Modify;
+import io.github.hwestphal.todo.generated.QTodo;
 
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;

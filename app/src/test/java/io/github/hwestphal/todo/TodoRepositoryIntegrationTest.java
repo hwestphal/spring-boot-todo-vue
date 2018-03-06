@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolationException;
 
+import io.github.hwestphal.todo.generated.QTodo;
+
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.Expressions;
 import org.junit.Test;
