@@ -5,7 +5,7 @@ export interface IServer {
     close(): Promise<void>;
 }
 
-export default (...paths: string[]): Promise<IServer> => {
+export default function(...paths: string[]): Promise<IServer> {
     const app = express();
     paths.forEach((p) => {
         app.use(express.static(p));
@@ -24,4 +24,4 @@ export default (...paths: string[]): Promise<IServer> => {
             });
         });
     });
-};
+}

@@ -2,4 +2,4 @@
 
 NODEPATH="$(readlink -f "$(dirname "$0")/node")"
 export PATH="$NODEPATH:$PATH"
-exec "$NODEPATH/yarn/dist/bin/yarn" "$@"
+exec node "$NODEPATH/yarn/dist/bin/yarn.js" "$@"
