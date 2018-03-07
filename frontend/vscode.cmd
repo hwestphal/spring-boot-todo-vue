@@ -1,3 +1,4 @@
 @echo off
-set "PATH=%~dp0.\node;%PATH%"
+setlocal
+set "PATH=%~dp0.\node;%~dp0.\node\yarn\dist\bin;%PATH%"
 code "%~dp0."

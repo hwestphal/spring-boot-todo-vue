@@ -6,7 +6,7 @@ Furthermore, the following is used:
 - *Querydsl* for SQL mapping
 - *Thymeleaf 3* as HTML5 server-side template engine
 - *vue-i18n* for internationalizing Vue templates
-- *maven-frontend-plugin* for integrating the frontend build process with Maven
+- *maven-frontend-plugin* for integrating the frontend build process — powered by Yarn — with Maven
 - *Jest* for unit testing the UI logic
 - *TSLint* for static Typescript code checks
 - *Puppeteer* and *cdp4j* for end-to-end integration tests using a — typically headless — Chrome browser

@@ -23,44 +23,44 @@
                 <version>1.6</version>
                 <configuration>
                     <nodeVersion>v8.9.4</nodeVersion>
-                    <npmVersion>5.6.0</npmVersion>
-                    <npmInheritsProxyConfigFromMaven>false</npmInheritsProxyConfigFromMaven>
+                    <yarnVersion>v1.5.1</yarnVersion>
+                    <yarnInheritsProxyConfigFromMaven>false</yarnInheritsProxyConfigFromMaven>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>install-node-and-npm</id>
+                        <id>install-node-and-yarn</id>
                         <goals>
-                            <goal>install-node-and-npm</goal>
+                            <goal>install-node-and-yarn</goal>
                         </goals>
                     </execution>
                     <execution>
-                        <id>npm-install</id>
+                        <id>yarn-install</id>
                         <goals>
-                            <goal>npm</goal>
+                            <goal>yarn</goal>
                         </goals>
                         <configuration>
                             <arguments>install</arguments>
-                            <npmInheritsProxyConfigFromMaven>true</npmInheritsProxyConfigFromMaven>
+                            <yarnInheritsProxyConfigFromMaven>true</yarnInheritsProxyConfigFromMaven>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>npm-run-compile</id>
+                        <id>yarn-run-build</id>
                         <goals>
-                            <goal>npm</goal>
+                            <goal>yarn</goal>
                         </goals>
                         <phase>compile</phase>
                         <configuration>
-                            <arguments>run build -- ${webpack.args}</arguments>
+                            <arguments>run build ${webpack.args}</arguments>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>npm-test</id>
+                        <id>yarn-run-test</id>
                         <goals>
-                            <goal>npm</goal>
+                            <goal>yarn</goal>
                         </goals>
                         <phase>test</phase>
                         <configuration>
-                            <arguments>test -- --testResultsProcessor=jest-junit</arguments>
+                            <arguments>run test --testResultsProcessor=jest-junit</arguments>
                             <environmentVariables>
                                 <JEST_JUNIT_OUTPUT>target/jest-reports/TEST-jest-unit.xml</JEST_JUNIT_OUTPUT>
                             </environmentVariables>
@@ -68,13 +68,13 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>npm-run-test:integration</id>
+                        <id>yarn-run-test:integration</id>
                         <goals>
-                            <goal>npm</goal>
+                            <goal>yarn</goal>
                         </goals>
                         <phase>integration-test</phase>
                         <configuration>
-                            <arguments>run test:integration -- --testResultsProcessor=jest-junit</arguments>
+                            <arguments>run test:integration --testResultsProcessor=jest-junit</arguments>
                             <environmentVariables>
                                 <JEST_JUNIT_OUTPUT>target/jest-reports/TEST-jest-integration.xml</JEST_JUNIT_OUTPUT>
                             </environmentVariables>
