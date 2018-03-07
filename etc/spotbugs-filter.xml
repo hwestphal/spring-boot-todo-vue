@@ -1,0 +1,6 @@
+<FindBugsFilter>
+    <!-- ignore generated classes -->
+    <Match>
+        <Class name="~.*\.generated\..*" />
+    </Match>
+</FindBugsFilter>

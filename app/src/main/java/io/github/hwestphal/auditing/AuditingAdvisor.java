@@ -2,6 +2,7 @@ package io.github.hwestphal.auditing;
 
 import java.lang.reflect.Method;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.support.AbstractPointcutAdvisor;
@@ -12,6 +13,7 @@ import org.springframework.data.auditing.AuditingHandler;
 @SuppressWarnings("serial")
 class AuditingAdvisor extends AbstractPointcutAdvisor {
 
+    @SuppressFBWarnings("SE_BAD_FIELD")
     private final AuditingHandler auditingHandler;
     private final boolean create;
 
