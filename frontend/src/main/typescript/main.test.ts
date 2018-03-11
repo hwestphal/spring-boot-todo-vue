@@ -1,4 +1,14 @@
+import Vue from "vue";
 import { main } from "./main";
+
+// add $style attribute for uncompiled CSS modules
+Vue.mixin({
+    computed: {
+        $style() {
+            return {};
+        },
+    },
+});
 
 test("main function runs without warnings or errors", () => {
     const warn = jest.spyOn(global.console, "warn");

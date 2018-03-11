@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "awesomplete": "^1.1.2",
-    "bootstrap": "^3.3.7",
+    "bootstrap-sass": "^3.3.7",
     "vue": "^2.5.13",
     "vue-i18n": "^7.4.2"
   },
@@ -26,7 +26,9 @@
     "file-loader": "^1.1.10",
     "jest": "^22.4.2",
     "jest-junit": "^3.6.0",
+    "node-sass": "^4.7.2",
     "puppeteer": "^1.1.1",
+    "sass-loader": "^6.0.7",
     "style-loader": "^0.20.2",
     "ts-jest": "^22.4.0",
     "ts-loader": "^3.5.0",

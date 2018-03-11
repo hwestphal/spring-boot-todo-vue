@@ -4,6 +4,7 @@ import { default as Todolist, ITodo } from "./todolist.vue";
 function todolist(todoList: ITodo[] = [], suggestions: string[] = []) {
     return shallow(Todolist, {
         mocks: {
+            $style: jest.fn(),
             $t: jest.fn(),
             $tc: jest.fn(),
         },

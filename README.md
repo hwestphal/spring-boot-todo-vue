@@ -10,6 +10,7 @@ Furthermore, the following is used:
 - *Jest* for unit testing the UI logic
 - *TSLint* for static Typescript code checks
 - *Puppeteer* and *cdp4j* for end-to-end integration tests using a — typically headless — Chrome browser
+- *Sass* and *CSS Modules* for styling
 
 Additionally, it shows how to wrap 3rd party widgets as Vue components, in this case *Awesomplete*.
 
