@@ -1,4 +1,5 @@
 import Vue from "vue";
+import { Component, Prop } from "vue-property-decorator";
 
 export interface ITodo {
     title: string;
@@ -13,81 +14,78 @@ function normalize(s: string) {
     return s.trim().toLowerCase().split(/\s+/).join(" ");
 }
 
-export default Vue.extend({
-    props: ["action", "suggestions", "todoList"],
-
-    data() {
-        return {
-            changed: false,
-            newTodo: "",
-            todos: clone(this.todoList as ITodo[]),
-        };
-    },
-
+@Component({
     filters: {
         json: JSON.stringify,
     },
+})
+export default class Todolist extends Vue {
+    @Prop()
+    readonly action!: string;
+    @Prop()
+    readonly suggestions!: string[];
+    @Prop()
+    readonly todoList!: ITodo[];
 
-    computed: {
-        openTodos(): ITodo[] {
-            return this.todos.filter((t) => !t.completed);
-        },
+    changed = false;
+    newTodo = "";
+    todos = clone(this.todoList);
 
-        doneTodos(): ITodo[] {
-            return this.todos.filter((t) => t.completed);
-        },
+    get openTodos() {
+        return this.todos.filter((t) => !t.completed);
+    }
 
-        valid(): boolean {
-            return this.newTodo.length > 3;
-        },
+    get doneTodos() {
+        return this.todos.filter((t) => t.completed);
+    }
 
-        openSuggestions(): string[] {
-            return (this.suggestions as string[]).filter((s) =>
-                !this.todos.some((t) => normalize(t.title) === normalize(s)));
-        },
-    },
+    get valid() {
+        return this.newTodo.length > 3;
+    }
 
-    methods: {
-        close(todo: ITodo) {
+    get openSuggestions() {
+        return this.suggestions.filter((s) => !this.todos.some((t) => normalize(t.title) === normalize(s)));
+    }
+
+    close(todo: ITodo) {
+        todo.completed = true;
+        this.changed = true;
+    }
+
+    open(todo: ITodo) {
+        todo.completed = false;
+        this.changed = true;
+    }
+
+    remove(todo: ITodo) {
+        this.todos.splice(this.todos.indexOf(todo), 1);
+        this.changed = true;
+    }
+
+    closeAll() {
+        this.todos.forEach((todo) => {
             todo.completed = true;
-            this.changed = true;
-        },
+        });
+        this.changed = true;
+    }
 
-        open(todo: ITodo) {
-            todo.completed = false;
-            this.changed = true;
-        },
-
-        remove(todo: ITodo) {
-            this.todos.splice(this.todos.indexOf(todo), 1);
-            this.changed = true;
-        },
-
-        closeAll() {
-            this.todos.forEach((todo) => {
-                todo.completed = true;
+    addNewTodo() {
+        if (this.valid) {
+            this.todos.push({
+                completed: false,
+                title: this.newTodo,
             });
+            this.newTodo = "";
             this.changed = true;
-        },
+        }
+    }
 
-        addNewTodo() {
-            if (this.valid) {
-                this.todos.push({
-                    completed: false,
-                    title: this.newTodo,
-                });
-                this.newTodo = "";
-                this.changed = true;
-            }
-        },
+    reset() {
+        this.todos = clone(this.todoList);
+        this.changed = false;
+    }
 
-        reset() {
-            this.todos = clone(this.todoList);
-            this.changed = false;
-        },
-
-        save() {
-            (this.$refs.form as HTMLFormElement).submit();
-        },
-    },
-});
+    save() {
+        (this.$refs.form as HTMLFormElement).submit();
+    }
+}

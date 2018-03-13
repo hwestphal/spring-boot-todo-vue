@@ -34,13 +34,11 @@ describe("autocomplete", () => {
         expect(spy).toHaveBeenCalledWith(list);
     });
 
-    it("calls update and enter on awesomplete event", () => {
-        const wrapper = autocomplete();
-        const vm = wrapper.vm;
-        const update = jest.spyOn(vm, "update");
-        const enter = jest.spyOn(vm, "enter");
+    it("emits input and enter event on awesomplete event", () => {
+        const value = "a value";
+        const wrapper = autocomplete(value);
         wrapper.trigger("awesomplete-selectcomplete");
-        expect(update).toHaveBeenCalled();
-        expect(enter).toHaveBeenCalled();
+        expect(wrapper.emitted().input[0]).toEqual([value]);
+        expect(wrapper.emitted().enter).toHaveLength(1);
     });
 });

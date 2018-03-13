@@ -1,5 +1,5 @@
 import { shallow } from "@vue/test-utils";
-import { default as Todolist, ITodo } from "./todolist.vue";
+import Todolist, { ITodo } from "./todolist.vue";
 
 function todolist(todoList: ITodo[] = [], suggestions: string[] = []) {
     return shallow(Todolist, {

@@ -1,36 +1,37 @@
 import Awesomplete = require("awesomplete");
 import Vue from "vue";
+import { Component, Emit, Prop, Watch } from "vue-property-decorator";
 
-export default Vue.extend({
-    props: ["value", "list"],
+@Component
+export default class Autocomplete extends Vue {
+    @Prop()
+    readonly value!: string;
+    @Prop()
+    readonly list!: string[];
 
-    data() {
-        return {} as { awesomplete: Awesomplete };
-    },
+    private awesomplete!: Awesomplete;
 
     mounted() {
         const el = this.$el;
         this.awesomplete = new Awesomplete(el, {
             list: this.list,
         });
-        el.addEventListener("awesomplete-selectcomplete", () => {
-            this.update();
+        el.addEventListener("awesomplete-selectcomplete", (event) => {
+            this.input((event.target as HTMLInputElement).value);
             this.enter();
         });
-    },
+    }
 
-    watch: {
-        list(list) {
-            this.awesomplete.list = list;
-        },
-    },
+    @Emit()
+    input(value: string) {
+    }
 
-    methods: {
-        update() {
-            this.$emit("input", (this.$el as HTMLInputElement).value);
-        },
-        enter() {
-            this.$emit("enter");
-        },
-    },
-});
+    @Emit()
+    enter() {
+    }
+
+    @Watch("list")
+    onListChanged(list: string[]) {
+        this.awesomplete.list = list;
+    }
+}

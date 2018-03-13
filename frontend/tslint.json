@@ -3,7 +3,11 @@
     "extends": [
         "tslint:recommended"
     ],
-    "jsRules": {},
-    "rules": {},
-    "rulesDirectory": []
+    "rules": {
+        "member-access": [
+            true,
+            "no-public"
+        ],
+        "no-empty": false
+    }
 }
