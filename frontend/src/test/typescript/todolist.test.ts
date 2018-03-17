@@ -1,5 +1,5 @@
+import path from "path";
 import puppeteer, { Browser, ConsoleMessage, Page } from "puppeteer";
-import path from "./path";
 import serve, { IServer } from "./server";
 
 let server: IServer;
@@ -9,7 +9,7 @@ let errors: ConsoleMessage[];
 let warnings: ConsoleMessage[];
 
 beforeAll(async () => {
-    server = await serve(path("src/test/resources"), path("target/classes/static"));
+    server = await serve(p("src", "test", "resources"), p("target", "classes", "static"));
     browser = await puppeteer.launch(puppeteerOptions());
 });
 
@@ -29,7 +29,7 @@ beforeEach(async () => {
 });
 
 test("take screenshot", async () => {
-    await page.screenshot({ path: path("target", "puppeteer-screenshot.png") });
+    await page.screenshot({ path: p("target", "puppeteer-screenshot.png") });
     expect(errors).toHaveLength(0);
     // expect only warnings for missing i18n keys
     warnings.forEach((m) => expect(m.text()).toMatch(/^\[vue-i18n\] /));
@@ -46,6 +46,10 @@ function puppeteerOptions() {
         headless: isNaN(slowMo),
         slowMo,
     };
+}
+
+function p(...ps: string[]) {
+    return path.normalize(path.join(__dirname, "..", "..", "..", ...ps));
 }
 
 jest.setTimeout(60000);
