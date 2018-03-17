@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "jest",
+            "program": "${workspaceFolder}/node_modules/jest/bin/jest.js",
+            "runtimeArgs": [
+                "--nolazy"
+            ],
+            "args": [
+                "--no-cache",
+                "-i",
+                "--coverage=false",
+                "${fileBasename}"
+            ],
+            "sourceMaps": true
+        }
+    ]
+}
