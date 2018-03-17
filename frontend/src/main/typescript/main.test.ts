@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { main } from "./main";
+import main from "./main";
 
 // add $style attribute for uncompiled CSS modules
 Vue.mixin({

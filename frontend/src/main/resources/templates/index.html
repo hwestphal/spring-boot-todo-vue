@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="#{title}">Todo List</title>
-    <link th:href="@{/css/styles.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
 </head>
 
 <body>
@@ -15,7 +15,7 @@
     </div>
     <script th:src="@{/js/main.js}"></script>
     <script th:inline="javascript">
-        Main.main(/*[[${todos}]]*/[],
+        __main.default(/*[[${todos}]]*/[],
             [ /*[[#{washTheCar}]]*/'', /*[[#{learnTypescript}]]*/'', /*[[#{getALife}]]*/'', /*[[#{feedTheDog}]]*/'', /*[[#{feedTheCat}]]*/''],
             /*[[@{/}]]*/'/',
             '#todolist',

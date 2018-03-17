@@ -11,7 +11,7 @@ Vue.component("auto-complete", Autocomplete);
 
 import Todolist, { ITodo } from "./todolist.vue";
 
-export function main(
+export default function(
     todoList: ITodo[],
     suggestions: string[],
     action: string,

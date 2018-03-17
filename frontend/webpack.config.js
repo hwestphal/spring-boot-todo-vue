@@ -2,7 +2,9 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-    entry: './src/main/typescript/main.ts',
+    entry: {
+        main: './src/main/typescript/main.ts'
+    },
     module: {
         rules: [{
             test: /\.ts$/,
@@ -48,15 +50,15 @@ module.exports = {
         }]
     },
     plugins: [
-        new ExtractTextPlugin('css/styles.css')
+        new ExtractTextPlugin('css/[name].css')
     ],
     resolve: {
         extensions: ['.js', '.ts'],
     },
     output: {
-        filename: 'js/main.js',
+        filename: 'js/[name].js',
         path: path.resolve(__dirname, 'target/classes/static'),
-        library: 'Main'
+        library: '__[name]'
     },
     devtool: 'source-map'
 };
