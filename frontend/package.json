@@ -3,8 +3,8 @@
     "scripts": {
         "build": "tsc --noEmit && tslint --project . && webpack",
         "build:watch": "webpack --watch",
-        "test": "jest --no-cache",
-        "test:watch": "jest --no-cache --watchAll",
+        "test": "jest",
+        "test:watch": "jest --watchAll",
         "test:integration": "jest --config=jest-integration-config.json"
     },
     "devDependencies": {
@@ -33,7 +33,7 @@
         "uglifyjs-webpack-plugin": "^1.2.2",
         "vue": "^2.5.13",
         "vue-i18n": "^7.4.2",
-        "vue-jest": "^2.1.0",
+        "vue-jest": "^2.1.1",
         "vue-loader": "^14.1.1",
         "vue-property-decorator": "^6.0.0",
         "vue-template-compiler": "^2.5.13",
@@ -58,7 +58,7 @@
         "collectCoverage": true,
         "collectCoverageFrom": [
             "<rootDir>/src/main/**/*.(js|ts|vue)",
-            "!**/*.(d|vue).ts"
+            "!**/*.d.ts"
         ],
         "coverageDirectory": "target"
     }

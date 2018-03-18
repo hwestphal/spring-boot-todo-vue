@@ -1,8 +1,9 @@
-import { shallow } from "@vue/test-utils";
-import Todolist, { ITodo } from "./todolist.vue";
+import { shallow, VueClass } from "@vue/test-utils";
+import TodolistClass, { ITodo } from "./todolist";
+import Todolist from "./todolist.vue";
 
 function todolist(todoList: ITodo[] = [], suggestions: string[] = []) {
-    return shallow(Todolist, {
+    return shallow(Todolist as VueClass<TodolistClass>, {
         mocks: {
             $style: jest.fn(),
             $t: jest.fn(),

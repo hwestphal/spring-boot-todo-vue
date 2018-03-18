@@ -45,7 +45,9 @@
     </div>
 </template>
 
-<script lang="ts" src="./todolist.vue.ts"></script>
+<script lang="ts">
+export { default } from "./todolist";
+</script>
 
 <style lang="scss" module>
 .todolist {
