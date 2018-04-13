@@ -13,7 +13,6 @@ function todolist(todoList: ITodo[] = [], suggestions: string[] = []) {
             suggestions,
             todoList,
         },
-        stubs: ["auto-complete"],
     });
 }
 

@@ -10,9 +10,7 @@
 </head>
 
 <body>
-    <div class="container">
-        <div id="todolist"></div>
-    </div>
+    <div id="todolist"></div>
     <script th:src="@{/js/main.js}"></script>
     <script th:inline="javascript">
         __main.default(/*[[${todos}]]*/[],

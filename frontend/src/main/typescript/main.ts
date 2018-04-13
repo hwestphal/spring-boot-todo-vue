@@ -2,15 +2,10 @@ import "../css/global.scss";
 
 import Vue from "vue";
 import VueI18n from "vue-i18n";
-
-Vue.use(VueI18n);
-
-import Autocomplete from "./autocomplete.vue";
-
-Vue.component("auto-complete", Autocomplete);
-
 import { ITodo } from "./todolist";
 import Todolist from "./todolist.vue";
+
+Vue.use(VueI18n);
 
 export default function(
     todoList: ITodo[],
