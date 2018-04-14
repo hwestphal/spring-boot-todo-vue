@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ShakePlugin = require('webpack-common-shake').Plugin;
+const Viz = require('viz.js');
 
 module.exports = {
     entry: {
@@ -54,8 +55,8 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin('css/[name].css'),
         new ShakePlugin({
-            onGraph: (graph) => fs.writeFile(path.resolve(__dirname, 'target/webpack-modules.dot'),
-                graph.replace(/\\/g, '/'),
+            onGraph: (graph) => fs.writeFile(path.resolve(__dirname, 'target/webpack-modules.svg'),
+                Viz(graph.replace(/\\/g, '/')),
                 'utf8',
                 (err) => { if (err) console.error(err); })
         }),

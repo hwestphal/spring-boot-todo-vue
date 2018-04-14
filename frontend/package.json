@@ -31,6 +31,7 @@
         "tslint": "^5.9.1",
         "typescript": "^2.7.2",
         "uglifyjs-webpack-plugin": "^1.2.2",
+        "viz.js": "^1.8.1",
         "vue": "^2.5.13",
         "vue-i18n": "^7.4.2",
         "vue-jest": "^2.1.1",
