@@ -1,10 +1,7 @@
-import Button from "element-ui/lib/button";
-import ButtonGroup from "element-ui/lib/button-group";
-import Col from "element-ui/lib/col";
-import Row from "element-ui/lib/row";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import Autocomplete from "./autocomplete.vue";
+import { Button, ButtonGroup, Col, Row } from "./elements";
 
 export interface ITodo {
     title: string;

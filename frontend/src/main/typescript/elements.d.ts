@@ -1,3 +1,1 @@
-declare module "element-ui/lib/*" {
-    export { default } from "vue";
-}
+export { Button, ButtonGroup, Col, Row } from "element-ui";
