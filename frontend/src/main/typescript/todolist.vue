@@ -56,7 +56,7 @@ export { default } from "./todolist";
 </script>
 
 <style lang="scss" module>
-@import "~element-ui/packages/theme-chalk/src/common/var";
+@import "../css/vars";
 
 .todolist {
   padding: 20px 20px 10px 20px;

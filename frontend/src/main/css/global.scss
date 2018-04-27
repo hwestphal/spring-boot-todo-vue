@@ -1,7 +1,14 @@
-$--font-path: "~element-ui/lib/theme-chalk/fonts";
-@import "~element-ui/packages/theme-chalk/src/reset";
+@import "./vars";
 
+@import "~element-ui/packages/theme-chalk/src/reset";
 @import "~element-ui/packages/theme-chalk/src/icon";
+
+// import only used styles to reduce code size
+@import "~element-ui/packages/theme-chalk/src/button";
+@import "~element-ui/packages/theme-chalk/src/button-group";
+@import "~element-ui/packages/theme-chalk/src/col";
+@import "~element-ui/packages/theme-chalk/src/input";
+@import "~element-ui/packages/theme-chalk/src/row";
 
 div.awesomplete {
     display: block;
