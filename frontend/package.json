@@ -3,6 +3,7 @@
     "scripts": {
         "build": "tsc --noEmit && tslint --project . && webpack",
         "build:watch": "webpack --watch",
+        "start": "webpack-dev-server --hot",
         "test": "jest",
         "test:watch": "jest --watchAll",
         "test:integration": "jest --config=jest-integration-config.json"
@@ -39,7 +40,8 @@
         "vue-property-decorator": "^6.0.0",
         "vue-template-compiler": "^2.5.13",
         "webpack": "^3.11.0",
-        "webpack-common-shake": "^1.5.3"
+        "webpack-common-shake": "^1.5.3",
+        "webpack-dev-server": "^2.11.2"
     },
     "jest": {
         "moduleFileExtensions": [

@@ -9,7 +9,7 @@ let errors: ConsoleMessage[];
 let warnings: ConsoleMessage[];
 
 beforeAll(async () => {
-    server = await serve(p("src", "test", "resources"), p("target", "classes", "static"));
+    server = await serve(p("."), p("target", "classes", "static"));
     browser = await puppeteer.launch(puppeteerOptions());
 });
 
