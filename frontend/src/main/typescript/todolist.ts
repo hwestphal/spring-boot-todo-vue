@@ -1,6 +1,6 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
-import Autocomplete from "./autocomplete.vue";
+import AutoComplete from "./autocomplete.vue";
 import { Button, ButtonGroup, Col, Row } from "./elements";
 
 export interface ITodo {
@@ -18,7 +18,7 @@ function normalize(s: string) {
 
 @Component({
     components: {
-        "auto-complete": Autocomplete,
+        AutoComplete,
         [Button.name]: Button,
         [ButtonGroup.name]: ButtonGroup,
         [Col.name]: Col,

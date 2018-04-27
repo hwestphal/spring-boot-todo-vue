@@ -1,9 +1,9 @@
 import { mount } from "@vue/test-utils";
 import Awesomplete = require("awesomplete");
-import Autocomplete from "./autocomplete.vue";
+import AutoComplete from "./autocomplete.vue";
 
 function autocomplete(value?: string) {
-    return mount(Autocomplete, {
+    return mount(AutoComplete, {
         attachToDocument: true,
         propsData: {
             value,
