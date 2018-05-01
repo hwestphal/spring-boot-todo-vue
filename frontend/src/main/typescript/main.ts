@@ -7,15 +7,13 @@ import Todolist from "./todolist.vue";
 
 Vue.use(VueI18n);
 
-export default function(
+export = (
     todoList: ITodo[],
     suggestions: string[],
     action: string,
     el: string,
     locale: string,
-    messages: VueI18n.LocaleMessageObject) {
-
-    return new Vue({
+    messages: VueI18n.LocaleMessageObject) => new Vue({
         el,
         i18n: new VueI18n({ locale, messages: { [locale]: messages } }),
 
@@ -29,4 +27,3 @@ export default function(
             });
         },
     });
-}

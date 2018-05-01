@@ -13,7 +13,7 @@
     <div id="todolist"></div>
     <script th:src="@{/js/main.js}"></script>
     <script th:inline="javascript">
-        __main.default(/*[[${todos}]]*/[],
+        __main(/*[[${todos}]]*/[],
             [ /*[[#{washTheCar}]]*/'', /*[[#{learnTypescript}]]*/'', /*[[#{getALife}]]*/'', /*[[#{feedTheDog}]]*/'', /*[[#{feedTheCat}]]*/''],
             /*[[@{/}]]*/'/',
             '#todolist',

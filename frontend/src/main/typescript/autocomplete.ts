@@ -1,4 +1,4 @@
-import Awesomplete = require("awesomplete");
+import Awesomplete from "awesomplete";
 import Vue from "vue";
 import { Component, Emit, Prop, Watch } from "vue-property-decorator";
 
