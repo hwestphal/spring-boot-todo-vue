@@ -1,7 +1,8 @@
 package io.github.hwestphal.i18n;
 
-import java.nio.charset.Charset;
+import java.time.Duration;
 
+import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
@@ -11,48 +12,32 @@ import org.springframework.util.StringUtils;
 
 @Configuration
 @EnableConfigurationProperties
-@ConfigurationProperties(prefix = "spring.messages")
 public class MessageSourceConfiguration {
 
-    private String basename = "messages";
-    private Charset encoding = Charset.forName("UTF-8");
-    private int cacheSeconds = -1;
-    private boolean fallbackToSystemLocale = true;
-    private boolean alwaysUseMessageFormat = false;
-
-    public void setBasename(String basename) {
-        this.basename = basename;
-    }
-
-    public void setEncoding(Charset encoding) {
-        this.encoding = encoding;
-    }
-
-    public void setCacheSeconds(int cacheSeconds) {
-        this.cacheSeconds = cacheSeconds;
-    }
-
-    public void setFallbackToSystemLocale(boolean fallbackToSystemLocale) {
-        this.fallbackToSystemLocale = fallbackToSystemLocale;
-    }
-
-    public void setAlwaysUseMessageFormat(boolean alwaysUseMessageFormat) {
-        this.alwaysUseMessageFormat = alwaysUseMessageFormat;
+    @Bean
+    @ConfigurationProperties(prefix = "spring.messages")
+    MessageSourceProperties messageSourceProperties() {
+        return new MessageSourceProperties();
     }
 
     @Bean
     MessageSource messageSource() {
         FrontendMessageSource messageSource = new FrontendMessageSource();
-        if (StringUtils.hasText(this.basename)) {
-            messageSource
-                    .setBasenames(StringUtils.commaDelimitedListToStringArray(StringUtils.trimAllWhitespace(this.basename)));
+        MessageSourceProperties properties = messageSourceProperties();
+        if (StringUtils.hasText(properties.getBasename())) {
+            messageSource.setBasenames(
+                    StringUtils.commaDelimitedListToStringArray(StringUtils.trimAllWhitespace(properties.getBasename())));
         }
-        if (this.encoding != null) {
-            messageSource.setDefaultEncoding(this.encoding.name());
+        if (properties.getEncoding() != null) {
+            messageSource.setDefaultEncoding(properties.getEncoding().name());
         }
-        messageSource.setFallbackToSystemLocale(this.fallbackToSystemLocale);
-        messageSource.setCacheSeconds(this.cacheSeconds);
-        messageSource.setAlwaysUseMessageFormat(this.alwaysUseMessageFormat);
+        messageSource.setFallbackToSystemLocale(properties.isFallbackToSystemLocale());
+        Duration cacheDuration = properties.getCacheDuration();
+        if (cacheDuration != null) {
+            messageSource.setCacheMillis(cacheDuration.toMillis());
+        }
+        messageSource.setAlwaysUseMessageFormat(properties.isAlwaysUseMessageFormat());
+        messageSource.setUseCodeAsDefaultMessage(properties.isUseCodeAsDefaultMessage());
         return messageSource;
     }
 

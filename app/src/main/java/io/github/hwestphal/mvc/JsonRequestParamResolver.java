@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -28,6 +29,9 @@ public class JsonRequestParamResolver implements HandlerMethodArgumentResolver {
             WebDataBinderFactory binderFactory) throws Exception {
         JavaType type = objectMapper.getTypeFactory().constructType(parameter.getGenericParameterType());
         ObjectReader reader = objectMapper.readerFor(type);
+        @SuppressFBWarnings(
+                value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE",
+                justification = "is guaranteed to be non-null due to check in \"supportsParameter\" method")
         JsonRequestParam annotation = parameter.getParameterAnnotation(JsonRequestParam.class);
         String name = annotation.name();
         String value = webRequest.getParameter(name);

@@ -1,6 +1,6 @@
 # Todo List Sample Application #
 
-The purpose of the application is to demonstrate the usage of *Vue.js*, *Typescript* and *Webpack* inside a Spring Boot 1.5 application.
+The purpose of the application is to demonstrate the usage of *Vue.js*, *Typescript* and *Webpack* inside a Spring Boot 2 application.
 
 Furthermore, the following is used:
 - *Querydsl* for SQL mapping

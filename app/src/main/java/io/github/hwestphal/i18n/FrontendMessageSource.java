@@ -11,14 +11,6 @@ import org.springframework.core.io.ResourceLoader;
  */
 class FrontendMessageSource extends ReloadableResourceBundleMessageSource {
 
-    private int cacheSeconds;
-
-    @Override
-    public void setCacheSeconds(int cacheSeconds) {
-        super.setCacheSeconds(cacheSeconds);
-        this.cacheSeconds = cacheSeconds;
-    }
-
     @Override
     public void setResourceLoader(ResourceLoader resourceLoader) {
         // ignore setting of application context specific resource loader to retain compatibility with
@@ -33,7 +25,7 @@ class FrontendMessageSource extends ReloadableResourceBundleMessageSource {
     }
 
     public Properties getMessages() {
-        if (cacheSeconds >= 0) {
+        if (getCacheMillis() >= 0) {
             clearCacheIncludingAncestors();
         }
         return getMergedProperties(LocaleContextHolder.getLocale()).getProperties();
