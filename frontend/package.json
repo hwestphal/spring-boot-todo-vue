@@ -51,7 +51,7 @@
             "\\.(css|scss)$": "empty-module"
         },
         "transform": {
-            "^.+\\.ts$": "ts-jest",
+            "^.+\\.(j|t)s$": "ts-jest",
             "^.+\\.vue$": "vue-jest"
         },
         "testMatch": [

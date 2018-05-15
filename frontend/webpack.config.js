@@ -12,11 +12,13 @@ module.exports = function (env, args = {}) {
         },
         module: {
             rules: [{
-                test: /\.ts$/,
+                test: /\.(j|t)s$/,
+                exclude: /node_modules/,
                 use: {
                     loader: 'ts-loader',
                     options: {
-                        appendTsSuffixTo: [/\.vue$/]
+                        appendTsSuffixTo: [/\.vue$/],
+                        transpileOnly: true
                     }
                 }
             }, {
