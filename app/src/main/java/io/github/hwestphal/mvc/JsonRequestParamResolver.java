@@ -29,10 +29,11 @@ public class JsonRequestParamResolver implements HandlerMethodArgumentResolver {
             WebDataBinderFactory binderFactory) throws Exception {
         JavaType type = objectMapper.getTypeFactory().constructType(parameter.getGenericParameterType());
         ObjectReader reader = objectMapper.readerFor(type);
-        @SuppressFBWarnings(
-                value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE",
-                justification = "is guaranteed to be non-null due to check in \"supportsParameter\" method")
         JsonRequestParam annotation = parameter.getParameterAnnotation(JsonRequestParam.class);
+        if (annotation == null) {
+            // won't happen due to check in "supportsParameter" method, but needed for SpotBugs
+            return new Error();
+        }
         String name = annotation.name();
         String value = webRequest.getParameter(name);
         if (value == null || value.isEmpty()) {
