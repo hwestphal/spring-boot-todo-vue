@@ -1,9 +1,10 @@
-import { shallowMount, VueClass } from "@vue/test-utils";
+import { mount, VueClass } from "@vue/test-utils";
+import AutoComplete from "./autocomplete.vue";
 import TodolistClass, { ITodo } from "./todolist";
 import Todolist from "./todolist.vue";
 
 function todolist(todoList: ITodo[] = [], suggestions: string[] = []) {
-    return shallowMount(Todolist as VueClass<TodolistClass>, {
+    return mount(Todolist as VueClass<TodolistClass>, {
         mocks: {
             $t: jest.fn(),
             $tc: jest.fn(),
@@ -124,5 +125,15 @@ describe("todolist", () => {
         const submit = (wrapper.find({ ref: "form" }).element as HTMLFormElement).submit = jest.fn();
         wrapper.vm.save();
         expect(submit).toHaveBeenCalled();
+    });
+
+    it("removes error class on valid input", () => {
+        const wrapper = todolist();
+        const vm = wrapper.vm;
+        const errorClass = (vm as any).$style.error;
+        const autocomplete = wrapper.find(AutoComplete);
+        expect(autocomplete.classes()).toContain(errorClass);
+        vm.newTodo = "1234";
+        expect(autocomplete.classes()).not.toContain(errorClass);
     });
 });
