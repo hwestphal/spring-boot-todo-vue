@@ -48,7 +48,8 @@
             "vue"
         ],
         "moduleNameMapper": {
-            "\\.(css|scss)$": "empty-module"
+            "\\.(css|scss)$": "empty-module",
+            "^~(.+)$": "../../../node_modules/$1"
         },
         "transform": {
             "^.+\\.(j|t)s$": "ts-jest",

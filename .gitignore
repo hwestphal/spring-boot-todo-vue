@@ -7,4 +7,4 @@ target/
 node_modules/
 rebel.xml
 .checkstyle
-yarn-error.log
+*.log

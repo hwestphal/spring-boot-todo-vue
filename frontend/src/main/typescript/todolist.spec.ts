@@ -1,11 +1,10 @@
-import { shallow, VueClass } from "@vue/test-utils";
+import { shallowMount, VueClass } from "@vue/test-utils";
 import TodolistClass, { ITodo } from "./todolist";
 import Todolist from "./todolist.vue";
 
 function todolist(todoList: ITodo[] = [], suggestions: string[] = []) {
-    return shallow(Todolist as VueClass<TodolistClass>, {
+    return shallowMount(Todolist as VueClass<TodolistClass>, {
         mocks: {
-            $style: jest.fn(),
             $t: jest.fn(),
             $tc: jest.fn(),
         },
