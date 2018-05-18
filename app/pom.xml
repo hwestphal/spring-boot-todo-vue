@@ -73,6 +73,11 @@
             <artifactId>cdp4j</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jvnet.winp</groupId>
+            <artifactId>winp</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
