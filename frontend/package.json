@@ -1,7 +1,7 @@
 {
     "private": true,
     "scripts": {
-        "build": "tsc --noEmit && tslint --project . && webpack",
+        "build": "tsc --noEmit && tslint -p . && tslint 'src/**/*.d.ts' && webpack",
         "build:watch": "webpack --watch",
         "start": "webpack-serve",
         "test": "jest",

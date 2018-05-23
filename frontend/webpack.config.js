@@ -1,95 +1,95 @@
-const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { VueLoaderPlugin } = require('vue-loader');
+const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { VueLoaderPlugin } = require("vue-loader");
 
-module.exports = function (env, args = {}) {
-    const prod = args.mode === 'production';
+module.exports = function(env, args = {}) {
+    const prod = args.mode === "production";
     return {
-        mode: 'development',
-        devtool: prod ? 'source-map' : 'eval-source-map',
+        devtool: prod ? "source-map" : "eval-source-map",
         entry: {
-            main: './src/main/typescript/main.ts'
+            main: "./src/main/typescript/main.ts",
         },
+        mode: "development",
         module: {
             rules: [{
-                test: /\.(j|t)s$/,
                 exclude: /node_modules/,
+                test: /\.(j|t)s$/,
                 use: {
-                    loader: 'ts-loader',
+                    loader: "ts-loader",
                     options: {
                         appendTsSuffixTo: [/\.vue$/],
-                        transpileOnly: true
-                    }
-                }
+                        transpileOnly: true,
+                    },
+                },
             }, {
                 test: /\.vue$/,
-                use: 'vue-loader'
+                use: "vue-loader",
             }, {
-                test: /\.s?css$/,
                 oneOf: [
                     {
                         resourceQuery: /module/,
                         use: [
-                            prod ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+                            prod ? MiniCssExtractPlugin.loader : "vue-style-loader",
                             {
-                                loader: 'css-loader',
+                                loader: "css-loader",
                                 options: {
+                                    localIdentName: "[local]_[hash:base64:8]",
                                     modules: true,
-                                    localIdentName: '[local]_[hash:base64:8]',
-                                    sourceMap: true
-                                }
+                                    sourceMap: true,
+                                },
                             },
                             {
-                                loader: 'sass-loader',
+                                loader: "sass-loader",
                                 options: {
-                                    sourceMap: true
-                                }
-                            }
-                        ]
+                                    sourceMap: true,
+                                },
+                            },
+                        ],
                     },
                     {
                         use: [
-                            prod ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+                            prod ? MiniCssExtractPlugin.loader : "vue-style-loader",
                             {
-                                loader: 'css-loader',
+                                loader: "css-loader",
                                 options: {
-                                    sourceMap: true
-                                }
+                                    sourceMap: true,
+                                },
                             },
                             {
-                                loader: 'sass-loader',
+                                loader: "sass-loader",
                                 options: {
-                                    sourceMap: true
-                                }
-                            }
-                        ]
-                    }
-                ]
+                                    sourceMap: true,
+                                },
+                            },
+                        ],
+                    },
+                ],
+                test: /\.s?css$/,
             }, {
                 test: /\.(woff|woff2|eot|ttf)$/,
                 use: {
-                    loader: 'file-loader',
+                    loader: "file-loader",
                     options: {
-                        outputPath: 'fonts/',
-                        name: '[name].[ext]',
-                        publicPath: '../fonts'
-                    }
-                }
-            }]
+                        name: "[name].[ext]",
+                        outputPath: "fonts/",
+                        publicPath: "../fonts",
+                    },
+                },
+            }],
+        },
+        output: {
+            filename: "js/[name].js",
+            library: "__[name]",
+            path: path.resolve(__dirname, "target/classes/static"),
         },
         plugins: [
             new VueLoaderPlugin(),
             new MiniCssExtractPlugin({
-                filename: 'css/[name].css'
-            })
+                filename: "css/[name].css",
+            }),
         ],
         resolve: {
-            extensions: ['.js', '.ts'],
+            extensions: [".js", ".ts"],
         },
-        output: {
-            filename: 'js/[name].js',
-            path: path.resolve(__dirname, 'target/classes/static'),
-            library: '__[name]'
-        }
     };
-}
+};
