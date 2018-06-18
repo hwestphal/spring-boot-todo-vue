@@ -16,14 +16,11 @@ export = (
     messages: VueI18n.LocaleMessageObject) => new Vue({
         el,
         i18n: new VueI18n({ locale, messages: { [locale]: messages } }),
-
-        render(createElement) {
-            return createElement(Todolist, {
-                props: {
-                    action,
-                    suggestions,
-                    todoList,
-                },
-            });
-        },
+        render: (h) => h(Todolist, {
+            props: {
+                action,
+                suggestions,
+                todoList,
+            },
+        }),
     });
