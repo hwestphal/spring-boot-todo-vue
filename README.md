@@ -11,6 +11,7 @@ Furthermore, the following is used:
 - *TSLint* for static Typescript code checks
 - *Puppeteer* and *cdp4j* for end-to-end integration tests using a — typically headless — Chrome browser
 - *Sass* and *CSS Modules* for styling
+- *openapi-generator* for creating client and server stubs from OpenAPI specifications
 
 Additionally, it shows how to wrap 3rd party widgets as Vue components, in this case *Awesomplete*, and use it in combination with the *Element* widget library.
 

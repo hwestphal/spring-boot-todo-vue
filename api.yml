@@ -1,0 +1,154 @@
+openapi: 3.0.0
+info:
+  title: Todo List API
+  version: v1
+tags:
+  - name: todoList
+    description: Manage the todo list
+servers:
+- url: http://localhost:8080
+paths:
+  /:
+    get:
+      summary: List all todos
+      operationId: todos
+      tags:
+        - todoList
+      responses:
+        '200':
+          description: An array of todos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todos'
+    post:
+      summary: Add a new todo
+      operationId: addTodo
+      tags:
+        - todoList
+      requestBody:
+        description: Todo to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Todo'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: URL of created todo
+    put:
+      summary: Overwrite all todos
+      operationId: overwriteTodos
+      tags:
+        - todoList
+      requestBody:
+        description: Todos to overwrite existing ones
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Todos'
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: Delete all todos
+      operationId: deleteTodos
+      tags:
+        - todoList
+      responses:
+        '200':
+          description: OK
+  /{id}:
+    get:
+      summary: Get a todo
+      operationId: todo
+      tags:
+        - todoList
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The id of the todo to retrieve
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: A todo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        '404':
+          description: Not found
+    put:
+      summary: Update a todo
+      operationId: updateTodo
+      tags:
+        - todoList
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The id of the todo to update
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Todo to overwrite the existing one
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Todo'
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found
+    delete:
+      summary: Delete a todo
+      operationId: deleteTodo
+      tags:
+        - todoList
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The id of the todo to delete
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found
+components:
+  schemas:
+    Todo:
+      required:
+      - title
+      - completed
+      properties:
+        id:
+          type: integer
+          format: int64
+        version:
+          type: integer
+          format: int64
+        title:
+          type: string
+        completed:
+          type: boolean
+    Todos:
+      type: array
+      items:
+        $ref: '#/components/schemas/Todo'

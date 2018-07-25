@@ -89,6 +89,9 @@ module.exports = function(env, args = {}) {
             }),
         ],
         resolve: {
+            "alias": {
+                "client": path.resolve(__dirname, "target/generated-sources/openapi"),
+            },
             extensions: [".js", ".ts"],
         },
     };

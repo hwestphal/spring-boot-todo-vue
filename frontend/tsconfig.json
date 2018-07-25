@@ -2,6 +2,7 @@
     "compilerOptions": {
         "esModuleInterop": true,
         "strict": true,
+        "strictPropertyInitialization": false,
         "target": "es5",
         "lib": [
             "dom",
@@ -10,9 +11,16 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "allowJs": true,
-        "sourceMap": true
+        "sourceMap": true,
+        "baseUrl": ".",
+        "paths": {
+            "client": [
+                "target/generated-sources/openapi"
+            ]
+        }
     },
     "include": [
-        "src/**/*"
+        "src/**/*",
+        "target/generated-sources/**/*"
     ]
 }

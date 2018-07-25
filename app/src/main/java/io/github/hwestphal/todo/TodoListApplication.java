@@ -11,9 +11,12 @@ import java.util.stream.Collectors;
 import io.github.hwestphal.auditing.EnableAuditing;
 import io.github.hwestphal.i18n.MessageSourceConfiguration;
 import io.github.hwestphal.mvc.JsonRequestParam;
+import io.github.hwestphal.todo.api.generated.TodoListApi;
+import io.github.hwestphal.todo.api.generated.Todos;
 import io.github.hwestphal.todo.generated.QTodo;
 
 import com.querydsl.core.types.dsl.Expressions;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
@@ -21,12 +24,10 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -34,94 +35,121 @@ import org.springframework.web.servlet.ModelAndView;
 @SpringBootApplication
 @EnableAuditing
 @Import(MessageSourceConfiguration.class)
-@Transactional
-public class TodoListApplication {
+public class TodoListApplication implements TodoListApi {
 
     private final TodoRepository todoRepository;
+    private final TransactionTemplate txTemplate;
 
-    public TodoListApplication(TodoRepository todoRepository) {
+    public TodoListApplication(TodoRepository todoRepository, TransactionTemplate txTemplate) {
         this.todoRepository = todoRepository;
+        this.txTemplate = txTemplate;
     }
 
-    @RequestMapping(produces = MediaType.TEXT_HTML_VALUE, method = { RequestMethod.GET, RequestMethod.HEAD })
+    @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
+    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
     public ModelAndView todosAsHtml() {
-        return new ModelAndView("index", "todos", todos());
+        return new ModelAndView("index", "todos", todos().getBody());
     }
 
-    @RequestMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, method = RequestMethod.POST)
-    public String saveTodos(@JsonRequestParam(name = "todos") List<Todo> todos) {
-        putTodos(todos);
+    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String saveTodos(@JsonRequestParam(name = "todos") List<io.github.hwestphal.todo.api.generated.Todo> todos) {
+        overwriteTodos(todos);
         return "redirect:/";
     }
 
-    @RequestMapping(method = { RequestMethod.GET, RequestMethod.HEAD })
-    @ResponseBody
-    public List<Todo> todos() {
-        return todoRepository.findAll(Expressions.TRUE);
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> todos(@RequestBody Todo todo) {
-        long id = todoRepository.insert(todo);
-        return ResponseEntity.created(linkTo(methodOn(TodoListApplication.class).todo(id)).toUri()).build();
-    }
-
-    @RequestMapping(path = "{id}", method = { RequestMethod.GET, RequestMethod.HEAD })
-    public ResponseEntity<Todo> todo(@PathVariable("id") long id) {
-        Todo todo = todoRepository.findOne(QTodo.todo.id.eq(id));
-        if (todo == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(todo);
-    }
-
-    @RequestMapping(path = "{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> putTodo(@PathVariable("id") long id, @RequestBody Todo todo) {
-        QTodo q = QTodo.todo;
-        Todo foundTodo = todoRepository.findOneForUpdate(q.id.eq(id).and(q.version.eq(todo.getVersion())));
-        if (foundTodo == null) {
-            return ResponseEntity.notFound().build();
-        }
-        foundTodo.setTitle(todo.getTitle());
-        foundTodo.setCompleted(todo.isCompleted());
-        todoRepository.update(foundTodo);
-        return ResponseEntity.ok().build();
-    }
-
-    @RequestMapping(method = RequestMethod.PUT)
-    @ResponseBody
-    public void putTodos(@RequestBody List<Todo> todos) {
-        Map<Long, Todo> allTodos = todoRepository.findAllForUpdate(Expressions.TRUE).stream().collect(
-                Collectors.toMap(Todo::getId, Function.identity()));
-        for (Todo todo : todos) {
-            Todo updatedTodo = allTodos.remove(todo.getId());
-            if (updatedTodo != null) {
-                if (!updatedTodo.getVersion().equals(todo.getVersion())) {
-                    throw new OptimisticLockingFailureException(
-                            String.format("cannot update %s with stale data %s", updatedTodo, todo));
-                }
-                updatedTodo.setTitle(todo.getTitle());
-                updatedTodo.setCompleted(todo.isCompleted());
-                todoRepository.update(updatedTodo);
-            } else {
-                todoRepository.insert(todo);
+    @Override
+    public ResponseEntity<Todos> todos() {
+        return txTemplate.execute((tx) -> {
+            Todos todos = new Todos();
+            for (Todo todo : todoRepository.findAll(Expressions.TRUE)) {
+                todos.add(
+                        new io.github.hwestphal.todo.api.generated.Todo().id(todo.getId())
+                                .version(todo.getVersion())
+                                .title(todo.getTitle())
+                                .completed(todo.isCompleted()));
             }
-        }
-        todoRepository.deleteAll(QTodo.todo.id.in(allTodos.keySet()));
+            return ResponseEntity.ok(todos);
+        });
     }
 
-    @RequestMapping(path = "{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteTodo(@PathVariable("id") long id) {
-        if (todoRepository.deleteAll(QTodo.todo.id.eq(id)) > 0) {
+    @Override
+    public ResponseEntity<Void> addTodo(io.github.hwestphal.todo.api.generated.Todo todo) {
+        return txTemplate.execute((tx) -> {
+            long id = todoRepository.insert(Todo.builder().title(todo.getTitle()).completed(todo.getCompleted()).build());
+            return ResponseEntity.created(linkTo(methodOn(TodoListApplication.class)._todo(id)).toUri()).build();
+        });
+    }
+
+    @Override
+    public ResponseEntity<io.github.hwestphal.todo.api.generated.Todo> todo(Long id) {
+        return txTemplate.execute((tx) -> {
+            Todo todo = todoRepository.findOne(QTodo.todo.id.eq(id));
+            if (todo == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(
+                    new io.github.hwestphal.todo.api.generated.Todo().id(todo.getId())
+                            .version(todo.getVersion())
+                            .title(todo.getTitle())
+                            .completed(todo.isCompleted()));
+        });
+    }
+
+    @Override
+    public ResponseEntity<Void> updateTodo(Long id, io.github.hwestphal.todo.api.generated.Todo todo) {
+        return txTemplate.execute((tx) -> {
+            QTodo q = QTodo.todo;
+            Todo foundTodo = todoRepository.findOneForUpdate(q.id.eq(id).and(q.version.eq(todo.getVersion())));
+            if (foundTodo == null) {
+                return ResponseEntity.notFound().build();
+            }
+            foundTodo.setTitle(todo.getTitle());
+            foundTodo.setCompleted(todo.getCompleted());
+            todoRepository.update(foundTodo);
             return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.notFound().build();
+        });
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
-    @ResponseBody
-    public void deleteTodos() {
-        todoRepository.deleteAll(Expressions.TRUE);
+    @Override
+    public ResponseEntity<Void> overwriteTodos(List<io.github.hwestphal.todo.api.generated.Todo> todos) {
+        return txTemplate.execute((tx) -> {
+            Map<Long, Todo> allTodos = todoRepository.findAllForUpdate(Expressions.TRUE).stream().collect(
+                    Collectors.toMap(Todo::getId, Function.identity()));
+            for (io.github.hwestphal.todo.api.generated.Todo todo : todos) {
+                Todo updatedTodo = allTodos.remove(todo.getId());
+                if (updatedTodo != null) {
+                    if (!updatedTodo.getVersion().equals(todo.getVersion())) {
+                        throw new OptimisticLockingFailureException(
+                                String.format("cannot update %s with stale data %s", updatedTodo, todo));
+                    }
+                    updatedTodo.setTitle(todo.getTitle());
+                    updatedTodo.setCompleted(todo.getCompleted());
+                    todoRepository.update(updatedTodo);
+                } else {
+                    todoRepository.insert(Todo.builder().title(todo.getTitle()).completed(todo.getCompleted()).build());
+                }
+            }
+            todoRepository.deleteAll(QTodo.todo.id.in(allTodos.keySet()));
+            return ResponseEntity.ok().build();
+        });
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteTodo(Long id) {
+        return txTemplate.execute((tx) -> {
+            if (todoRepository.deleteAll(QTodo.todo.id.eq(id)) > 0) {
+                return ResponseEntity.ok().build();
+            }
+            return ResponseEntity.notFound().build();
+        });
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteTodos() {
+        return txTemplate.execute((tx) -> {
+            todoRepository.deleteAll(Expressions.TRUE);
+            return ResponseEntity.ok().build();
+        });
     }
 
     public static void main(String[] args) {

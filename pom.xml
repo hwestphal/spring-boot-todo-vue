@@ -1,6 +1,4 @@
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="http://maven.apache.org/POM/4.0.0"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.hwestphal</groupId>
@@ -24,6 +22,7 @@
         <cdp4j.version>3.0.0</cdp4j.version>
         <winp.version>1.26</winp.version>
         <spotbugs.version>3.1.3</spotbugs.version>
+        <swagger.version>1.5.20</swagger.version>
     </properties>
 
     <modules>
@@ -58,6 +57,11 @@
                 <artifactId>spotbugs-annotations</artifactId>
                 <version>${spotbugs.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -67,14 +71,38 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <compilerArgs>
-                            <arg>-Werror</arg>
-                            <arg>-Xlint:all</arg>
-                            <arg>-Xlint:-processing</arg>
-                        </compilerArgs>
-                        <showWarnings>true</showWarnings>
-                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>default-compile</id>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>compile</goal>
+                            </goals>
+                            <configuration>
+                                <includes>
+                                    <include>**/generated/**/*.java</include>
+                                </includes>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>compile-main</id>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>compile</goal>
+                            </goals>
+                            <configuration>
+                                <excludes>
+                                    <exclude>**/generated/**/*.java</exclude>
+                                </excludes>
+                                <compilerArgs>
+                                    <arg>-Werror</arg>
+                                    <arg>-Xlint:all</arg>
+                                    <arg>-Xlint:-processing</arg>
+                                </compilerArgs>
+                                <showWarnings>true</showWarnings>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
 
                 <plugin>
@@ -194,6 +222,22 @@
                                 <version>7.4.0.sb</version>
                             </plugin>
                         </plugins>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.openapitools</groupId>
+                    <artifactId>openapi-generator-maven-plugin</artifactId>
+                    <version>3.1.1</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <inputSpec>${project.basedir}/../api.yml</inputSpec>
                     </configuration>
                 </plugin>
             </plugins>
