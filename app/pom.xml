@@ -64,6 +64,16 @@
             <artifactId>spring-boot-todo-vue-frontend</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>swagger-ui</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator-core</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -151,6 +161,7 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <configuration>
+                    <inputSpec>${project.basedir}/src/main/resources/static/openapi/spec.yml</inputSpec>
                     <generatorName>spring</generatorName>
                     <apiPackage>io.github.hwestphal.todo.api.generated</apiPackage>
                     <modelPackage>io.github.hwestphal.todo.api.generated</modelPackage>

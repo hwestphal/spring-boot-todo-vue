@@ -45,6 +45,11 @@ public class TodoListApplication implements TodoListApi {
         this.txTemplate = txTemplate;
     }
 
+    @GetMapping("/openapi")
+    public String swaggerUi() {
+        return "swagger-ui";
+    }
+
     @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
     @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
     public ModelAndView todosAsHtml() {

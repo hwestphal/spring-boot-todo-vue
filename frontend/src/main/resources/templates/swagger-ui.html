@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>API Documentation</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/swagger-ui/swagger-ui.css}">
+</head>
+
+<body>
+    <div id="swagger-ui"></div>
+    <script th:src="@{/webjars/swagger-ui/swagger-ui-bundle.js}"></script>
+    <script th:inline="javascript">
+        window.onload = function() {
+            window.ui = SwaggerUIBundle({
+                url: /*[[@{/openapi/spec.yml}]]*/'',
+                dom_id: '#swagger-ui',
+                deepLinking: true,
+                presets: [
+                    SwaggerUIBundle.presets.apis
+                ],
+                plugins: [
+                    SwaggerUIBundle.plugins.DownloadUrl
+                ]
+            });
+        }
+    </script>
+</body>
+
+</html>
