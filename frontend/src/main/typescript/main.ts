@@ -2,15 +2,13 @@ import "../css/global.scss";
 
 import Vue from "vue";
 import VueI18n from "vue-i18n";
-import { ITodo } from "./todolist";
 import Todolist from "./todolist.vue";
 
 Vue.use(VueI18n);
 
 export = (
-    todoList: ITodo[],
     suggestions: string[],
-    action: string,
+    basePath: string,
     el: string,
     locale: string,
     messages: VueI18n.LocaleMessageObject) => new Vue({
@@ -18,9 +16,8 @@ export = (
         i18n: new VueI18n({ locale, messages: { [locale]: messages } }),
         render: (h) => h(Todolist, {
             props: {
-                action,
+                basePath,
                 suggestions,
-                todoList,
             },
         }),
     });

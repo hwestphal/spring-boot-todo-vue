@@ -1,12 +1,8 @@
+import { Todo, TodoListApi, Todos } from "client";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import AutoComplete from "./autocomplete.vue";
 import { Button, ButtonGroup, Col, Row } from "./elements";
-
-export interface ITodo {
-    title: string;
-    completed: boolean;
-}
 
 function clone<T>(obj: T): T {
     return JSON.parse(JSON.stringify(obj));
@@ -24,21 +20,24 @@ function normalize(s: string) {
         [Col.name]: Col,
         [Row.name]: Row,
     },
-    filters: {
-        json: JSON.stringify,
-    },
 })
 export default class Todolist extends Vue {
     @Prop()
-    readonly action!: string;
+    readonly basePath!: string;
     @Prop()
     readonly suggestions!: string[];
-    @Prop()
-    readonly todoList!: ITodo[];
 
     changed = false;
     newTodo = "";
-    todos = clone(this.todoList);
+    todos: Todos = [];
+
+    private todoList: Todos = [];
+    private todoListApi = new TodoListApi(undefined, this.basePath, fetch);
+
+    async mounted() {
+        this.todoList = await this.todoListApi.todos();
+        this.todos = clone(this.todoList);
+    }
 
     get openTodos() {
         return this.todos.filter((t) => !t.completed);
@@ -56,17 +55,17 @@ export default class Todolist extends Vue {
         return this.suggestions.filter((s) => !this.todos.some((t) => normalize(t.title) === normalize(s)));
     }
 
-    close(todo: ITodo) {
+    close(todo: Todo) {
         todo.completed = true;
         this.changed = true;
     }
 
-    open(todo: ITodo) {
+    open(todo: Todo) {
         todo.completed = false;
         this.changed = true;
     }
 
-    remove(todo: ITodo) {
+    remove(todo: Todo) {
         this.todos.splice(this.todos.indexOf(todo), 1);
         this.changed = true;
     }
@@ -94,7 +93,10 @@ export default class Todolist extends Vue {
         this.changed = false;
     }
 
-    save() {
-        (this.$refs.form as HTMLFormElement).submit();
+    async save() {
+        await this.todoListApi.overwriteTodos(this.todos);
+        this.todoList = await this.todoListApi.todos();
+        this.todos = clone(this.todoList);
+        this.changed = false;
     }
 }

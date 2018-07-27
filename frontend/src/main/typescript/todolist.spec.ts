@@ -1,34 +1,46 @@
 import { mount, VueClass } from "@vue/test-utils";
+import { TodoListApi, Todos } from "client";
 import AutoComplete from "./autocomplete.vue";
-import TodolistClass, { ITodo } from "./todolist";
+import TodolistClass from "./todolist";
 import Todolist from "./todolist.vue";
 
-function todolist(todoList: ITodo[] = [], suggestions: string[] = []) {
-    return mount(Todolist as VueClass<TodolistClass>, {
+const mockGetTodos = TodoListApi.prototype.todos = jest.fn();
+const mockOverwriteTodos = TodoListApi.prototype.overwriteTodos = jest.fn();
+
+afterEach(() => {
+    mockGetTodos.mockReset();
+    mockOverwriteTodos.mockReset();
+});
+
+async function todolist(todoList: Todos = [], suggestions: string[] = []) {
+    mockGetTodos.mockResolvedValue(todoList);
+    const c = mount(Todolist as VueClass<TodolistClass>, {
         mocks: {
             $t: jest.fn(),
             $tc: jest.fn(),
         },
         propsData: {
             suggestions,
-            todoList,
         },
     });
+    // flush pending promises
+    await new Promise((resolve) => setTimeout(resolve));
+    return c;
 }
 
 describe("todolist", () => {
-    it("is initially invalid", () => {
-        expect(todolist().vm.valid).toBe(false);
+    it("is initially invalid", async () => {
+        expect((await todolist()).vm.valid).toBe(false);
     });
 
-    it("becomes valid for sufficient long todo name", () => {
-        const vm = todolist().vm;
+    it("becomes valid for sufficient long todo name", async () => {
+        const vm = (await todolist()).vm;
         vm.newTodo = "1234";
         expect(vm.valid).toBe(true);
     });
 
-    it("adds valid new todo", () => {
-        const vm = todolist().vm;
+    it("adds valid new todo", async () => {
+        const vm = (await todolist()).vm;
         vm.newTodo = "1234";
         vm.addNewTodo();
         expect(vm.todos).toHaveLength(1);
@@ -37,27 +49,27 @@ describe("todolist", () => {
         expect(todo.completed).toBe(false);
     });
 
-    it("ignores invalid new todo", () => {
-        const vm = todolist().vm;
+    it("ignores invalid new todo", async () => {
+        const vm = (await todolist()).vm;
         vm.newTodo = "123";
         vm.addNewTodo();
         expect(vm.todos).toHaveLength(0);
     });
 
-    it("filters out a suggestion", () => {
-        const vm = todolist([{
+    it("filters out a suggestion", async () => {
+        const vm = (await todolist([{
             completed: false,
             title: "  wash  the car ",
-        }], ["Feed the dog", " Wash the  car"]).vm;
+        }], ["Feed the dog", " Wash the  car"])).vm;
         expect(vm.openSuggestions).toHaveLength(1);
         expect(vm.openSuggestions[0]).toBe("Feed the dog");
     });
 
-    it("closes an open todo", () => {
-        const vm = todolist([{
+    it("closes an open todo", async () => {
+        const vm = (await todolist([{
             completed: false,
             title: "a todo",
-        }]).vm;
+        }])).vm;
         expect(vm.openTodos).toHaveLength(1);
         expect(vm.doneTodos).toHaveLength(0);
         vm.close(vm.openTodos[0]);
@@ -65,11 +77,11 @@ describe("todolist", () => {
         expect(vm.doneTodos).toHaveLength(1);
     });
 
-    it("opens a closed todo", () => {
-        const vm = todolist([{
+    it("opens a closed todo", async () => {
+        const vm = (await todolist([{
             completed: true,
             title: "a todo",
-        }]).vm;
+        }])).vm;
         expect(vm.openTodos).toHaveLength(0);
         expect(vm.doneTodos).toHaveLength(1);
         vm.open(vm.doneTodos[0]);
@@ -77,21 +89,21 @@ describe("todolist", () => {
         expect(vm.doneTodos).toHaveLength(0);
     });
 
-    it("closes all open todos", () => {
-        const vm = todolist([{
+    it("closes all open todos", async () => {
+        const vm = (await todolist([{
             completed: false,
             title: "a todo",
         }, {
             completed: false,
             title: "another todo",
-        }]).vm;
+        }])).vm;
         vm.closeAll();
         expect(vm.openTodos).toHaveLength(0);
         expect(vm.doneTodos).toHaveLength(2);
     });
 
-    it("removes a todo", () => {
-        const vm = todolist([{
+    it("removes a todo", async () => {
+        const vm = (await todolist([{
             completed: false,
             title: "a todo",
         }, {
@@ -100,7 +112,7 @@ describe("todolist", () => {
         }, {
             completed: false,
             title: "another todo",
-        }]).vm;
+        }])).vm;
         expect(vm.todos).toHaveLength(3);
         vm.remove(vm.todos[1]);
         expect(vm.todos).toHaveLength(2);
@@ -108,8 +120,8 @@ describe("todolist", () => {
         expect(vm.todos[1].title).toBe("another todo");
     });
 
-    it("resets to initial state", () => {
-        const vm = todolist().vm;
+    it("resets to initial state", async () => {
+        const vm = (await todolist()).vm;
         expect(vm.changed).toBe(false);
         vm.newTodo = "1234";
         vm.addNewTodo();
@@ -120,15 +132,18 @@ describe("todolist", () => {
         expect(vm.changed).toBe(false);
     });
 
-    it("submits a form on save", () => {
-        const wrapper = todolist();
-        const submit = (wrapper.find({ ref: "form" }).element as HTMLFormElement).submit = jest.fn();
-        wrapper.vm.save();
-        expect(submit).toHaveBeenCalled();
+    it("submits todos on save", async () => {
+        const vm = (await todolist()).vm;
+        vm.newTodo = "1234";
+        vm.addNewTodo();
+        await vm.save();
+        expect(mockOverwriteTodos).toBeCalledWith([{ title: "1234", completed: false }]);
+        expect(vm.todos).toHaveLength(0);
+        expect(vm.changed).toBe(false);
     });
 
-    it("removes error class on valid input", () => {
-        const wrapper = todolist();
+    it("removes error class on valid input", async () => {
+        const wrapper = await todolist();
         const vm = wrapper.vm;
         const errorClass = (vm as any).$style.error;
         const autocomplete = wrapper.find(AutoComplete);

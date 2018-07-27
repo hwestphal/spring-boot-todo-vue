@@ -7,9 +7,7 @@ export interface IServer {
 
 export default function(...paths: string[]) {
     const app = express();
-    paths.forEach((p) => {
-        app.use(express.static(p));
-    });
+    app.use(paths.map((p) => express.static(p)));
     return new Promise<IServer>((resolve) => {
         const server = app.listen(0, () => {
             resolve({

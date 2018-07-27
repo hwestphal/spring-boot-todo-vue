@@ -8,11 +8,9 @@ import java.util.stream.Collectors;
 
 import io.github.hwestphal.auditing.EnableAuditing;
 import io.github.hwestphal.i18n.MessageSourceConfiguration;
-import io.github.hwestphal.mvc.JsonRequestParam;
 import io.github.hwestphal.todo.api.generated.TodoListApi;
 import io.github.hwestphal.todo.api.generated.Todos;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
@@ -20,9 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/")
@@ -43,15 +39,8 @@ public class TodoListApplication implements TodoListApi {
     }
 
     @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
-    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
-    public ModelAndView todosAsHtml() {
-        return new ModelAndView("index", "todos", todos().getBody());
-    }
-
-    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String saveTodos(@JsonRequestParam(name = "todos") List<io.github.hwestphal.todo.api.generated.Todo> todos) {
-        overwriteTodos(todos);
-        return "redirect:/";
+    public String index() {
+        return "index";
     }
 
     @Override

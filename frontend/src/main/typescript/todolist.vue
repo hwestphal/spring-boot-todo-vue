@@ -45,9 +45,6 @@
                 </div>
             </el-col>
         </el-row>
-        <form ref="form" :action="action" method="post">
-            <input type="hidden" name="todos" :value="todos | json">
-        </form>
     </div>
 </template>
 
