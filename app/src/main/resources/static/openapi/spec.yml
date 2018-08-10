@@ -134,21 +134,29 @@ paths:
 components:
   schemas:
     Todo:
-      required:
-      - title
-      - completed
+      type: object
+      description: Todo item
       properties:
         id:
           type: integer
           format: int64
+          description: ID of a persisted todo item
         version:
           type: integer
           format: int64
+          description: Version of a persisted todo item
         title:
           type: string
+          description: Todo title or description
+          minLength: 4
         completed:
           type: boolean
+          description: Completed flag
+      required:
+      - title
+      - completed
     Todos:
       type: array
+      description: Array of todo items
       items:
         $ref: '#/components/schemas/Todo'
