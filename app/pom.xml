@@ -169,6 +169,7 @@
                         <interfaceOnly>true</interfaceOnly>
                         <delegatePattern>true</delegatePattern>
                         <useTags>true</useTags>
+                        <serializableModel>true</serializableModel>
                     </configOptions>
                 </configuration>
             </plugin>

@@ -77,38 +77,14 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>default-compile</id>
-                            <phase>compile</phase>
-                            <goals>
-                                <goal>compile</goal>
-                            </goals>
-                            <configuration>
-                                <includes>
-                                    <include>**/generated/**/*.java</include>
-                                </includes>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>compile-main</id>
-                            <phase>compile</phase>
-                            <goals>
-                                <goal>compile</goal>
-                            </goals>
-                            <configuration>
-                                <excludes>
-                                    <exclude>**/generated/**/*.java</exclude>
-                                </excludes>
-                                <compilerArgs>
-                                    <arg>-Werror</arg>
-                                    <arg>-Xlint:all</arg>
-                                    <arg>-Xlint:-processing</arg>
-                                </compilerArgs>
-                                <showWarnings>true</showWarnings>
-                            </configuration>
-                        </execution>
-                    </executions>
+                    <configuration>
+                        <compilerArgs>
+                            <arg>-Werror</arg>
+                            <arg>-Xlint:all</arg>
+                            <arg>-Xlint:-processing</arg>
+                        </compilerArgs>
+                        <showWarnings>true</showWarnings>
+                    </configuration>
                 </plugin>
 
                 <plugin>

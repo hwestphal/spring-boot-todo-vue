@@ -1,2 +1,5 @@
+# set default behaviour, in case users don't have core.autocrlf set
+text=auto
+
 /frontend/yarn eol=lf
 /frontend/.vscode/settings.json eol=lf
