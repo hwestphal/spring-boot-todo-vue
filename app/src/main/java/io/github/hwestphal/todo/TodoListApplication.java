@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import io.github.hwestphal.auditing.EnableAuditing;
+import io.github.hwestphal.error.CustomErrorMvcConfiguration;
 import io.github.hwestphal.i18n.MessageSourceConfiguration;
 import io.github.hwestphal.todo.api.generated.TodoListApi;
 import io.github.hwestphal.todo.api.generated.Todos;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 @SpringBootApplication
 @EnableAuditing
-@Import(MessageSourceConfiguration.class)
+@Import({ MessageSourceConfiguration.class, CustomErrorMvcConfiguration.class })
 public class TodoListApplication implements TodoListApi {
 
     private final TodoListService todoListService;

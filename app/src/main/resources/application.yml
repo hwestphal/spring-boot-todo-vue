@@ -18,4 +18,8 @@ spring:
     fallback-to-system-locale: false
     use-code-as-default-message: true
 
+  mvc.locale: en_US
+
   liquibase.change-log: classpath:/db/changelog/db.changelog-master.xml
+
+server.error.include-stacktrace: on-trace-param
