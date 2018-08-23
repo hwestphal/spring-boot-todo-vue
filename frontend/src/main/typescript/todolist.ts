@@ -1,4 +1,4 @@
-import { Todo, TodoListApi, Todos } from "client";
+import { Todo, TodoListApi } from "client";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import AutoComplete from "./autocomplete.vue";
@@ -29,9 +29,9 @@ export default class Todolist extends Vue {
 
     changed = false;
     newTodo = "";
-    todos: Todos = [];
+    todos: Todo[] = [];
 
-    private todoList: Todos = [];
+    private todoList: Todo[] = [];
     private todoListApi = new TodoListApi(undefined, this.basePath, fetch);
 
     async mounted() {

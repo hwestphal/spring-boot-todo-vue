@@ -1,5 +1,5 @@
 import { mount, VueClass } from "@vue/test-utils";
-import { TodoListApi, Todos } from "client";
+import { Todo, TodoListApi } from "client";
 import AutoComplete from "./autocomplete.vue";
 import TodolistClass from "./todolist";
 import Todolist from "./todolist.vue";
@@ -12,7 +12,7 @@ afterEach(() => {
     mockOverwriteTodos.mockReset();
 });
 
-async function todolist(todoList: Todos = [], suggestions: string[] = []) {
+async function todolist(todoList: Todo[] = [], suggestions: string[] = []) {
     mockGetTodos.mockResolvedValue(todoList);
     const c = mount(Todolist as VueClass<TodolistClass>, {
         mocks: {

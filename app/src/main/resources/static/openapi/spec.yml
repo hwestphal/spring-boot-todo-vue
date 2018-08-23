@@ -20,7 +20,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Todos'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Todo'
     post:
       summary: Add a new todo
       operationId: addTodo
@@ -42,6 +44,14 @@ paths:
                 type: string
                 format: uri
               description: URL of created todo
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BadRequestDetails'
     put:
       summary: Overwrite all todos
       operationId: overwriteTodos
@@ -53,10 +63,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Todos'
+              type: array
+              items:
+                $ref: '#/components/schemas/Todo'
       responses:
         '200':
           description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BadRequestDetails'
     delete:
       summary: Delete all todos
       operationId: deleteTodos
@@ -86,6 +106,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Todo'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BadRequestDetails'
         '404':
           description: Not found
     put:
@@ -111,6 +139,14 @@ paths:
       responses:
         '200':
           description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BadRequestDetails'
         '404':
           description: Not found
     delete:
@@ -129,6 +165,14 @@ paths:
       responses:
         '200':
           description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BadRequestDetails'
         '404':
           description: Not found
 components:
@@ -155,8 +199,17 @@ components:
       required:
       - title
       - completed
-    Todos:
-      type: array
-      description: Array of todo items
-      items:
-        $ref: '#/components/schemas/Todo'
+    BadRequestDetails:
+      type: object
+      description: Error details
+      properties:
+        message:
+          type: string
+          description: Error message
+        path:
+          type: string
+          description: Path to erroneous parameter or request attribute
+        rejectedValue:
+          description: Rejected value of erroneous attribute
+      required:
+      - message

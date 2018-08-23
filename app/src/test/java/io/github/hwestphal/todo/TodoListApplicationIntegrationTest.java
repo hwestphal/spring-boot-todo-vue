@@ -4,8 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import io.github.hwestphal.todo.api.generated.BadRequestDetails;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +17,11 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
@@ -73,6 +80,36 @@ public class TodoListApplicationIntegrationTest {
         restTemplate.delete("/");
         todos = restTemplate.getForObject("/", List.class);
         assertThat(todos).isEmpty();
+    }
+
+    @Test
+    public void shouldReturnBadRequestDetailsForInvalidPost() {
+        shouldReturnBadRequestDetails(HttpMethod.POST, Todo.builder().build(), "todo.title");
+    }
+
+    @Test
+    public void shouldReturnBadRequestDetailsForInvalidPut() {
+        shouldReturnBadRequestDetails(
+                HttpMethod.PUT,
+                Arrays.asList(
+                        Collections.emptyMap(),
+                        Todo.builder().title("123").build(),
+                        Collections.singletonMap("title", "1234")),
+                "todo[0].title",
+                "todo[0].completed",
+                "todo[1].title",
+                "todo[2].completed");
+    }
+
+    private void shouldReturnBadRequestDetails(HttpMethod method, Object payload, String... path) {
+        ResponseEntity<List<BadRequestDetails>> response = restTemplate
+                .exchange("/", method, new HttpEntity<>(payload), new ParameterizedTypeReference<List<BadRequestDetails>>() {
+                });
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(response.getBody()).isNotNull();
+        List<BadRequestDetails> details = response.getBody();
+        assertThat(details).hasSize(path.length);
+        assertThat(details.stream().map(d -> d.getPath())).containsExactlyInAnyOrder(path);
     }
 
 }

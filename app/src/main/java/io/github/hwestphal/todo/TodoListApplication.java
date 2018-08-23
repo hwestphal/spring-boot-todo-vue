@@ -10,7 +10,6 @@ import io.github.hwestphal.auditing.EnableAuditing;
 import io.github.hwestphal.error.CustomErrorMvcConfiguration;
 import io.github.hwestphal.i18n.MessageSourceConfiguration;
 import io.github.hwestphal.todo.api.generated.TodoListApi;
-import io.github.hwestphal.todo.api.generated.Todos;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -45,12 +44,9 @@ public class TodoListApplication implements TodoListApi {
     }
 
     @Override
-    public ResponseEntity<Todos> todos() {
-        Todos todos = new Todos();
-        for (Todo todo : todoListService.getTodos()) {
-            todos.add(toApi(todo));
-        }
-        return ResponseEntity.ok(todos);
+    public ResponseEntity<List<io.github.hwestphal.todo.api.generated.Todo>> todos() {
+        return ResponseEntity
+                .ok(todoListService.getTodos().stream().map(TodoListApplication::toApi).collect(Collectors.toList()));
     }
 
     @Override
