@@ -19,8 +19,8 @@ async function todolist(todoList: Todo[] = [], suggestions: string[] = []) {
     mockGetTodos.mockResolvedValue(todoList);
     const c = mount(Todolist as VueClass<TodolistClass>, {
         mocks: {
-            $t: jest.fn(),
-            $tc: jest.fn(),
+            $t: (key: string) => key,
+            $tc: (key: string) => key,
         },
         propsData: {
             suggestions,

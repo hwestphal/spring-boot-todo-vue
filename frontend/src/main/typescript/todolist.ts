@@ -101,11 +101,10 @@ export default class Todolist extends Vue {
                 const response: Response = error;
                 if (response.status === 409) {
                     try {
-                        await MessageBox.confirm("Someone else changed the to-do list in the meantime.\
-                    Do you want to continue and lose all your changes?",
-                            "Concurrent modification detected", {
-                                cancelButtonText: "Cancel",
-                                confirmButtonText: "OK",
+                        await MessageBox.confirm(this.$t("concurrentModification.message").toString(),
+                            this.$t("concurrentModification.title").toString(), {
+                                cancelButtonText: this.$t("confirm.cancel").toString(),
+                                confirmButtonText: this.$t("confirm.ok").toString(),
                                 type: "error",
                             });
                     } catch (result) {
