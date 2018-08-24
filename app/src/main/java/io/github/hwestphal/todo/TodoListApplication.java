@@ -7,24 +7,28 @@ import io.github.hwestphal.i18n.MessageSourceConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/")
 @SpringBootApplication
 @EnableAuditing
 @Import({ MessageSourceConfiguration.class, CustomErrorMvcConfiguration.class })
 public class TodoListApplication {
 
-    @GetMapping("/openapi")
-    public String swaggerUi() {
-        return "swagger-ui";
+    @GetMapping("/api")
+    public String defaultSwaggerUi() {
+        return "redirect:/api/v1";
     }
 
-    @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
+    @GetMapping("/api/{version}")
+    public ModelAndView swaggerUi(@PathVariable("version") String version) {
+        return new ModelAndView("swagger-ui", "version", version);
+    }
+
+    @GetMapping("/")
     public String index() {
         return "index";
     }

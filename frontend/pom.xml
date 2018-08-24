@@ -21,7 +21,7 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <configuration>
-                    <inputSpec>${project.basedir}/../app/src/main/resources/static/openapi/spec.yml</inputSpec>
+                    <inputSpec>${project.basedir}/../app/src/main/resources/static/api-v1.yml</inputSpec>
                     <generatorName>typescript-fetch</generatorName>
                 </configuration>
             </plugin>

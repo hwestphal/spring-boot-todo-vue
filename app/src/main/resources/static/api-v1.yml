@@ -6,7 +6,7 @@ tags:
   - name: todoList
     description: Manage the todo list
 servers:
-- url: /
+- url: /api/v1
 paths:
   /:
     get:

@@ -29,6 +29,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 @AutoConfigureTestDatabase
 public class TodoListApplicationIntegrationTest {
 
+    private static final String API_BASE = "/api/v1";
+
     @Autowired
     private TestRestTemplate restTemplate;
 
@@ -36,7 +38,7 @@ public class TodoListApplicationIntegrationTest {
     public void shouldAddAndChangeAndRemoveTodo() {
         Todo todo = Todo.builder().title("todo1").build();
 
-        URI uri = restTemplate.postForLocation("/", todo);
+        URI uri = restTemplate.postForLocation(API_BASE + "/", todo);
         Todo foundTodo = restTemplate.getForObject(uri, Todo.class);
         assertThat(foundTodo.getTitle()).isEqualTo(todo.getTitle());
         assertThat(foundTodo.isCompleted()).isFalse();
@@ -57,16 +59,16 @@ public class TodoListApplicationIntegrationTest {
     @Test
     public void shouldOverwriteAndRemoveAllTodos() {
         Todo todo1 = Todo.builder().title("todo1").build();
-        todo1 = restTemplate.getForObject(restTemplate.postForLocation("/", todo1), Todo.class);
+        todo1 = restTemplate.getForObject(restTemplate.postForLocation(API_BASE + "/", todo1), Todo.class);
         Todo todo2 = Todo.builder().title("todo2").build();
-        restTemplate.postForLocation("/", todo2);
-        List<?> todos = restTemplate.getForObject("/", List.class);
+        restTemplate.postForLocation(API_BASE + "/", todo2);
+        List<?> todos = restTemplate.getForObject(API_BASE + "/", List.class);
         assertThat(todos).hasSize(2);
 
         Todo todo1a = Todo.builder().id(todo1.getId()).version(todo1.getVersion()).title("todo1a").build();
         Todo todo3 = Todo.builder().title("todo3").completed(true).build();
-        restTemplate.put("/", Arrays.asList(todo3, todo1a));
-        todos = restTemplate.getForObject("/", List.class);
+        restTemplate.put(API_BASE + "/", Arrays.asList(todo3, todo1a));
+        todos = restTemplate.getForObject(API_BASE + "/", List.class);
         assertThat(todos).hasSize(2);
         @SuppressWarnings("unchecked")
         Map<String, Object> foundTodo1 = (Map<String, Object>) todos.get(0);
@@ -77,8 +79,8 @@ public class TodoListApplicationIntegrationTest {
         assertThat(foundTodo2).containsEntry("title", "todo3");
         assertThat(foundTodo2).containsEntry("completed", true);
 
-        restTemplate.delete("/");
-        todos = restTemplate.getForObject("/", List.class);
+        restTemplate.delete(API_BASE + "/");
+        todos = restTemplate.getForObject(API_BASE + "/", List.class);
         assertThat(todos).isEmpty();
     }
 
@@ -102,8 +104,11 @@ public class TodoListApplicationIntegrationTest {
     }
 
     private void shouldReturnBadRequestDetails(HttpMethod method, Object payload, String... path) {
-        ResponseEntity<List<BadRequestDetails>> response = restTemplate
-                .exchange("/", method, new HttpEntity<>(payload), new ParameterizedTypeReference<List<BadRequestDetails>>() {
+        ResponseEntity<List<BadRequestDetails>> response = restTemplate.exchange(
+                API_BASE + "/",
+                method,
+                new HttpEntity<>(payload),
+                new ParameterizedTypeReference<List<BadRequestDetails>>() {
                 });
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody()).isNotNull();
@@ -115,10 +120,10 @@ public class TodoListApplicationIntegrationTest {
     @Test
     public void shouldReturn409OnOptimisticLockingFailure() {
         Todo todo = Todo.builder().title("todo").build();
-        todo = restTemplate.getForObject(restTemplate.postForLocation("/", todo), Todo.class);
+        todo = restTemplate.getForObject(restTemplate.postForLocation(API_BASE + "/", todo), Todo.class);
         todo.setVersion(todo.getVersion() + 1);
         ResponseEntity<String> response = restTemplate
-                .exchange("/", HttpMethod.PUT, new HttpEntity<>(Collections.singletonList(todo)), String.class);
+                .exchange(API_BASE + "/", HttpMethod.PUT, new HttpEntity<>(Collections.singletonList(todo)), String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
         assertThat(response.getBody()).isNotEmpty();
     }
