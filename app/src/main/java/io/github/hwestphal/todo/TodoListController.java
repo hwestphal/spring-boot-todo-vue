@@ -8,8 +8,12 @@ import java.util.stream.Collectors;
 
 import io.github.hwestphal.todo.api.generated.TodoListApi;
 
+import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -69,6 +73,11 @@ public class TodoListController implements TodoListApi {
     public ResponseEntity<Void> deleteTodos() {
         todoListService.deleteTodos();
         return ResponseEntity.ok().build();
+    }
+
+    @ExceptionHandler(OptimisticLockingFailureException.class)
+    public ResponseEntity<?> handleOptimisticLockingFailureException(OptimisticLockingFailureException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).contentType(MediaType.TEXT_PLAIN).body(ex.getMessage());
     }
 
     private static Todo fromApi(io.github.hwestphal.todo.api.generated.Todo todo) {

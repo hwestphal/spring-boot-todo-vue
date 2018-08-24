@@ -112,4 +112,15 @@ public class TodoListApplicationIntegrationTest {
         assertThat(details.stream().map(d -> d.getPath())).containsExactlyInAnyOrder(path);
     }
 
+    @Test
+    public void shouldReturn409OnOptimisticLockingFailure() {
+        Todo todo = Todo.builder().title("todo").build();
+        todo = restTemplate.getForObject(restTemplate.postForLocation("/", todo), Todo.class);
+        todo.setVersion(todo.getVersion() + 1);
+        ResponseEntity<String> response = restTemplate
+                .exchange("/", HttpMethod.PUT, new HttpEntity<>(Collections.singletonList(todo)), String.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
+        assertThat(response.getBody()).isNotEmpty();
+    }
+
 }

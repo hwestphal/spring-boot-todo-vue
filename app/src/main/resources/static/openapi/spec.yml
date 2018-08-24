@@ -77,6 +77,13 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/BadRequestDetails'
+        '409':
+          description: Conflict
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: Error message
     delete:
       summary: Delete all todos
       operationId: deleteTodos
