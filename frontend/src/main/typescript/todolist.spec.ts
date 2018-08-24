@@ -1,15 +1,18 @@
 import { mount, VueClass } from "@vue/test-utils";
 import { Todo, TodoListApi } from "client";
 import AutoComplete from "./autocomplete.vue";
+import { MessageBox } from "./elements";
 import TodolistClass from "./todolist";
 import Todolist from "./todolist.vue";
 
 const mockGetTodos = TodoListApi.prototype.todos = jest.fn();
 const mockOverwriteTodos = TodoListApi.prototype.overwriteTodos = jest.fn();
+const mockConfirm = MessageBox.confirm = jest.fn();
 
 afterEach(() => {
     mockGetTodos.mockReset();
     mockOverwriteTodos.mockReset();
+    mockConfirm.mockReset();
 });
 
 async function todolist(todoList: Todo[] = [], suggestions: string[] = []) {
@@ -176,18 +179,13 @@ describe("todolist", () => {
         const vm = (await todolist()).vm;
         vm.newTodo = "1234";
         vm.addNewTodo();
-        const confirm = window.confirm;
-        try {
-            mockOverwriteTodos.mockRejectedValueOnce(new Response("error", { status: 409 }));
-            window.confirm = () => false;
-            await vm.save();
-            expect(vm.changed).toBe(true);
-            mockOverwriteTodos.mockRejectedValueOnce(new Response("error", { status: 409 }));
-            window.confirm = () => true;
-            await vm.save();
-            expect(vm.changed).toBe(false);
-        } finally {
-            window.confirm = confirm;
-        }
+        mockOverwriteTodos.mockRejectedValueOnce(new Response("error", { status: 409 }));
+        mockConfirm.mockRejectedValueOnce({});
+        await vm.save();
+        expect(vm.changed).toBe(true);
+        mockOverwriteTodos.mockRejectedValueOnce(new Response("error", { status: 409 }));
+        mockConfirm.mockResolvedValueOnce({});
+        await vm.save();
+        expect(vm.changed).toBe(false);
     });
 });

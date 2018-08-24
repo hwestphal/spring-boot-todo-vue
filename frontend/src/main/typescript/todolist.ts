@@ -2,7 +2,7 @@ import { Todo, TodoListApi } from "client";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import AutoComplete from "./autocomplete.vue";
-import { Button, ButtonGroup, Col, Row } from "./elements";
+import { Button, ButtonGroup, Col, MessageBox, Row } from "./elements";
 
 function clone<T>(obj: T): T {
     return JSON.parse(JSON.stringify(obj));
@@ -100,7 +100,15 @@ export default class Todolist extends Vue {
             if (error instanceof Response) {
                 const response: Response = error;
                 if (response.status === 409) {
-                    if (!confirm(await response.text())) {
+                    try {
+                        await MessageBox.confirm("Someone else changed the to-do list in the meantime.\
+                    Do you want to continue and lose all your changes?",
+                            "Concurrent modification detected", {
+                                cancelButtonText: "Cancel",
+                                confirmButtonText: "OK",
+                                type: "error",
+                            });
+                    } catch (result) {
                         return;
                     }
                 } else {

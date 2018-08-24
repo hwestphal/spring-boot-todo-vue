@@ -1,1 +1,1 @@
-export { Button, ButtonGroup, Col, Row } from "element-ui";
+export { Button, ButtonGroup, Col, MessageBox, Row } from "element-ui";
