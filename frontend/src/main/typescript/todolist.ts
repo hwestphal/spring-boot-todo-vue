@@ -94,7 +94,22 @@ export default class Todolist extends Vue {
     }
 
     async save() {
-        await this.todoListApi.overwriteTodos(this.todos);
+        try {
+            await this.todoListApi.overwriteTodos(this.todos);
+        } catch (error) {
+            if (error instanceof Response) {
+                const response: Response = error;
+                if (response.status === 409) {
+                    if (!confirm(await response.text())) {
+                        return;
+                    }
+                } else {
+                    throw response;
+                }
+            } else {
+                throw error;
+            }
+        }
         this.todoList = await this.todoListApi.todos();
         this.todos = clone(this.todoList);
         this.changed = false;

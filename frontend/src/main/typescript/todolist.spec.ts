@@ -151,4 +151,43 @@ describe("todolist", () => {
         vm.newTodo = "1234";
         expect(autocomplete.classes()).not.toContain(errorClass);
     });
+
+    it("handles error on save", async () => {
+        const vm = (await todolist()).vm;
+        vm.newTodo = "1234";
+        vm.addNewTodo();
+        const error = {};
+        mockOverwriteTodos.mockRejectedValueOnce(error);
+        await expect(vm.save()).rejects.toBe(error);
+        expect(vm.changed).toBe(true);
+    });
+
+    it("handles invalid response on save", async () => {
+        const vm = (await todolist()).vm;
+        vm.newTodo = "1234";
+        vm.addNewTodo();
+        const response = new Response();
+        mockOverwriteTodos.mockRejectedValueOnce(response);
+        await expect(vm.save()).rejects.toBe(response);
+        expect(vm.changed).toBe(true);
+    });
+
+    it("handles 409 response on save", async () => {
+        const vm = (await todolist()).vm;
+        vm.newTodo = "1234";
+        vm.addNewTodo();
+        const confirm = window.confirm;
+        try {
+            mockOverwriteTodos.mockRejectedValueOnce(new Response("error", { status: 409 }));
+            window.confirm = () => false;
+            await vm.save();
+            expect(vm.changed).toBe(true);
+            mockOverwriteTodos.mockRejectedValueOnce(new Response("error", { status: 409 }));
+            window.confirm = () => true;
+            await vm.save();
+            expect(vm.changed).toBe(false);
+        } finally {
+            window.confirm = confirm;
+        }
+    });
 });
