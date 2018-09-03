@@ -102,11 +102,7 @@ export default class Todolist extends Vue {
                 if (response.status === 409) {
                     try {
                         await MessageBox.confirm(this.$t("concurrentModification.message").toString(),
-                            this.$t("concurrentModification.title").toString(), {
-                                cancelButtonText: this.$t("confirm.cancel").toString(),
-                                confirmButtonText: this.$t("confirm.ok").toString(),
-                                type: "error",
-                            });
+                            this.$t("concurrentModification.title").toString(), { type: "error" });
                     } catch (result) {
                         return;
                     }
