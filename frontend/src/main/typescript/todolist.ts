@@ -1,6 +1,6 @@
 import { Todo, TodoListApi } from "client";
 import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
+import { Component, Inject, Prop } from "vue-property-decorator";
 import AutoComplete from "./autocomplete.vue";
 import { Button, ButtonGroup, Col, MessageBox, Row } from "./elements";
 
@@ -31,8 +31,10 @@ export default class Todolist extends Vue {
     newTodo = "";
     todos: Todo[] = [];
 
+    @Inject(TodoListApi.name)
+    private todoListApi: TodoListApi;
+
     private todoList: Todo[] = [];
-    private todoListApi = new TodoListApi(undefined, this.basePath, fetch);
 
     async mounted() {
         this.todoList = await this.todoListApi.todos();

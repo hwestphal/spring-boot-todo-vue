@@ -66,6 +66,12 @@
             "<rootDir>/src/main/**/*.(js|ts|vue)",
             "!**/*.d.ts"
         ],
-        "coverageDirectory": "target"
+        "coverageDirectory": "target",
+        "globals": {
+            "ts-jest": {
+                "ignoreCoverageForDecorators": true,
+                "ignoreCoverageForAllDecorators": true
+            }
+        }
     }
 }

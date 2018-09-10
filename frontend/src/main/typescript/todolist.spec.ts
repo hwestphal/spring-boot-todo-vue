@@ -5,8 +5,8 @@ import { MessageBox } from "./elements";
 import TodolistClass from "./todolist";
 import Todolist from "./todolist.vue";
 
-const mockGetTodos = TodoListApi.prototype.todos = jest.fn();
-const mockOverwriteTodos = TodoListApi.prototype.overwriteTodos = jest.fn();
+const mockGetTodos = jest.fn();
+const mockOverwriteTodos = jest.fn();
 const mockConfirm = MessageBox.confirm = jest.fn();
 
 afterEach(() => {
@@ -24,6 +24,12 @@ async function todolist(todoList: Todo[] = [], suggestions: string[] = []) {
         },
         propsData: {
             suggestions,
+        },
+        provide: {
+            [TodoListApi.name]: {
+                overwriteTodos: mockOverwriteTodos,
+                todos: mockGetTodos,
+            },
         },
     });
     // flush pending promises

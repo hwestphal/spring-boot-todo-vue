@@ -1,5 +1,6 @@
 import "../css/global.scss";
 
+import { TodoListApi } from "client";
 import Vue from "vue";
 import VueI18n from "vue-i18n";
 import { configureLocale } from "./elements";
@@ -17,9 +18,11 @@ export = (
     return new Vue({
         el,
         i18n: new VueI18n({ locale, messages: { [locale]: messages } }),
+        provide: {
+            [TodoListApi.name]: new TodoListApi(undefined, basePath, fetch),
+        },
         render: (h) => h(Todolist, {
             props: {
-                basePath,
                 suggestions,
             },
         }),
