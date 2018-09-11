@@ -13,8 +13,8 @@
         "sourceMap": true,
         "baseUrl": ".",
         "paths": {
-            "client": [
-                "target/generated-sources/openapi"
+            "@Generated/*": [
+                "target/generated-sources/*"
             ]
         }
     },

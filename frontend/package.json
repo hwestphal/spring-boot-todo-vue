@@ -52,7 +52,7 @@
         "moduleNameMapper": {
             "\\.(css|scss)$": "empty-module",
             "^~(.+)$": "../../../node_modules/$1",
-            "^client$": "<rootDir>/target/generated-sources/openapi"
+            "^@Generated/(.+)$": "<rootDir>/target/generated-sources/$1"
         },
         "transform": {
             "^.+\\.(j|t)s$": "ts-jest",

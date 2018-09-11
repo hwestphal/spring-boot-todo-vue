@@ -1,4 +1,4 @@
-import { TodoListApi } from "client";
+import { TodoListApi } from "@Generated/openapi";
 import Vue from "vue";
 import main from "./main";
 

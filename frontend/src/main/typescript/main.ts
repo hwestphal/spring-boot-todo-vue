@@ -1,6 +1,6 @@
 import "../css/global.scss";
 
-import { TodoListApi } from "client";
+import { TodoListApi } from "@Generated/openapi";
 import Vue from "vue";
 import VueI18n from "vue-i18n";
 import { configureLocale } from "./elements";

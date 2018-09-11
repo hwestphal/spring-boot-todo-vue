@@ -1,4 +1,4 @@
-import { Todo, TodoListApi } from "client";
+import { Todo, TodoListApi } from "@Generated/openapi";
 import Vue from "vue";
 import { Component, Inject, Prop } from "vue-property-decorator";
 import AutoComplete from "./autocomplete.vue";
