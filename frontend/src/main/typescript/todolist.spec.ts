@@ -2,7 +2,6 @@ import { Todo, TodoListApi } from "@Generated/openapi";
 import { config, mount, VueClass } from "@vue/test-utils";
 import AutoComplete from "./autocomplete.vue";
 import { MessageBox } from "./elements";
-import TodolistClass from "./todolist";
 import Todolist from "./todolist.vue";
 
 config.logModifiedComponents = false;
@@ -19,7 +18,7 @@ afterEach(() => {
 
 async function todolist(todoList: Todo[] = [], suggestions: string[] = []) {
     mockGetTodos.mockResolvedValue(todoList);
-    const c = mount(Todolist as VueClass<TodolistClass>, {
+    const c = mount(Todolist, {
         mocks: {
             $t: (key: string) => key,
             $tc: (key: string) => key,
