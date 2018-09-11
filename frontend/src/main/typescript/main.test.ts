@@ -1,5 +1,4 @@
 import { TodoListApi } from "@Generated/openapi";
-import Vue from "vue";
 import main from "./main";
 
 TodoListApi.prototype.todos = jest.fn().mockResolvedValue([]);

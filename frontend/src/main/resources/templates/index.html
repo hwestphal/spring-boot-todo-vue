@@ -13,7 +13,7 @@
     <div id="todolist"></div>
     <script th:src="@{/js/main.js}"></script>
     <script th:inline="javascript">
-        __main([ /*[[#{washTheCar}]]*/'', /*[[#{learnTypescript}]]*/'', /*[[#{getALife}]]*/'', /*[[#{feedTheDog}]]*/'', /*[[#{feedTheCat}]]*/''],
+        __main.default([ /*[[#{washTheCar}]]*/'', /*[[#{learnTypescript}]]*/'', /*[[#{getALife}]]*/'', /*[[#{feedTheDog}]]*/'', /*[[#{feedTheCat}]]*/''],
             /*[[@{/api/v1}]]*/'',
             '#todolist',
             /*[[${@messageSource.locale}]]*/'en',

@@ -9,5 +9,10 @@
     },
     "testMatch": [
         "<rootDir>/src/test/**/*.test.(js|ts)"
-    ]
+    ],
+    "globals": {
+        "ts-jest": {
+            "tsConfigFile": "tsconfig.jest.json"
+        }
+    }
 }

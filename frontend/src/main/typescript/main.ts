@@ -8,7 +8,7 @@ import Todolist from "./todolist.vue";
 
 Vue.use(VueI18n);
 
-export = (
+export default (
     suggestions: string[],
     basePath: string,
     el: string,
