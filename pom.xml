@@ -103,12 +103,12 @@
                             <goals>
                                 <goal>check</goal>
                             </goals>
-                            <phase>process-sources</phase>
+                            <phase>process-test-sources</phase>
                         </execution>
                     </executions>
                     <configuration>
-                        <configLocation>../etc/checkstyle-checker.xml</configLocation>
-                        <suppressionsLocation>../etc/checkstyle-suppressions.xml</suppressionsLocation>
+                        <configLocation>${maven.multiModuleProjectDirectory}/etc/checkstyle-checker.xml</configLocation>
+                        <suppressionsLocation>${maven.multiModuleProjectDirectory}/etc/checkstyle-suppressions.xml</suppressionsLocation>
                         <violationSeverity>info</violationSeverity>
                         <logViolationsToConsole>true</logViolationsToConsole>
                         <includeTestSourceDirectory>true</includeTestSourceDirectory>
@@ -190,7 +190,7 @@
                     </executions>
                     <configuration>
                         <skip>${skipTests}</skip>
-                        <excludeFilterFile>${basedir}/../etc/spotbugs-filter.xml</excludeFilterFile>
+                        <excludeFilterFile>${maven.multiModuleProjectDirectory}/etc/spotbugs-filter.xml</excludeFilterFile>
                         <plugins>
                             <plugin>
                                 <groupId>com.h3xstream.findsecbugs</groupId>
@@ -217,6 +217,31 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>com.diffplug.spotless</groupId>
+                    <artifactId>spotless-maven-plugin</artifactId>
+                    <version>1.14.0</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                            <phase>process-test-sources</phase>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <java>
+                            <importOrder>
+                                <file>${maven.multiModuleProjectDirectory}/etc/eclipse.importorder</file>
+                            </importOrder>
+                            <eclipse>
+                                <file>${maven.multiModuleProjectDirectory}/etc/eclipse-code-formatter.xml</file>
+                            </eclipse>
+                            <endWithNewline />
+                        </java>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
