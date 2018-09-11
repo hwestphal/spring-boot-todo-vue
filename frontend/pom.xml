@@ -31,8 +31,8 @@
                 <artifactId>frontend-maven-plugin</artifactId>
                 <version>1.6</version>
                 <configuration>
-                    <nodeVersion>v8.11.2</nodeVersion>
-                    <yarnVersion>v1.6.0</yarnVersion>
+                    <nodeVersion>v8.11.4</nodeVersion>
+                    <yarnVersion>v1.9.4</yarnVersion>
                     <yarnInheritsProxyConfigFromMaven>false</yarnInheritsProxyConfigFromMaven>
                 </configuration>
                 <executions>
@@ -69,7 +69,7 @@
                         </goals>
                         <phase>test</phase>
                         <configuration>
-                            <arguments>run test --testResultsProcessor=jest-junit</arguments>
+                            <arguments>run test --reporters=default --reporters=jest-junit</arguments>
                             <environmentVariables>
                                 <JEST_JUNIT_OUTPUT>target/jest-reports/TEST-jest-unit.xml</JEST_JUNIT_OUTPUT>
                             </environmentVariables>
@@ -83,7 +83,7 @@
                         </goals>
                         <phase>integration-test</phase>
                         <configuration>
-                            <arguments>run test:integration --testResultsProcessor=jest-junit</arguments>
+                            <arguments>run test:integration --reporters=default --reporters=jest-junit</arguments>
                             <environmentVariables>
                                 <JEST_JUNIT_OUTPUT>target/jest-reports/TEST-jest-integration.xml</JEST_JUNIT_OUTPUT>
                             </environmentVariables>

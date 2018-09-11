@@ -1,9 +1,11 @@
-import { mount, VueClass } from "@vue/test-utils";
+import { config, mount, VueClass } from "@vue/test-utils";
 import { Todo, TodoListApi } from "client";
 import AutoComplete from "./autocomplete.vue";
 import { MessageBox } from "./elements";
 import TodolistClass from "./todolist";
 import Todolist from "./todolist.vue";
+
+config.logModifiedComponents = false;
 
 const mockGetTodos = jest.fn();
 const mockOverwriteTodos = jest.fn();

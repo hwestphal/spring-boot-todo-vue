@@ -1,4 +1,5 @@
 import express from "express";
+import { AddressInfo } from "net";
 
 export interface IServer {
     readonly port: number;
@@ -8,10 +9,12 @@ export interface IServer {
 export default function(...paths: string[]) {
     const app = express();
     app.use(paths.map((p) => express.static(p)));
+    // ignore missing css files
+    app.get("*.css", (req, res) => res.send(""));
     return new Promise<IServer>((resolve) => {
         const server = app.listen(0, () => {
             resolve({
-                port: server.address().port,
+                port: (server.address() as AddressInfo).port,
                 close() {
                     return new Promise((res) => {
                         server.close(() => {

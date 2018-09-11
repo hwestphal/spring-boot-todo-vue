@@ -32,7 +32,7 @@ export default class Todolist extends Vue {
     todos: Todo[] = [];
 
     @Inject(TodoListApi.name)
-    private todoListApi: TodoListApi;
+    private todoListApi!: TodoListApi;
 
     private todoList: Todo[] = [];
 
