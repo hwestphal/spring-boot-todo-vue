@@ -2,6 +2,7 @@
     "extends": "./tsconfig",
     "compilerOptions": {
         "esModuleInterop": true,
-        "module": "commonjs"
+        "module": "commonjs",
+        "importHelpers": false
     }
 }

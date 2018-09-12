@@ -69,7 +69,6 @@
         "coverageDirectory": "target",
         "globals": {
             "ts-jest": {
-                "ignoreCoverageForDecorators": true,
                 "ignoreCoverageForAllDecorators": true,
                 "tsConfigFile": "tsconfig.jest.json"
             }

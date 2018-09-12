@@ -1,5 +1,5 @@
 import { Todo, TodoListApi } from "@Generated/openapi";
-import { config, mount, VueClass } from "@vue/test-utils";
+import { config, mount } from "@vue/test-utils";
 import AutoComplete from "./autocomplete.vue";
 import { MessageBox } from "./elements";
 import Todolist from "./todolist.vue";
