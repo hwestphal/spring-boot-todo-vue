@@ -1,7 +1,6 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { VueLoaderPlugin } = require("vue-loader");
-const { IgnorePlugin } = require("webpack");
 
 module.exports = function(env, args = {}) {
     const prod = args.mode === "production";
@@ -88,11 +87,11 @@ module.exports = function(env, args = {}) {
             new MiniCssExtractPlugin({
                 filename: "css/[name].css",
             }),
-            new IgnorePlugin(/portable-fetch/),
         ],
         resolve: {
             "alias": {
                 "@Generated": path.resolve(__dirname, "target/generated-sources"),
+                "portable-fetch": "empty-module",
             },
             extensions: [".js", ".ts"],
         },

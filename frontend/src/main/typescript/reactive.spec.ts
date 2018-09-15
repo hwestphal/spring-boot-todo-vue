@@ -181,31 +181,10 @@ describe("reactive decorator", () => {
         }
         const c = new C();
         expect(c.a).toBe(2);
-        expect(() => c.init()).toThrowError();
-        expect(c.a).toBe(2);
-
-        @reactive({ afterCreation: "init" })
-        class D {
-            constructor() { this.init(); }
-            private init() { }
-        }
-        expect(() => new D()).toThrowError();
-
-        abstract class E {
-            abstract a: number;
-            protected init() { this.a += 1; }
-        }
-        @reactive({ afterCreation: "init" })
-        class F extends E {
-            a = 1;
-            init() { super.init(); }
-        }
-        const f = new F();
-        expect(f.a).toBe(2);
 
         expect(() => {
             @reactive({ afterCreation: "init" })
-            class G {
+            class D {
             }
         }).toThrow(TypeError);
     });

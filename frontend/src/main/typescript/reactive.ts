@@ -31,12 +31,8 @@ function decorate<T>(
                 if (pd.value) {
                     if (key === afterCreation) {
                         created = pd.value;
-                        methods[key] = proto[key] = () => {
-                            throw new Error("After creation hook must not be called directly");
-                        };
-                    } else {
-                        methods[key] = pd.value;
                     }
+                    methods[key] = pd.value;
                 } else {
                     computed[key] = {
                         get: pd.get,
