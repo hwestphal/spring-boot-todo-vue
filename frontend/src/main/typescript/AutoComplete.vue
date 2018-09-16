@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-export { default } from "./autocomplete";
+export { default } from "./AutoComplete";
 </script>
 
 <style src="awesomplete/awesomplete.css"></style>

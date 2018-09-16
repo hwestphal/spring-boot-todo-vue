@@ -3,7 +3,7 @@ import Vue from "vue";
 import { Component, Emit, Prop, Watch } from "vue-property-decorator";
 
 @Component
-export default class Autocomplete extends Vue {
+export default class AutoComplete extends Vue {
     @Prop()
     readonly value!: string;
     @Prop()

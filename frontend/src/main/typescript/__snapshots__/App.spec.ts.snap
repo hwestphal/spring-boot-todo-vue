@@ -1,0 +1,181 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`todolist app closes all todos 1`] = `
+<div>
+  <div class="el-row">
+    <div class="el-col el-col-12">
+      <div class="todolist">
+        <h1>todos</h1>
+        <div class="el-input input"><input type="text" placeholder="addTodo" value="" class="el-input__inner error"></div>
+        <div class="el-button-group"><button disabled="disabled" type="button" class="el-button el-button--primary is-disabled">
+            <!---->
+            <!----><span>markAllAsDone</span></button> <button disabled="disabled" type="button" class="el-button el-button--primary is-disabled">
+            <!---->
+            <!----><span>reset</span></button> <button disabled="disabled" type="button" class="el-button el-button--primary is-disabled">
+            <!---->
+            <!----><span>save</span></button></div>
+        <hr>
+        <ul class="items"></ul>
+        <div class="footer">itemsLeft</div>
+      </div>
+    </div>
+    <div class="el-col el-col-12">
+      <div class="todolist">
+        <h1>alreadyDone</h1>
+        <ul class="items">
+          <li class="done">
+            <div class="el-row is-justify-space-between el-row--flex">
+              <div class="el-col el-col-20">XXX</div>
+              <div class="el-col el-col-4">
+                <div class="el-button-group"><button type="button" class="el-button el-button--default el-button--mini">
+                    <!----><i class="el-icon-back"></i>
+                    <!----></button> <button type="button" class="el-button el-button--default el-button--mini">
+                    <!----><i class="el-icon-close"></i>
+                    <!----></button></div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`todolist app closes todo 1`] = `
+<div>
+  <div class="el-row">
+    <div class="el-col el-col-12">
+      <div class="todolist">
+        <h1>todos</h1>
+        <div class="el-input input"><input type="text" placeholder="addTodo" value="" class="el-input__inner error"></div>
+        <div class="el-button-group"><button disabled="disabled" type="button" class="el-button el-button--primary is-disabled">
+            <!---->
+            <!----><span>markAllAsDone</span></button> <button disabled="disabled" type="button" class="el-button el-button--primary is-disabled">
+            <!---->
+            <!----><span>reset</span></button> <button disabled="disabled" type="button" class="el-button el-button--primary is-disabled">
+            <!---->
+            <!----><span>save</span></button></div>
+        <hr>
+        <ul class="items"></ul>
+        <div class="footer">itemsLeft</div>
+      </div>
+    </div>
+    <div class="el-col el-col-12">
+      <div class="todolist">
+        <h1>alreadyDone</h1>
+        <ul class="items">
+          <li class="done">
+            <div class="el-row is-justify-space-between el-row--flex">
+              <div class="el-col el-col-20">XXX</div>
+              <div class="el-col el-col-4">
+                <div class="el-button-group"><button type="button" class="el-button el-button--default el-button--mini">
+                    <!----><i class="el-icon-back"></i>
+                    <!----></button> <button type="button" class="el-button el-button--default el-button--mini">
+                    <!----><i class="el-icon-close"></i>
+                    <!----></button></div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`todolist app opens todo 1`] = `
+<div>
+  <div class="el-row">
+    <div class="el-col el-col-12">
+      <div class="todolist">
+        <h1>todos</h1>
+        <div class="el-input input"><input type="text" placeholder="addTodo" value="" class="el-input__inner error"></div>
+        <div class="el-button-group"><button type="button" class="el-button el-button--primary">
+            <!---->
+            <!----><span>markAllAsDone</span></button> <button disabled="disabled" type="button" class="el-button el-button--primary is-disabled">
+            <!---->
+            <!----><span>reset</span></button> <button disabled="disabled" type="button" class="el-button el-button--primary is-disabled">
+            <!---->
+            <!----><span>save</span></button></div>
+        <hr>
+        <ul class="items">
+          <li>
+            <div class="el-row is-justify-space-between el-row--flex">
+              <div class="el-col el-col-22">XXX</div>
+              <div class="el-col el-col-2"><button type="button" class="el-button el-button--default el-button--mini">
+                  <!----><i class="el-icon-check"></i>
+                  <!----></button></div>
+            </div>
+          </li>
+        </ul>
+        <div class="footer">itemsLeft</div>
+      </div>
+    </div>
+    <div class="el-col el-col-12">
+      <div class="todolist">
+        <h1>alreadyDone</h1>
+        <ul class="items"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`todolist app removes error class on valid input 1`] = `
+<div>
+  <div class="el-row">
+    <div class="el-col el-col-12">
+      <div class="todolist">
+        <h1>todos</h1>
+        <div class="el-input input"><input type="text" placeholder="addTodo" value="" class="el-input__inner error"></div>
+        <div class="el-button-group"><button disabled="disabled" type="button" class="el-button el-button--primary is-disabled">
+            <!---->
+            <!----><span>markAllAsDone</span></button> <button disabled="disabled" type="button" class="el-button el-button--primary is-disabled">
+            <!---->
+            <!----><span>reset</span></button> <button disabled="disabled" type="button" class="el-button el-button--primary is-disabled">
+            <!---->
+            <!----><span>save</span></button></div>
+        <hr>
+        <ul class="items"></ul>
+        <div class="footer">itemsLeft</div>
+      </div>
+    </div>
+    <div class="el-col el-col-12">
+      <div class="todolist">
+        <h1>alreadyDone</h1>
+        <ul class="items"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`todolist app removes error class on valid input 2`] = `
+<div>
+  <div class="el-row">
+    <div class="el-col el-col-12">
+      <div class="todolist">
+        <h1>todos</h1>
+        <div class="el-input input"><input type="text" placeholder="addTodo" value="1234" class="el-input__inner"></div>
+        <div class="el-button-group"><button disabled="disabled" type="button" class="el-button el-button--primary is-disabled">
+            <!---->
+            <!----><span>markAllAsDone</span></button> <button disabled="disabled" type="button" class="el-button el-button--primary is-disabled">
+            <!---->
+            <!----><span>reset</span></button> <button disabled="disabled" type="button" class="el-button el-button--primary is-disabled">
+            <!---->
+            <!----><span>save</span></button></div>
+        <hr>
+        <ul class="items"></ul>
+        <div class="footer">itemsLeft</div>
+      </div>
+    </div>
+    <div class="el-col el-col-12">
+      <div class="todolist">
+        <h1>alreadyDone</h1>
+        <ul class="items"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+`;

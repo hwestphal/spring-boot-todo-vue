@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import Awesomplete from "awesomplete";
-import AutoComplete from "./autocomplete.vue";
+import AutoComplete from "./AutoComplete.vue";
 
 function autocomplete(value?: string) {
     return mount(AutoComplete, {

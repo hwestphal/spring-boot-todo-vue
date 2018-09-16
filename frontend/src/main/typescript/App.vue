@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-export { default } from "./todolist";
+export { default } from "./App";
 </script>
 
 <style lang="scss" module>
