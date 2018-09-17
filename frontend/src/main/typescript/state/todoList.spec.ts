@@ -92,7 +92,7 @@ describe("todolist", () => {
         todoList.add("todo");
         expect(todoList.changed).toBe(true);
         mockOverwriteTodos.mockRejectedValueOnce(new Response("error", { status: 409 }));
-        await expect(todoList.save()).rejects.toThrow(ConflictError);
+        await expect(todoList.save()).rejects.toBeInstanceOf(ConflictError);
         expect(todoList.changed).toBe(true);
     });
 });

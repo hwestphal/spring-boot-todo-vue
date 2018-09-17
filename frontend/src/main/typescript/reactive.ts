@@ -57,7 +57,7 @@ function decorate<T>(
             const initObj = new ctor();
             const reactiveProps: string[] = [];
             for (const key in initObj) {
-                if (initObj[key] !== undefined) {
+                if (initObj.hasOwnProperty(key) && initObj[key] !== undefined) {
                     reactiveProps.push(key);
                 }
             }
@@ -66,12 +66,15 @@ function decorate<T>(
             const inject: any = {};
             const obj = new ctor(...args);
             for (const key in obj) {
-                if (reactiveProps.indexOf(key) > -1) {
-                    data[key] = obj[key];
-                } else {
-                    inject[key] = {
-                        default: obj[key],
-                    };
+                /* istanbul ignore else */
+                if (obj.hasOwnProperty(key)) {
+                    if (reactiveProps.indexOf(key) > -1) {
+                        data[key] = obj[key];
+                    } else {
+                        inject[key] = {
+                            default: obj[key],
+                        };
+                    }
                 }
             }
 

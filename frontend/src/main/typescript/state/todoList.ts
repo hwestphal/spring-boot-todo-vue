@@ -1,7 +1,7 @@
 import { Todo, TodoListApi } from "@Generated/openapi";
 import { reactive } from "../reactive";
 
-export class ConflictError extends Error {
+export class ConflictError {
 }
 
 @reactive({ afterCreation: "refresh" })
