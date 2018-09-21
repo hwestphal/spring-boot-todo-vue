@@ -88,7 +88,9 @@ function decorate<T>(
             });
         }
     }
-    Object.defineProperty(C, "name", { value: ctor.name });
+    Object.defineProperty(C, "name", {
+        value: ctor.name || /* istanbul ignore next */ ctor.toString().match(/^function\s*([^\s(]+)/)![1],
+    });
 
     return C as any;
 }

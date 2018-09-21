@@ -20,7 +20,7 @@ Additionally, it shows how to wrap 3rd party widgets as Vue components, in this 
 
     mvn spring-boot:run
 
-Open [http://localhost:8080/](http://localhost:8080/) in your favourite — ES6 compliant — browser.
+Open [http://localhost:8080/](http://localhost:8080/) in your favourite browser.
 
 
 ### Building the application

@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import io.github.hwestphal.todo.api.generated.TodoListApi;
 
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +29,9 @@ public class TodoListController implements TodoListApi {
 
     @Override
     public ResponseEntity<List<io.github.hwestphal.todo.api.generated.Todo>> todos() {
-        return ResponseEntity
-                .ok(todoListService.getTodos().stream().map(TodoListController::toApi).collect(Collectors.toList()));
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.noStore())
+                .body(todoListService.getTodos().stream().map(TodoListController::toApi).collect(Collectors.toList()));
     }
 
     @Override
@@ -44,7 +46,7 @@ public class TodoListController implements TodoListApi {
         if (todo == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(toApi(todo));
+        return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(toApi(todo));
     }
 
     @Override

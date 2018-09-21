@@ -8,6 +8,7 @@ module.exports = function(env, args = {}) {
         devtool: prod ? "source-map" : "eval-source-map",
         entry: {
             main: "./src/main/typescript/main.ts",
+            polyfills: "./src/main/typescript/polyfills.ts",
         },
         mode: "development",
         module: {
