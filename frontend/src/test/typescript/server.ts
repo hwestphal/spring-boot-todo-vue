@@ -1,5 +1,4 @@
 import express from "express";
-import { AddressInfo } from "net";
 
 export interface IServer {
     readonly port: number;
@@ -14,7 +13,7 @@ export default function(...paths: string[]) {
     return new Promise<IServer>((resolve) => {
         const server = app.listen(0, () => {
             resolve({
-                port: (server.address() as AddressInfo).port,
+                port: server.address().port,
                 close() {
                     return new Promise((res) => {
                         server.close(() => {

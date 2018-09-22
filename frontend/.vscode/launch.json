@@ -2,19 +2,19 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Debug Jest Tests",
             "type": "node",
             "request": "launch",
-            "name": "jest",
-            "program": "${workspaceFolder}/node_modules/jest/bin/jest.js",
             "runtimeArgs": [
-                "--nolazy"
-            ],
-            "args": [
-                "--no-cache",
-                "-i",
+                "--inspect-brk",
+                "${workspaceRoot}/node_modules/jest/bin/jest.js",
+                "--runInBand",
                 "--coverage=false",
                 "${fileBasename}"
             ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "port": 9229,
             "sourceMaps": true
         }
     ]
