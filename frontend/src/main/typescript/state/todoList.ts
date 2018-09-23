@@ -1,4 +1,4 @@
-import { Todo, TodoListApi } from "@Generated/openapi";
+import { Todo, TodoListApiInterface } from "@Generated/openapi";
 import { reactive } from "../reactive";
 
 export class ConflictError {
@@ -9,7 +9,7 @@ export class TodoList {
     private localTodos: Todo[] = [];
     private savedTodos!: Todo[];
 
-    constructor(private todoListApi: TodoListApi) {
+    constructor(private todoListApi: TodoListApiInterface) {
     }
 
     get todos() {

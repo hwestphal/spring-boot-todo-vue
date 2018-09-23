@@ -161,7 +161,6 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <configuration>
-                    <inputSpec>${project.basedir}/src/main/resources/static/api-v1.yml</inputSpec>
                     <generatorName>spring</generatorName>
                     <apiPackage>io.github.hwestphal.todo.api.generated</apiPackage>
                     <modelPackage>io.github.hwestphal.todo.api.generated</modelPackage>

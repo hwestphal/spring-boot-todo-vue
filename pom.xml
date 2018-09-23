@@ -217,6 +217,9 @@
                             </goals>
                         </execution>
                     </executions>
+                    <configuration>
+                        <inputSpec>${maven.multiModuleProjectDirectory}/app/src/main/resources/static/api-v1.yml</inputSpec>
+                    </configuration>
                 </plugin>
 
                 <plugin>
