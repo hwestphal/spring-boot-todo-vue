@@ -29,10 +29,10 @@ beforeEach(async () => {
 });
 
 test("take screenshot", async () => {
-    await page.screenshot({ path: p("target", "puppeteer-screenshot.png") });
     expect(errors).toHaveLength(0);
     // expect only warnings for missing i18n keys
     warnings.forEach((m) => expect(m.text()).toMatch(/^\[vue-i18n\] /));
+    await page.screenshot({ path: p("target", "puppeteer-screenshot.png") });
 });
 
 afterAll(async () => {
