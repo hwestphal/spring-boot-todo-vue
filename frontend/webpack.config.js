@@ -68,20 +68,20 @@ module.exports = function(env, args = {}) {
                 test: /\.s?css$/,
             }, {
                 test: /\.(woff|woff2|eot|ttf)$/,
-                use: {
+                use: prod ? {
                     loader: "file-loader",
                     options: {
                         name: "[name].[ext]",
                         outputPath: "fonts/",
                         publicPath: "../fonts",
                     },
-                },
+                } : "url-loader",
             }],
         },
         output: {
             filename: "js/[name].js",
             library: "__[name]",
-            path: path.resolve(__dirname, "target/classes/static"),
+            path: path.resolve(__dirname, "target", "classes", "static"),
         },
         plugins: [
             new VueLoaderPlugin(),
@@ -91,8 +91,8 @@ module.exports = function(env, args = {}) {
         ],
         resolve: {
             "alias": {
-                "@Generated": path.resolve(__dirname, "target/generated-sources"),
-                "portable-fetch": "empty-module",
+                "@Generated": path.resolve(__dirname, "target", "generated-sources"),
+                "portable-fetch$": "empty-module",
             },
             extensions: [".js", ".ts"],
         },
