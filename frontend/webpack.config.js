@@ -1,6 +1,7 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { VueLoaderPlugin } = require("vue-loader");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 module.exports = function(env, args = {}) {
     const prod = args.mode === "production";
@@ -78,6 +79,16 @@ module.exports = function(env, args = {}) {
                 } : "url-loader",
             }],
         },
+        optimization: {
+            minimizer: [
+                new UglifyJsPlugin({
+                    cache: true,
+                    parallel: true,
+                    sourceMap: true,
+                    uglifyOptions: { keep_fnames: true },
+                }),
+            ],
+        },
         output: {
             filename: "js/[name].js",
             library: "__[name]",
@@ -95,6 +106,9 @@ module.exports = function(env, args = {}) {
                 "portable-fetch$": "empty-module",
             },
             extensions: [".js", ".ts"],
+        },
+        stats: {
+            warnings: false,
         },
     };
 };

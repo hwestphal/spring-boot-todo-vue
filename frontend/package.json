@@ -3,7 +3,7 @@
     "scripts": {
         "build": "tsc --noEmit && tslint -p . && tslint 'src/**/*.d.ts' && webpack",
         "build:watch": "webpack --watch",
-        "start": "webpack-serve",
+        "start": "webpack-dev-server",
         "test": "jest",
         "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
         "test:integration": "jest --config=jest-integration-config.json",
@@ -43,9 +43,9 @@
         "vue-property-decorator": "^7.1.1",
         "vue-server-renderer": "^2.5.17",
         "vue-template-compiler": "^2.5.13",
-        "webpack": "^4.19.1",
+        "webpack": "^4.20.1",
         "webpack-cli": "^3.1.1",
-        "webpack-serve": "^2.0.2"
+        "webpack-dev-server": "^3.1.9"
     },
     "jest": {
         "moduleFileExtensions": [
