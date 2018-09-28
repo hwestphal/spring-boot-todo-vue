@@ -47,6 +47,8 @@ function decorate<T>(
         throw new TypeError(`"${afterCreation}" method not found`);
     }
 
+    const name = ctor.name || /* istanbul ignore next */ ctor.toString().match(/^function\s*([^\s(]+)/)![1];
+
     class C extends ReactiveBase {
         constructor(...args: any[]) {
             super();
@@ -85,12 +87,11 @@ function decorate<T>(
                 data,
                 inject,
                 methods,
+                name,
             });
         }
     }
-    Object.defineProperty(C, "name", {
-        value: ctor.name || /* istanbul ignore next */ ctor.toString().match(/^function\s*([^\s(]+)/)![1],
-    });
+    Object.defineProperty(C, "name", { value: name });
 
     return C as any;
 }
