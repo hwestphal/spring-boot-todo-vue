@@ -41,6 +41,6 @@ export default (
         const script = document.createElement("script");
         script.src = src + "/../polyfills.js";
         script.onload = main;
-        document.head.appendChild(script);
+        document.head!.appendChild(script);
     }
 };

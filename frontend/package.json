@@ -1,7 +1,7 @@
 {
     "private": true,
     "scripts": {
-        "build": "tsc --noEmit && tslint -p . && tslint 'src/**/*.d.ts' && webpack",
+        "build": "tsc && tslint -p . && tslint 'src/**/*.d.ts' && webpack",
         "build:watch": "webpack --watch",
         "start": "webpack-dev-server",
         "test": "jest",
@@ -31,10 +31,10 @@
         "portable-fetch": "^3.0.0",
         "puppeteer": "1.8.0",
         "sass-loader": "^7.1.0",
-        "ts-jest": "^23.10.1",
-        "ts-loader": "^5.2.0",
+        "ts-jest": "^23.10.2",
+        "ts-loader": "^5.2.1",
         "tslint": "^5.9.1",
-        "typescript": "^3.0.3",
+        "typescript": "^3.1.1",
         "url-loader": "^1.1.1",
         "vue": "^2.5.13",
         "vue-i18n": "^8.1.0",
@@ -43,7 +43,7 @@
         "vue-property-decorator": "^7.1.1",
         "vue-server-renderer": "^2.5.17",
         "vue-template-compiler": "^2.5.13",
-        "webpack": "^4.20.1",
+        "webpack": "^4.20.2",
         "webpack-cli": "^3.1.1",
         "webpack-dev-server": "^3.1.9"
     },
