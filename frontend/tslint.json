@@ -4,12 +4,11 @@
         "tslint:recommended"
     ],
     "rules": {
+        "max-classes-per-file": false,
         "member-access": [
             true,
             "no-public"
         ],
-        "no-empty": false,
-        "no-reference": false,
-        "max-classes-per-file": false
+        "no-empty": false
     }
 }
