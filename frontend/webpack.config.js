@@ -103,7 +103,7 @@ module.exports = function(env, args = {}) {
         resolve: {
             "alias": {
                 "@Generated": path.resolve(__dirname, "target", "generated-sources"),
-                "portable-fetch$": "empty-module",
+                "portable-fetch$": path.resolve(__dirname, "src", "main", "typescript", "fetch"),
             },
             extensions: [".js", ".ts"],
         },

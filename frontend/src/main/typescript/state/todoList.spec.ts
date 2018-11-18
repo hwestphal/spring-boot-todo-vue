@@ -1,5 +1,4 @@
 import { Todo } from "@Generated/openapi";
-import "portable-fetch";
 import { ConflictError, TodoList } from "./todoList";
 
 const mockGetTodos = jest.fn();

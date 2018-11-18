@@ -27,8 +27,8 @@
         "jest-junit": "^5.1.0",
         "jest-serializer-vue": "^2.0.2",
         "mini-css-extract-plugin": "^0.4.3",
+        "node-fetch": "^2.3.0",
         "node-sass": "^4.7.2",
-        "portable-fetch": "^3.0.0",
         "puppeteer": "1.8.0",
         "sass-loader": "^7.1.0",
         "ts-jest": "^23.10.2",
@@ -45,7 +45,8 @@
         "vue-template-compiler": "^2.5.13",
         "webpack": "^4.20.2",
         "webpack-cli": "^3.1.1",
-        "webpack-dev-server": "^3.1.9"
+        "webpack-dev-server": "^3.1.9",
+        "whatwg-fetch": "^3.0.0"
     },
     "jest": {
         "moduleFileExtensions": [
@@ -56,7 +57,8 @@
         "moduleNameMapper": {
             "\\.(css|scss)$": "empty-module",
             "^~(.+)$": "../../../node_modules/$1",
-            "^@Generated/(.+)$": "<rootDir>/target/generated-sources/$1"
+            "^@Generated/(.+)$": "<rootDir>/target/generated-sources/$1",
+            "^portable-fetch$": "<rootDir>/src/main/typescript/fetch"
         },
         "transform": {
             "^.+\\.(j|t)s$": "ts-jest",
@@ -78,6 +80,7 @@
         },
         "snapshotSerializers": [
             "<rootDir>/node_modules/jest-serializer-vue"
-        ]
+        ],
+        "setupTestFrameworkScriptFile": "<rootDir>/jest-setup.js"
     }
 }

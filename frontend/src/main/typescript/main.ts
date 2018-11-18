@@ -20,7 +20,7 @@ export default (
     function main() {
         configureLocale(locale);
 
-        const todoList = new TodoList(new TodoListApi(undefined, basePath, fetch));
+        const todoList = new TodoList(new TodoListApi({ basePath }));
 
         return new Vue({
             el,
