@@ -57,11 +57,9 @@ public class BadRequestErrorHandler {
             MethodParameter parameter,
             Exception ex) {
         if (violations != null && !violations.isEmpty()) {
-            return ResponseEntity.badRequest()
-                    .body(
-                            violations.stream()
-                                    .map(v -> constraintViolationMapper.mapToBadRequestDetails(v, parameter))
-                                    .collect(Collectors.toList()));
+            return ResponseEntity.badRequest().body(
+                    violations.stream().map(v -> constraintViolationMapper.mapToBadRequestDetails(v, parameter)).collect(
+                            Collectors.toList()));
         }
         return handleBadRequestException(ex);
     }

@@ -33,8 +33,8 @@
                 <artifactId>frontend-maven-plugin</artifactId>
                 <version>1.6</version>
                 <configuration>
-                    <nodeVersion>v8.11.4</nodeVersion>
-                    <yarnVersion>v1.9.4</yarnVersion>
+                    <nodeVersion>v10.13.0</nodeVersion>
+                    <yarnVersion>v1.12.3</yarnVersion>
                     <yarnInheritsProxyConfigFromMaven>false</yarnInheritsProxyConfigFromMaven>
                 </configuration>
                 <executions>

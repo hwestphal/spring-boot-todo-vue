@@ -47,9 +47,8 @@ public class TodoListService {
     }
 
     public void overwriteTodos(List<Todo> todos) throws OptimisticLockingFailureException {
-        Map<Long, Todo> allTodos = todoRepository.findAllForUpdate(Expressions.TRUE)
-                .stream()
-                .collect(Collectors.toMap(Todo::getId, Function.identity()));
+        Map<Long, Todo> allTodos = todoRepository.findAllForUpdate(Expressions.TRUE).stream().collect(
+                Collectors.toMap(Todo::getId, Function.identity()));
         for (Todo todo : todos) {
             Todo updatedTodo = allTodos.remove(todo.getId());
             if (updatedTodo != null) {
