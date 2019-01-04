@@ -1,8 +1,6 @@
 import Vue, { VueConstructor } from "vue";
 
-interface IConstructable<T> {
-    new(...args: any[]): T;
-}
+type Constructable<T> = new (...args: any[]) => T;
 
 interface IDecoratorOptions {
     afterCreation?: string;
@@ -12,8 +10,8 @@ interface IDecoratorOptions {
 class ReactiveBase { }
 
 function decorate<T>(
-    ctor: IConstructable<T>,
-    { afterCreation, vueConstructor = Vue }: IDecoratorOptions = {}): IConstructable<T> {
+    ctor: Constructable<T>,
+    { afterCreation, vueConstructor = Vue }: IDecoratorOptions = {}): Constructable<T> {
 
     // determine methods and computed properties (i.e. getter/setter)
     const methods: any = {};
@@ -96,10 +94,10 @@ function decorate<T>(
     return C as any;
 }
 
-type ClassDecorator = <T>(ctor: IConstructable<T>) => IConstructable<T>;
+type ClassDecorator = <T>(ctor: Constructable<T>) => Constructable<T>;
 export function reactive(options: IDecoratorOptions): ClassDecorator;
-export function reactive<T>(ctor: IConstructable<T>): IConstructable<T>;
-export function reactive<T>(arg: IDecoratorOptions | IConstructable<T>): ClassDecorator | IConstructable<T> {
+export function reactive<T>(ctor: Constructable<T>): Constructable<T>;
+export function reactive<T>(arg: IDecoratorOptions | Constructable<T>): ClassDecorator | Constructable<T> {
     if (typeof arg === "function") {
         return decorate(arg);
     }
