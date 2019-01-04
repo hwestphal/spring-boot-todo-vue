@@ -1,7 +1,6 @@
 package io.github.hwestphal.todo;
 
 import io.github.hwestphal.auditing.EnableAuditing;
-import io.github.hwestphal.error.CustomErrorMvcConfiguration;
 import io.github.hwestphal.i18n.MessageSourceConfiguration;
 
 import org.springframework.boot.SpringApplication;
@@ -15,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @SpringBootApplication
 @EnableAuditing
-@Import({ MessageSourceConfiguration.class, CustomErrorMvcConfiguration.class })
+@Import(MessageSourceConfiguration.class)
 public class TodoListApplication {
 
     @GetMapping("/api")
