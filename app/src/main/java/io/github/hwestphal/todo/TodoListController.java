@@ -29,8 +29,9 @@ public class TodoListController implements TodoListApi {
 
     @Override
     public ResponseEntity<List<io.github.hwestphal.todo.api.generated.Todo>> todos() {
-        return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(
-                todoListService.getTodos().stream().map(TodoListController::toApi).collect(Collectors.toList()));
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.noStore())
+                .body(todoListService.getTodos().stream().map(TodoListController::toApi).collect(Collectors.toList()));
     }
 
     @Override
