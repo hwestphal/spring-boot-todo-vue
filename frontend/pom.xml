@@ -31,10 +31,10 @@
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
-                <version>1.6</version>
+                <version>1.7.5</version>
                 <configuration>
-                    <nodeVersion>v10.15.0</nodeVersion>
-                    <yarnVersion>v1.12.3</yarnVersion>
+                    <nodeVersion>v10.15.3</nodeVersion>
+                    <yarnVersion>v1.13.0</yarnVersion>
                     <yarnInheritsProxyConfigFromMaven>false</yarnInheritsProxyConfigFromMaven>
                 </configuration>
                 <executions>
