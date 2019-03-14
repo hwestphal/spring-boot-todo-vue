@@ -4,7 +4,7 @@ import { reactive } from "../reactive";
 export class ConflictError {
 }
 
-@reactive({ afterCreation: "refresh" })
+@reactive
 export class TodoList {
     private localTodos: Todo[] = [];
     private savedTodos!: Todo[];

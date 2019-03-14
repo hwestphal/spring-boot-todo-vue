@@ -15,8 +15,7 @@ async function createTodoList(todos: Todo[]) {
         overwriteTodos: mockOverwriteTodos,
         todos: mockGetTodos,
     } as any);
-    // flush pending promises
-    await new Promise((resolve) => setTimeout(resolve));
+    await todoList.refresh();
     return todoList;
 }
 

@@ -3,7 +3,6 @@ import Vue, { VueConstructor } from "vue";
 type Constructable<T> = new (...args: any[]) => T;
 
 interface IDecoratorOptions {
-    afterCreation?: string;
     vueConstructor?: VueConstructor;
 }
 
@@ -11,12 +10,11 @@ class ReactiveBase { }
 
 function decorate<T>(
     ctor: Constructable<T>,
-    { afterCreation, vueConstructor = Vue }: IDecoratorOptions = {}): Constructable<T> {
+    { vueConstructor = Vue }: IDecoratorOptions = {}): Constructable<T> {
 
     // determine methods and computed properties (i.e. getter/setter)
     const methods: any = {};
     const computed: any = {};
-    let created!: () => void;
 
     let proto = ctor.prototype;
     while (proto && proto !== Object.prototype) {
@@ -27,9 +25,6 @@ function decorate<T>(
             if (key !== "constructor" && !(key in methods || key in computed)) {
                 const pd = Object.getOwnPropertyDescriptor(proto, key)!;
                 if (pd.value) {
-                    if (key === afterCreation) {
-                        created = pd.value;
-                    }
                     methods[key] = pd.value;
                 } else {
                     computed[key] = {
@@ -40,9 +35,6 @@ function decorate<T>(
             }
         }
         proto = Object.getPrototypeOf(proto);
-    }
-    if (afterCreation && !created) {
-        throw new TypeError(`"${afterCreation}" method not found`);
     }
 
     const name = ctor.name || /* istanbul ignore next */ ctor.toString().match(/^function\s*([^\s(]+)/)![1];
@@ -81,7 +73,6 @@ function decorate<T>(
             // return a Vue instance with the same interface as the original class
             return new vueConstructor({
                 computed,
-                created,
                 data,
                 inject,
                 methods,

@@ -21,6 +21,7 @@ export default (
         configureLocale(locale);
 
         const todoList = new TodoList(new TodoListApi({ basePath }));
+        todoList.refresh();
 
         return new Vue({
             el,

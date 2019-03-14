@@ -172,20 +172,4 @@ describe("reactive decorator", () => {
         (c as any).mixinMethod();
         expect(m).toBeCalled();
     });
-
-    it("registers after creation callback", () => {
-        @reactive({ afterCreation: "init" })
-        class C {
-            a = 1;
-            init() { this.a += 1; }
-        }
-        const c = new C();
-        expect(c.a).toBe(2);
-
-        expect(() => {
-            @reactive({ afterCreation: "init" })
-            class D {
-            }
-        }).toThrow(TypeError);
-    });
 });
