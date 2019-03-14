@@ -6,14 +6,17 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import io.github.hwestphal.todo.generated.QTodo;
+import io.github.hwestphal.todo.validation.UniqueTodo;
 
 import com.querydsl.core.types.dsl.Expressions;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 @Service
 @Transactional
+@Validated
 public class TodoListService {
 
     private final TodoRepository todoRepository;
@@ -26,7 +29,7 @@ public class TodoListService {
         return todoRepository.findAll(Expressions.TRUE).stream().map(TodoListService::toApi).collect(Collectors.toList());
     }
 
-    public long addTodo(io.github.hwestphal.todo.api.generated.Todo todo) {
+    public long addTodo(@UniqueTodo io.github.hwestphal.todo.api.generated.Todo todo) {
         return todoRepository.insert(fromApi(todo));
     }
 

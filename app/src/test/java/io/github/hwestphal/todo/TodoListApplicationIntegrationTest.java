@@ -128,4 +128,11 @@ public class TodoListApplicationIntegrationTest {
         assertThat(response.getBody()).isNotEmpty();
     }
 
+    @Test
+    public void shouldReturnBadRequestDetailsForDuplicatedTitle() {
+        URI uri = restTemplate.postForLocation(API_BASE + "/", Todo.builder().title("unique").build());
+        shouldReturnBadRequestDetails(HttpMethod.POST, Todo.builder().title("Unique").build(), "todo");
+        restTemplate.delete(uri);
+    }
+
 }
