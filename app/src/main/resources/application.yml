@@ -17,6 +17,7 @@ spring:
     encoding: ISO-8859-1
     fallback-to-system-locale: false
     use-code-as-default-message: true
+    basename: messages,classpath*:/ValidationMessages,classpath*:/org/hibernate/validator/ValidationMessages
 
   mvc.locale: en_US
 
