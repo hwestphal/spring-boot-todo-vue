@@ -9,8 +9,6 @@ export interface IServer {
 export default function(...paths: string[]) {
     const app = express();
     app.use(paths.map((p) => express.static(p)));
-    // ignore missing css files
-    app.get("*.css", (req, res) => res.send(""));
     // ignore missing favicon
     app.get("/favicon.ico", (req, res) => res.send(""));
     return new Promise<IServer>((resolve) => {
