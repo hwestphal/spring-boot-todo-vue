@@ -1,14 +1,15 @@
 package io.github.hwestphal.todo;
 
+import static io.github.hwestphal.todo.generated.tables.Todo.TODO;
+
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import io.github.hwestphal.todo.generated.QTodo;
 import io.github.hwestphal.todo.validation.UniqueTodo;
 
-import com.querydsl.core.types.dsl.Expressions;
+import org.jooq.impl.DSL;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,7 @@ public class TodoListService {
     }
 
     public List<io.github.hwestphal.todo.api.generated.Todo> getTodos() {
-        return todoRepository.findAll(Expressions.TRUE).stream().map(TodoListService::toApi).collect(Collectors.toList());
+        return todoRepository.findAll(DSL.noCondition()).stream().map(TodoListService::toApi).collect(Collectors.toList());
     }
 
     public long addTodo(@UniqueTodo io.github.hwestphal.todo.api.generated.Todo todo) {
@@ -34,7 +35,7 @@ public class TodoListService {
     }
 
     public io.github.hwestphal.todo.api.generated.Todo getTodo(long id) {
-        Todo todo = todoRepository.findOne(QTodo.todo.id.eq(id));
+        Todo todo = todoRepository.findOne(TODO.ID.eq(id));
         if (todo == null) {
             return null;
         }
@@ -42,8 +43,7 @@ public class TodoListService {
     }
 
     public boolean updateTodo(long id, io.github.hwestphal.todo.api.generated.Todo todo) {
-        QTodo q = QTodo.todo;
-        Todo foundTodo = todoRepository.findOneForUpdate(q.id.eq(id).and(q.version.eq(todo.getVersion())));
+        Todo foundTodo = todoRepository.findOneForUpdate(TODO.ID.eq(id).and(TODO.VERSION.eq(todo.getVersion())));
         if (foundTodo == null) {
             return false;
         }
@@ -55,7 +55,7 @@ public class TodoListService {
 
     public void overwriteTodos(List<io.github.hwestphal.todo.api.generated.Todo> todos)
             throws OptimisticLockingFailureException {
-        Map<Long, Todo> allTodos = todoRepository.findAllForUpdate(Expressions.TRUE)
+        Map<Long, Todo> allTodos = todoRepository.findAllForUpdate(DSL.noCondition())
                 .stream()
                 .collect(Collectors.toMap(Todo::getId, Function.identity()));
         for (io.github.hwestphal.todo.api.generated.Todo todo : todos) {
@@ -72,15 +72,15 @@ public class TodoListService {
                 todoRepository.insert(fromApi(todo));
             }
         }
-        todoRepository.deleteAll(QTodo.todo.id.in(allTodos.keySet()));
+        todoRepository.deleteAll(TODO.ID.in(allTodos.keySet()));
     }
 
     public boolean deleteTodo(long id) {
-        return todoRepository.deleteAll(QTodo.todo.id.eq(id)) > 0;
+        return todoRepository.deleteAll(TODO.ID.eq(id)) > 0;
     }
 
     public void deleteTodos() {
-        todoRepository.deleteAll(Expressions.TRUE);
+        todoRepository.deleteAll(DSL.noCondition());
     }
 
     private static Todo fromApi(io.github.hwestphal.todo.api.generated.Todo todo) {

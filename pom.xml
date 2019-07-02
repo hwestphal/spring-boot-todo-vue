@@ -17,7 +17,6 @@
     </parent>
 
     <properties>
-        <querydsl.version>4.2.1</querydsl.version>
         <cdp4j.version>3.0.8</cdp4j.version>
         <winp.version>1.28</winp.version>
         <spotbugs.version>3.1.12</spotbugs.version>
@@ -32,11 +31,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.querydsl</groupId>
-                <artifactId>querydsl-sql-spring</artifactId>
-                <version>${querydsl.version}</version>
-            </dependency>
             <dependency>
                 <groupId>io.github.hwestphal</groupId>
                 <artifactId>spring-boot-todo-vue-frontend</artifactId>

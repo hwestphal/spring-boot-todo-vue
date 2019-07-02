@@ -24,3 +24,5 @@ spring:
   liquibase.change-log: classpath:/db/changelog/db.changelog-master.xml
 
 server.error.include-stacktrace: on-trace-param
+
+logging.level.org.jooq.Constants: ERROR

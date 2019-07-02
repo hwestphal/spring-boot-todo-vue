@@ -1,39 +1,36 @@
-<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <property name="current_user" value="user" dbms="oracle" />
-    <property name="current_user" value="current_user" dbms="h2" />
-
-    <changeSet id="001_create_todo_sequence" author="harald.westphal">
-        <createSequence sequenceName="TODO_ID_SEQ" startValue="1000" incrementBy="1" />
-    </changeSet>
-
-    <changeSet id="002_create_todo_table" author="harald.westphal">
+    <changeSet id="001_create_todo_table" author="harald.westphal">
         <createTable tableName="TODO">
-            <column name="ID" type="NUMBER(13)" defaultValueComputed="TODO_ID_SEQ.NEXTVAL">
+            <column name="ID" type="BIGINT">
                 <constraints primaryKey="true" primaryKeyName="TODO_PK" nullable="false" />
             </column>
-            <column name="VERSION" type="NUMBER(18)" defaultValueNumeric="0">
+            <column name="VERSION" type="BIGINT" defaultValueNumeric="0">
                 <constraints nullable="false" />
             </column>
             <column name="CREATED" type="TIMESTAMP" defaultValueComputed="current_timestamp">
                 <constraints nullable="false" />
             </column>
-            <column name="CREATE_USER" type="VARCHAR2(255 CHAR)" defaultValueComputed="${current_user}">
+            <column name="CREATE_USER" type="VARCHAR(255 CHAR)" defaultValueComputed="current_user">
                 <constraints nullable="false" />
             </column>
             <column name="MODIFIED" type="TIMESTAMP" defaultValueComputed="current_timestamp">
                 <constraints nullable="false" />
             </column>
-            <column name="MODIFY_USER" type="VARCHAR2(255 CHAR)" defaultValueComputed="${current_user}">
+            <column name="MODIFY_USER" type="VARCHAR(255 CHAR)" defaultValueComputed="current_user">
                 <constraints nullable="false" />
             </column>
-            <column name="TITLE" type="VARCHAR2(255 CHAR)">
+            <column name="TITLE" type="VARCHAR(255 CHAR)">
                 <constraints nullable="false" />
             </column>
-            <column name="COMPLETED" type="VARCHAR2(1 CHAR)" defaultValue="N">
+            <column name="COMPLETED" type="VARCHAR(1 CHAR)" defaultValue="N">
                 <constraints nullable="false" />
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="002_add_autoincrement_todo_id" author="harald.westphal">
+        <addAutoIncrement tableName="TODO" columnName="ID" columnDataType="BIGINT" startWith="1000" />
+    </changeSet>
+
 </databaseChangeLog>

@@ -1,11 +1,12 @@
 package io.github.hwestphal.todo.validation;
 
+import static io.github.hwestphal.todo.generated.tables.Todo.TODO;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import io.github.hwestphal.todo.TodoRepository;
 import io.github.hwestphal.todo.api.generated.Todo;
-import io.github.hwestphal.todo.generated.QTodo;
 
 class UniqueTodoValidator implements ConstraintValidator<UniqueTodo, Todo> {
 
@@ -17,7 +18,7 @@ class UniqueTodoValidator implements ConstraintValidator<UniqueTodo, Todo> {
 
     @Override
     public boolean isValid(Todo value, ConstraintValidatorContext context) {
-        return todoRepository.findAll(QTodo.todo.title.equalsIgnoreCase(value.getTitle())).isEmpty();
+        return todoRepository.findAll(TODO.TITLE.equalIgnoreCase(value.getTitle())).isEmpty();
     }
 
 }

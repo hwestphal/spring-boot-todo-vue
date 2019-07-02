@@ -22,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
+            <artifactId>spring-boot-starter-jooq</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.hateoas</groupId>
@@ -31,10 +31,6 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.querydsl</groupId>
-            <artifactId>querydsl-sql-spring</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -120,46 +116,44 @@
             </plugin>
 
             <plugin>
-                <groupId>com.querydsl</groupId>
-                <artifactId>querydsl-maven-plugin</artifactId>
-                <version>${querydsl.version}</version>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-codegen-maven</artifactId>
                 <executions>
                     <execution>
+                        <phase>generate-sources</phase>
                         <goals>
-                            <goal>export</goal>
+                            <goal>generate</goal>
                         </goals>
+                        <configuration>
+                            <jdbc>
+                                <driver>org.h2.Driver</driver>
+                                <url>jdbc:h2:${project.build.directory}/querydsl</url>
+                            </jdbc>
+                            <generator>
+                                <database>
+                                    <includes>.*</includes>
+                                    <excludes>DATABASECHANGELOG | DATABASECHANGELOGLOCK</excludes>
+                                    <inputSchema>PUBLIC</inputSchema>
+                                    <outputSchemaToDefault>true</outputSchemaToDefault>
+                                    <forcedTypes>
+                                        <forcedType>
+                                            <types>VARCHAR\(1\)</types>
+                                            <userType>java.lang.Boolean</userType>
+                                            <converter>org.jooq.Converter.ofNullable(String.class,Boolean.class,"Y"::equals,t->t?"Y":"N")</converter>
+                                        </forcedType>
+                                    </forcedTypes>
+                                </database>
+                                <generate>
+                                    <javaTimeTypes>true</javaTimeTypes>
+                                </generate>
+                                <target>
+                                    <packageName>io.github.hwestphal.todo.generated</packageName>
+                                    <directory>${project.build.directory}/generated-sources/java</directory>
+                                </target>
+                            </generator>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <jdbcDriver>org.h2.Driver</jdbcDriver>
-                    <jdbcUrl>jdbc:h2:${project.build.directory}/querydsl</jdbcUrl>
-                    <packageName>io.github.hwestphal.todo.generated</packageName>
-                    <targetFolder>${project.build.directory}/generated-sources/java</targetFolder>
-                    <typeMappings>
-                        <typeMapping>
-                            <table>TODO</table>
-                            <column>CREATED</column>
-                            <type>java.time.LocalDateTime</type>
-                        </typeMapping>
-                        <typeMapping>
-                            <table>TODO</table>
-                            <column>MODIFIED</column>
-                            <type>java.time.LocalDateTime</type>
-                        </typeMapping>
-                        <typeMapping>
-                            <table>TODO</table>
-                            <column>COMPLETED</column>
-                            <type>java.lang.Boolean</type>
-                        </typeMapping>
-                    </typeMappings>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.h2database</groupId>
-                        <artifactId>h2</artifactId>
-                        <version>${h2.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
 
             <plugin>

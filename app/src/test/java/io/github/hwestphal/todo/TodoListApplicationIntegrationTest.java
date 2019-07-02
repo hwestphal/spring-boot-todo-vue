@@ -25,7 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "logging.level.com.querydsl.sql=DEBUG")
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "logging.level.org.jooq.tools.LoggerListener=DEBUG")
 @AutoConfigureTestDatabase
 public class TodoListApplicationIntegrationTest {
 

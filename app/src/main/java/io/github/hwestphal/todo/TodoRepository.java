@@ -1,20 +1,19 @@
 package io.github.hwestphal.todo;
 
-import java.time.LocalDateTime;
+import static io.github.hwestphal.todo.generated.tables.Todo.TODO;
+
 import java.util.List;
 
 import javax.validation.Valid;
 
 import io.github.hwestphal.auditing.Create;
 import io.github.hwestphal.auditing.Modify;
-import io.github.hwestphal.todo.generated.QTodo;
 
-import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.DateTimeExpression;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.sql.SQLQuery;
-import com.querydsl.sql.SQLQueryFactory;
+import org.jooq.Condition;
+import org.jooq.DSLContext;
+import org.jooq.ResultQuery;
+import org.jooq.SelectForUpdateStep;
+import org.jooq.impl.DSL;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.validation.annotation.Validated;
@@ -23,18 +22,18 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class TodoRepository {
 
-    private final SQLQueryFactory queryFactory;
+    private final DSLContext dsl;
 
-    public TodoRepository(SQLQueryFactory queryFactory) {
-        this.queryFactory = queryFactory;
+    public TodoRepository(DSLContext dslContext) {
+        this.dsl = dslContext;
     }
 
-    public Todo findOne(Predicate predicate) {
-        return oneOf(findAll(predicate));
+    public Todo findOne(Condition condition) {
+        return oneOf(findAll(condition));
     }
 
-    public Todo findOneForUpdate(Predicate predicate) {
-        return oneOf(findAllForUpdate(predicate));
+    public Todo findOneForUpdate(Condition condition) {
+        return oneOf(findAllForUpdate(condition));
     }
 
     private static Todo oneOf(List<Todo> todos) {
@@ -48,62 +47,58 @@ public class TodoRepository {
         return todos.get(0);
     }
 
-    public List<Todo> findAll(Predicate predicate) {
-        return findAll(predicate, false);
+    public List<Todo> findAll(Condition condition) {
+        return findAll(condition, false);
     }
 
-    private List<Todo> findAll(Predicate predicate, boolean update) {
-        QTodo q = QTodo.todo;
-        SQLQuery<Todo> query = queryFactory.select(
-                Projections.bean(
-                        Todo.class,
-                        q.id,
-                        q.version,
-                        q.created,
-                        q.createUser,
-                        q.modified,
-                        q.modifyUser,
-                        q.title,
-                        q.completed))
-                .from(q)
-                .where(predicate)
-                .orderBy(q.id.asc());
-        if (update) {
-            query = query.forUpdate();
-        }
-        return query.fetch();
+    private List<Todo> findAll(Condition condition, boolean update) {
+        SelectForUpdateStep<?> queryStep = dsl
+                .select(
+                        TODO.ID,
+                        TODO.VERSION,
+                        TODO.CREATED,
+                        TODO.CREATE_USER,
+                        TODO.MODIFIED,
+                        TODO.MODIFY_USER,
+                        TODO.TITLE,
+                        TODO.COMPLETED)
+                .from(TODO)
+                .where(condition)
+                .orderBy(TODO.ID.asc());
+        ResultQuery<?> query = update ? queryStep.forUpdate() : queryStep;
+        return query.fetchInto(Todo.class);
     }
 
-    public List<Todo> findAllForUpdate(Predicate predicate) {
-        return findAll(predicate, true);
+    public List<Todo> findAllForUpdate(Condition condition) {
+        return findAll(condition, true);
     }
 
     @Create
     public long insert(@Valid Todo todo) {
-        QTodo q = QTodo.todo;
-        return queryFactory.insert(q)
-                .set(q.createUser, todo.getCreateUser())
-                .set(q.modifyUser, todo.getModifyUser())
-                .set(q.title, todo.getTitle())
-                .set(q.completed, todo.isCompleted())
-                .executeWithKey(q.id);
+        return dsl.insertInto(TODO)
+                .set(TODO.CREATE_USER, todo.getCreateUser())
+                .set(TODO.MODIFY_USER, todo.getModifyUser())
+                .set(TODO.TITLE, todo.getTitle())
+                .set(TODO.COMPLETED, todo.isCompleted())
+                .returning(TODO.ID)
+                .fetchOne()
+                .getValue(TODO.ID);
     }
 
     @Modify
     public void update(@Valid Todo todo) {
-        QTodo q = QTodo.todo;
-        queryFactory.update(q)
-                .set(q.version, q.version.add(Expressions.ONE))
-                .set(q.modified, DateTimeExpression.currentTimestamp(LocalDateTime.class))
-                .set(q.modifyUser, todo.getModifyUser())
-                .set(q.title, todo.getTitle())
-                .set(q.completed, todo.isCompleted())
-                .where(q.id.eq(todo.getId()))
+        dsl.update(TODO)
+                .set(TODO.VERSION, TODO.VERSION.add(1))
+                .set(TODO.MODIFIED, DSL.currentLocalDateTime())
+                .set(TODO.MODIFY_USER, todo.getModifyUser())
+                .set(TODO.TITLE, todo.getTitle())
+                .set(TODO.COMPLETED, todo.isCompleted())
+                .where(TODO.ID.eq(todo.getId()))
                 .execute();
     }
 
-    public long deleteAll(Predicate predicate) {
-        return queryFactory.delete(QTodo.todo).where(predicate).execute();
+    public long deleteAll(Condition condition) {
+        return dsl.delete(TODO).where(condition).execute();
     }
 
 }

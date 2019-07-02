@@ -1,15 +1,14 @@
 package io.github.hwestphal.todo;
 
+import static io.github.hwestphal.todo.generated.tables.Todo.TODO;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolationException;
 
-import io.github.hwestphal.todo.generated.QTodo;
-
-import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.Expressions;
+import org.jooq.Condition;
+import org.jooq.impl.DSL;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.NONE, properties = "logging.level.com.querydsl.sql=DEBUG")
+@SpringBootTest(webEnvironment = WebEnvironment.NONE, properties = "logging.level.org.jooq.tools.LoggerListener=DEBUG")
 @AutoConfigureTestDatabase
 @Transactional
 public class TodoRepositoryIntegrationTest {
@@ -32,7 +31,7 @@ public class TodoRepositoryIntegrationTest {
     public void shouldFindOne() {
         Todo todo = Todo.builder().title("title").build();
         long id = repository.insert(todo);
-        Todo foundTodo = repository.findOne(QTodo.todo.id.eq(id));
+        Todo foundTodo = repository.findOne(TODO.ID.eq(id));
         assertThat(foundTodo).isNotNull();
         assertThat(foundTodo.getId()).isEqualTo(id);
         assertThat(foundTodo.getTitle()).isEqualTo(todo.getTitle());
@@ -52,10 +51,10 @@ public class TodoRepositoryIntegrationTest {
     public void shouldDeleteOne() {
         Todo todo = Todo.builder().title("title").build();
         long id = repository.insert(todo);
-        Predicate predicate = QTodo.todo.id.eq(id);
-        assertThat(repository.deleteAll(predicate)).isEqualTo(1);
-        assertThat(repository.findOne(predicate)).isNull();
-        assertThat(repository.deleteAll(predicate)).isEqualTo(0);
+        Condition condition = TODO.ID.eq(id);
+        assertThat(repository.deleteAll(condition)).isEqualTo(1);
+        assertThat(repository.findOne(condition)).isNull();
+        assertThat(repository.deleteAll(condition)).isEqualTo(0);
     }
 
     @Test
@@ -64,7 +63,7 @@ public class TodoRepositoryIntegrationTest {
         long id1 = repository.insert(todo1);
         Todo todo2 = Todo.builder().title("title2").build();
         long id2 = repository.insert(todo2);
-        assertThat(repository.findAll(Expressions.TRUE).stream().map(Todo::getId).collect(Collectors.toList()))
+        assertThat(repository.findAll(DSL.noCondition()).stream().map(Todo::getId).collect(Collectors.toList()))
                 .containsExactly(id1, id2);
     }
 
@@ -72,8 +71,8 @@ public class TodoRepositoryIntegrationTest {
     public void shouldDeleteAll() {
         repository.insert(Todo.builder().title("title1").build());
         repository.insert(Todo.builder().title("title2").build());
-        assertThat(repository.deleteAll(Expressions.TRUE)).isEqualTo(2);
-        assertThat(repository.findAll(Expressions.TRUE)).isEmpty();
+        assertThat(repository.deleteAll(DSL.noCondition())).isEqualTo(2);
+        assertThat(repository.findAll(DSL.noCondition())).isEmpty();
     }
 
 }
