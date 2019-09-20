@@ -18,13 +18,13 @@ Additionally, it shows how to wrap 3rd party widgets as Vue components, in this 
 
 ### Running the application
 
-    mvn spring-boot:run
+    ./mvnw spring-boot:run
 
 Open [http://localhost:8080/](http://localhost:8080/) in your favourite browser.
 
 
 ### Building the application
 
-    mvn clean verify -Dminify
+    ./mvnw clean verify -Dminify
 
 Having the `-Dminify` option enabled will build the application for production use.

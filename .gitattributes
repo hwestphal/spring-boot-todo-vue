@@ -4,3 +4,4 @@ text=auto
 *.snap eol=lf
 /frontend/yarn eol=lf
 /frontend/.vscode/settings.json eol=lf
+/mvnw eol=lf
