@@ -110,7 +110,7 @@
                 <configuration>
                     <changeLogFile>src/main/resources/db/changelog/db.changelog-master.xml</changeLogFile>
                     <driver>org.h2.Driver</driver>
-                    <url>jdbc:h2:${project.build.directory}/querydsl</url>
+                    <url>jdbc:h2:${project.build.directory}/jooq</url>
                     <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                 </configuration>
             </plugin>
@@ -127,7 +127,7 @@
                         <configuration>
                             <jdbc>
                                 <driver>org.h2.Driver</driver>
-                                <url>jdbc:h2:${project.build.directory}/querydsl</url>
+                                <url>jdbc:h2:${project.build.directory}/jooq</url>
                             </jdbc>
                             <generator>
                                 <database>
@@ -144,6 +144,8 @@
                                     </forcedTypes>
                                 </database>
                                 <generate>
+                                    <keys>false</keys>
+                                    <indexes>false</indexes>
                                     <javaTimeTypes>true</javaTimeTypes>
                                 </generate>
                                 <target>
