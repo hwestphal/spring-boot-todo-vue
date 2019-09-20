@@ -8,7 +8,7 @@ interface IDecoratorOptions {
 
 class ReactiveBase { }
 
-function decorate<T>(
+function decorate<T extends object>(
     ctor: Constructable<T>,
     { vueConstructor = Vue }: IDecoratorOptions = {}): Constructable<T> {
 
@@ -85,10 +85,11 @@ function decorate<T>(
     return C as any;
 }
 
-type ClassDecorator = <T>(ctor: Constructable<T>) => Constructable<T>;
+type ClassDecorator = <T extends object>(ctor: Constructable<T>) => Constructable<T>;
 export function reactive(options: IDecoratorOptions): ClassDecorator;
 export function reactive<T>(ctor: Constructable<T>): Constructable<T>;
-export function reactive<T>(arg: IDecoratorOptions | Constructable<T>): ClassDecorator | Constructable<T> {
+export function reactive<T extends object>(arg: IDecoratorOptions | Constructable<T>):
+    ClassDecorator | Constructable<T> {
     if (typeof arg === "function") {
         return decorate(arg);
     }
