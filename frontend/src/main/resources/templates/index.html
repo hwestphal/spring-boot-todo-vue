@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="#{title}">Todo List</title>
     <link th:href="@{/css/main.css}" rel="stylesheet">
+    <script th:if="${#httpServletRequest.getHeader('User-Agent').contains('; Trident/')}" crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2Cfetch"></script>
 </head>
 
 <body>
